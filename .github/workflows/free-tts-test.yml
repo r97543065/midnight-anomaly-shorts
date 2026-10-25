@@ -1,0 +1,42 @@
+name: Free Edge TTS and FFmpeg test
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Edge TTS
+        run: python -m pip install edge-tts
+
+      - name: Generate bilingual speech
+        run: |
+          mkdir -p output
+          edge-tts --voice zh-CN-YunyangNeural --rate=-12% --pitch=-10Hz --text "凌晨三點，電梯停在不存在的十三樓。" --write-media output/zh.mp3
+          edge-tts --voice en-US-AndrewNeural --rate=-15% --pitch=-8Hz --text "At three in the morning, the elevator stopped on a floor that did not exist." --write-media output/en.mp3
+
+      - name: Validate audio and render MP4
+        run: |
+          set -e
+          for lang in zh en; do
+            test -s "output/$lang.mp3"
+            ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 "output/$lang.mp3"
+            ffmpeg -y -f lavfi -i "color=c=black:s=1080x1920:r=30" -i "output/$lang.mp3" -shortest -c:v libx264 -preset ultrafast -pix_fmt yuv420p -c:a aac -movflags +faststart "output/$lang.mp4"
+            ffmpeg -v error -i "output/$lang.mp4" -f null -
+          done
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bilingual-tts-test
+          path: output/
+          if-no-files-found: warn
