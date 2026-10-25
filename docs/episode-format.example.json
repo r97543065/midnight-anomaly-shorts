@@ -1,0 +1,29 @@
+{
+  "episode_id": "20261026",
+  "date": "2026-10-26",
+  "title_zh": "不存在的十三樓",
+  "title_en": "The Floor That Does Not Exist",
+  "story_zh": "凌晨三點，電梯停在不存在的十三樓。",
+  "story_en": "At three in the morning, the elevator stopped on a floor that did not exist.",
+  "assets": {
+    "images": [
+      {
+        "file": "assets/episodes/20261026/scene01.png",
+        "effect": "slow_zoom",
+        "duration": 8
+      },
+      {
+        "file": "assets/episodes/20261026/scene02.png",
+        "effect": "slow_pan",
+        "duration": 8
+      }
+    ],
+    "music": "assets/common/music/horror_ambient.mp3",
+    "sound_effects": [
+      {
+        "file": "assets/common/sfx/elevator_ding.wav",
+        "at_seconds": 3
+      }
+    ]
+  }
+}
