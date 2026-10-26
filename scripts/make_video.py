@@ -93,7 +93,7 @@ def render(data,lang):
         run(*cmd)
         print('OK',lang,duration(OUT/f'{lang}.mp4'),flush=True)
 def main():
-    data=json.loads((ROOT/'stories/today.json').read_text(encoding='utf-8'))
+    data=json.loads((ROOT/'drafts/20261026-weather-radio/story.json').read_text(encoding='utf-8'))
     if not data['assets']['images']:raise ValueError('No images')
     OUT.mkdir(exist_ok=True)
     asyncio.run(tts(data))
