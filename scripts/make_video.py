@@ -117,21 +117,21 @@ def phrase_rows(data: dict, lang: str, story_seconds: float) -> list[tuple[float
     segments = data.get("segments") or []
     phrases = [str(x[lang]).strip() for x in segments if str(x.get(lang, "")).strip()]
     if not phrases:
-        source = str(data[f"story_{lang}"])
-        phrases = [
-            x.strip()
-            for x in re.split(r"(?<=[。！？.!?，,；;])\s*", source)
-            if x.strip()
-        ]
-    weights = [max(1, len(re.sub(r"\s+", "", x))) for x in phrases]
+        phrases = [str(data[f"story_{lang}"]).strip()]
+    captions = []
+    for phrase in phrases:
+        wrapped = wrap_phrase(phrase, lang).split("\\N")
+        for i in range(0, len(wrapped), 2):
+            captions.append("\\N".join(wrapped[i:i + 2]))
+    weights = [max(1, len(re.sub(r"\\s+", "", x.replace("\\N", "")))) for x in captions]
     total_weight = sum(weights)
     elapsed = 0
-    rows: list[tuple[float, float, str]] = []
-    for phrase, weight in zip(phrases, weights):
+    rows = []
+    for caption, weight in zip(captions, weights):
         start = story_seconds * elapsed / total_weight
         elapsed += weight
         end = story_seconds * elapsed / total_weight
-        rows.append((start, end, wrap_phrase(phrase, lang)))
+        rows.append((start, end, caption))
     return rows
 
 
