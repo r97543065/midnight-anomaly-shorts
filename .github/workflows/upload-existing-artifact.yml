@@ -1,25 +1,50 @@
-name: Upload existing Shorts artifact to YouTube
+name: Upload confirmed Shorts artifact to YouTube
 
 on:
   workflow_dispatch:
     inputs:
       run_id:
-        description: "Successful source Actions run ID"
+        description: "Confirmed source Actions run ID"
         required: true
-        default: "40268994312"
+      run_attempt:
+        description: "Source run attempt used in the artifact name"
+        required: true
+        default: "1"
+      story_id:
+        description: "Confirmed story_id"
+        required: true
+      title_zh:
+        description: "Confirmed Chinese YouTube title"
+        required: true
+      title_en:
+        description: "Confirmed English YouTube title"
+        required: true
       privacy:
-        description: "YouTube visibility"
+        description: "Confirmed YouTube visibility"
         required: true
         type: choice
         options:
           - private
+      manual_review_confirmed:
+        description: "I reviewed both videos and confirm this exact upload"
+        required: true
+        type: choice
+        default: "no"
+        options:
+          - "no"
+          - "yes"
 
 permissions:
   actions: read
   contents: read
 
+concurrency:
+  group: youtube-upload-${{ inputs.run_id }}-${{ inputs.story_id }}
+  cancel-in-progress: false
+
 jobs:
   upload:
+    if: ${{ inputs.manual_review_confirmed == 'yes' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -27,15 +52,19 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
       - name: Download the exact existing artifact
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_RUN_ID: ${{ inputs.run_id }}
+          SOURCE_RUN_ATTEMPT: ${{ inputs.run_attempt }}
         run: |
           set -euo pipefail
           mkdir -p output
-          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "midnight-shorts-${SOURCE_RUN_ID}-1" --dir output
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+            --name "midnight-shorts-${SOURCE_RUN_ID}-${SOURCE_RUN_ATTEMPT}" --dir output
           ls -lh output/
+
       - name: Verify source artifact and QA
         env:
           SOURCE_RUN_ID: ${{ inputs.run_id }}
@@ -43,27 +72,116 @@ jobs:
           python - <<'PY'
           import json, os
           from pathlib import Path
-          qa = json.loads(Path("output/production-status.json").read_text())
+          qa = json.loads(Path("output/production-status.json").read_text(encoding="utf-8"))
           assert str(qa.get("run_id")) == os.environ["SOURCE_RUN_ID"], "Wrong source run"
           assert qa.get("qa_status") == "success" and not qa.get("errors") and not qa.get("warnings"), "QA not clean"
           assert all(Path("output", f"{lang}.mp4").is_file() for lang in ("zh", "en")), "Missing MP4"
           print("Source artifact and QA verified")
           PY
-      - name: Upload Chinese video privately
+
+      - name: Resolve and verify the story used by the source run
+        id: source-story
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ inputs.run_id }}
+          EXPECTED_STORY_ID: ${{ inputs.story_id }}
+          EXPECTED_TITLE_ZH: ${{ inputs.title_zh }}
+          EXPECTED_TITLE_EN: ${{ inputs.title_en }}
+        run: |
+          set -euo pipefail
+          source_sha="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID" --jq .head_sha)"
+          if [[ ! "$source_sha" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "Source run has no valid commit SHA" >&2
+            exit 1
+          fi
+          gh api "repos/$GITHUB_REPOSITORY/contents/scripts/make_video.py?ref=$source_sha" --jq .content \
+            | tr -d '\n' | base64 --decode > output/source-make_video.py
+          SOURCE_SHA="$source_sha" python - <<'PY'
+          import ast
+          import os
+          import re
+          from pathlib import Path
+
+          source = Path("output/source-make_video.py")
+          tree = ast.parse(source.read_text(encoding="utf-8"), filename=str(source))
+
+          def root_relative_path(node):
+              if isinstance(node, ast.Name) and node.id == "ROOT":
+                  return []
+              if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):
+                  prefix = root_relative_path(node.left)
+                  if prefix is None or not isinstance(node.right, ast.Constant) or not isinstance(node.right.value, str):
+                      return None
+                  return prefix + [node.right.value]
+              return None
+
+          candidates = []
+          for node in ast.walk(tree):
+              if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):
+                  parts = root_relative_path(node)
+                  path = "/".join(parts) if parts else ""
+                  if re.fullmatch(r"(?:drafts|stories)/(?:[^/]+/)*[^/]+\.json", path):
+                      candidates.append(path)
+          candidates = sorted(set(candidates))
+          if len(candidates) != 1:
+              raise SystemExit(f"Cannot prove one source story JSON path: {candidates}")
+          Path("output/source-story-path.txt").write_text(candidates[0] + "\n", encoding="utf-8")
+          Path("output/source-commit-sha.txt").write_text(os.environ["SOURCE_SHA"] + "\n", encoding="utf-8")
+          PY
+          story_path="$(cat output/source-story-path.txt)"
+          gh api "repos/$GITHUB_REPOSITORY/contents/$story_path?ref=$source_sha" --jq .content \
+            | tr -d '\n' | base64 --decode > output/source-story.json
+          SOURCE_RUN_ID="$SOURCE_RUN_ID" SOURCE_COMMIT_SHA="$source_sha" SOURCE_STORY_PATH="$story_path" python - <<'PY'
+          import json, os
+          from pathlib import Path
+          qa = json.loads(Path("output/production-status.json").read_text(encoding="utf-8"))
+          story = json.loads(Path("output/source-story.json").read_text(encoding="utf-8"))
+          youtube = story.get("youtube", {})
+          titles = {
+              "zh": (youtube.get("title_zh") or story.get("title_zh", "") + " #Shorts")[:100],
+              "en": (youtube.get("title_en") or story.get("title_en", "") + " #Shorts")[:100],
+          }
+          if str(qa.get("run_id")) != os.environ["SOURCE_RUN_ID"]:
+              raise SystemExit("QA report does not belong to requested source run")
+          if qa.get("commit_sha") and qa["commit_sha"] != os.environ["SOURCE_COMMIT_SHA"]:
+              raise SystemExit("QA commit SHA does not match source run commit")
+          if story.get("story_id") != os.environ["EXPECTED_STORY_ID"]:
+              raise SystemExit("Confirmed story_id does not match source story")
+          if titles["zh"] != os.environ["EXPECTED_TITLE_ZH"] or titles["en"] != os.environ["EXPECTED_TITLE_EN"]:
+              raise SystemExit("Confirmed YouTube title does not match source story")
+          if qa.get("story_id") and qa["story_id"] != story["story_id"]:
+              raise SystemExit("QA story_id does not match source story")
+          print(f"Verified {story['story_id']} from {os.environ['SOURCE_STORY_PATH']} at {os.environ['SOURCE_COMMIT_SHA']}")
+          PY
+          echo "commit_sha=$source_sha" >> "$GITHUB_OUTPUT"
+          echo "story_path=$story_path" >> "$GITHUB_OUTPUT"
+
+      - name: Upload confirmed Chinese video privately
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          STORY_FILE: stories/today.json
+          STORY_FILE: output/source-story.json
+          SOURCE_RUN_ID: ${{ inputs.run_id }}
+          SOURCE_COMMIT_SHA: ${{ steps.source-story.outputs.commit_sha }}
+          SOURCE_STORY_PATH: ${{ steps.source-story.outputs.story_path }}
+          EXPECTED_STORY_ID: ${{ inputs.story_id }}
+          EXPECTED_TITLE: ${{ inputs.title_zh }}
           UPLOAD_LANGUAGE: zh
-          YOUTUBE_PRIVACY: private
+          YOUTUBE_PRIVACY: ${{ inputs.privacy }}
         run: python scripts/upload_youtube.py
-      - name: Upload English video privately
+
+      - name: Upload confirmed English video privately
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          STORY_FILE: stories/today.json
+          STORY_FILE: output/source-story.json
+          SOURCE_RUN_ID: ${{ inputs.run_id }}
+          SOURCE_COMMIT_SHA: ${{ steps.source-story.outputs.commit_sha }}
+          SOURCE_STORY_PATH: ${{ steps.source-story.outputs.story_path }}
+          EXPECTED_STORY_ID: ${{ inputs.story_id }}
+          EXPECTED_TITLE: ${{ inputs.title_en }}
           UPLOAD_LANGUAGE: en
-          YOUTUBE_PRIVACY: private
+          YOUTUBE_PRIVACY: ${{ inputs.privacy }}
         run: python scripts/upload_youtube.py
