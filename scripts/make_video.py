@@ -146,11 +146,11 @@ PlayResY: 1920
 WrapStyle: 2
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Channel,Noto Sans TC Thin,34,&H00D4D4D4,&H00FFFFFF,&H00101010,&H60000000,0,0,0,0,100,100,0,0,1,2,1,8,60,180,70,1
-Style: Title,Noto Sans TC Thin,58,&H00E9D6A4,&H00FFFFFF,&H00101010,&H80000000,1,0,0,0,100,100,0,0,1,4,2,2,70,180,720,1
-Style: Body,Noto Sans TC Thin,62,&H00FFFFFF,&H00FFFFFF,&H00101010,&H98000000,1,0,0,0,100,100,0,0,1,4,2,2,70,180,540,1
-Style: PromoTitle,Noto Sans TC Thin,48,&H00E9D6A4,&H00FFFFFF,&H00101010,&H80000000,1,0,0,0,100,100,0,0,1,4,2,2,70,180,690,1
-Style: Promo,Noto Sans TC Thin,52,&H00FFFFFF,&H00FFFFFF,&H00101010,&H98000000,1,0,0,0,100,100,0,0,1,4,2,2,70,180,520,1
+Style: Channel,Noto Sans CJK TC,34,&H00D4D4D4,&H00FFFFFF,&H00101010,&H60000000,0,0,0,0,100,100,0,0,1,2,1,8,60,180,70,1
+Style: Title,Noto Sans CJK TC,58,&H00E9D6A4,&H00FFFFFF,&H00101010,&H80000000,1,0,0,0,100,100,0,0,1,4,2,2,70,180,720,1
+Style: Body,Noto Sans CJK TC,62,&H00FFFFFF,&H00FFFFFF,&H00101010,&H98000000,1,0,0,0,100,100,0,0,1,4,2,2,70,180,540,1
+Style: PromoTitle,Noto Sans CJK TC,48,&H00E9D6A4,&H00FFFFFF,&H00101010,&H80000000,1,0,0,0,100,100,0,0,1,4,2,2,70,180,690,1
+Style: Promo,Noto Sans CJK TC,52,&H00FFFFFF,&H00FFFFFF,&H00101010,&H98000000,1,0,0,0,100,100,0,0,1,4,2,2,70,180,520,1
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """

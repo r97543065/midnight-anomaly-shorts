@@ -31,7 +31,8 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          sudo apt-get install -y ffmpeg fontconfig fonts-noto-cjk
+          fc-match -f '%{family}\n' 'Noto Sans CJK TC' | grep -F 'Noto Sans CJK TC'
 
       - name: Install Python dependencies
         run: |
