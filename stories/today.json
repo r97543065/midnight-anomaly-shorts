@@ -1,68 +1,109 @@
 {
   "schema_version": 2,
-  "story_id": "smart_doorbell_wrong_one_20261026",
-  "episode_id": "20261026-smart-doorbell-wrong-one",
-  "date": "2026-10-26",
-  "title_zh": "門鈴說，我已經回家了",
-  "title_en": "The Doorbell Said I Was Already Home",
-  "story_zh": "凌晨兩點十三分，手機跳出門鈴通知：偵測到訪客——我。但我明明坐在公寓裡。即時畫面裡，一個全身濕透的男人站在門外。他穿著我的黑外套，連左眉的疤都和我一樣。他不停說話，鏡頭卻沒有聲音。我看懂了他的嘴型：別回頭。身後的浴室，傳來一聲輕笑。我衝進去，鏡子裡的我卻沒有跟著轉身。它反而先對我笑了。門外那個我舉起手機，上面只有兩個字：躲好。我鑽進臥室衣櫃，從縫隙看向客廳。另一個我赤腳走過，濕衣服一路滴水。他從屋內打開大門，走進走廊。門鈴通知顯示：陌生人已離開。屋裡安靜了。我離開衣櫃，搭電梯下樓。電梯金屬鏡面裡，只有空蕩蕩的轎廂。我沒有倒影。手機再次震動。濕透的男人還站在門外，指著我。這一次，門鈴終於傳來他的聲音。他說：「錯的那個，逃出去了。」",
-  "story_en": "At 2:13 a.m., my doorbell app sent an alert: Person detected—you. But I was sitting inside. The live view showed a soaked man outside. He wore my coat. Even the scar above his left eye matched mine. He kept speaking without sound. I read his lips: Don’t turn around. A quiet laugh came from the bathroom behind me. I ran there. My reflection did not turn with me. It smiled first. The man outside raised his phone. Two words filled its screen: Hide now. I crawled into the bedroom wardrobe and looked through the slats. Another me walked barefoot across the room, dripping water. He opened the front door from inside and stepped into the hall. The app said: Unknown person left. The apartment went silent. I left the wardrobe and took the elevator down. The metal wall showed an empty elevator. I had no reflection. My phone vibrated again. The soaked man was still outside, pointing at me. This time, his voice came through. “The wrong one escaped.”",
-  "en_promo": {
-    "enabled": true,
-    "pause_seconds": 0.75,
-    "duration_target_seconds": 7,
-    "voice_text": "For English courses, see the Instagram account in the description.",
-    "display_title": "English Course Promotion／英文課程推廣",
-    "display_account": "IG @speakoutnow88"
-  },
+  "story_id": "last_bus_forest_crossing_20261027",
+  "episode_id": "20261027-last-bus",
+  "date": "2026-10-27",
+  "title_zh": "末班車，從來沒讓我下車",
+  "title_en": "The Last Bus Never Let Me Off",
+  "story_zh": "凌晨十一點四十七分，一輛顯示「末班車」的公車停在我面前。可站牌明明寫著，末班車十點就走了。車門打開，司機的座位空著。我一上車，門就自己關上。車上只有一名濕髮女人，背對著我。下一站到了。女人沒有起身，卻忽然轉頭問我：「你還記得自己在哪裡下車嗎？」她的嘴巴沒有動。我抬頭看後照鏡。鏡子裡，女人正站在我身後；我猛然回頭，座位卻是空的。手機收到一張剛拍的照片。照片裡，我仍坐在車上，而拍照的人，正站在車外的雨裡。我瘋狂按下車鈴。窗玻璃慢慢浮出幾個字：「你還沒下車。」車門始終沒有開。公車駛進沒有路燈的山路，電子站牌突然顯示：「終點站：山林路口。」我終於認出那個站名。三天前的新聞裡，一名女子在山林路口遭末班車撞倒。照片裡的死者，就是我。原來我一直躺在站牌下面，而這輛車，每晚都來接我。",
+  "story_en": "At 11:47 p.m., a bus marked LAST SERVICE stopped in front of me. But the timetable said the final bus had left almost two hours ago. The doors opened. The driver’s seat was empty. I stepped aboard, and the doors shut on their own. A woman with wet hair sat facing away from me. At the next stop, she turned her head. “Do you remember where you got off?” she asked. Her lips never moved. I glanced at the rearview mirror. She was standing right behind me. I spun around. Her seat was empty. My phone received a photo taken seconds ago. In it, I was still sitting on the bus. Whoever took the picture was standing outside in the rain. I hammered the stop button. Words slowly appeared on the window: YOU HAVEN’T GOTTEN OFF. The doors stayed locked. The bus climbed a road without streetlights. Its display changed: FINAL STOP — FOREST CROSSING. Suddenly, I recognized that name. Three days earlier, a woman had been struck by the last bus at Forest Crossing. The victim in the news photo was me. I was still lying beneath the bus stop sign. And every night, this bus came back for me.",
+  "segments": [
+    {
+      "scene": 0,
+      "zh": "凌晨十一點四十七分，一輛顯示「末班車」的公車停在我面前。可站牌明明寫著，末班車十點就走了。",
+      "en": "At 11:47 p.m., a bus marked LAST SERVICE stopped in front of me. But the timetable said the final bus had left almost two hours ago."
+    },
+    {
+      "scene": 1,
+      "zh": "車門打開，司機的座位空著。我一上車，門就自己關上。車上只有一名濕髮女人，背對著我。",
+      "en": "The doors opened. The driver’s seat was empty. I stepped aboard, and the doors shut on their own. A woman with wet hair sat facing away from me."
+    },
+    {
+      "scene": 2,
+      "zh": "下一站到了。女人沒有起身，卻忽然轉頭問我：「你還記得自己在哪裡下車嗎？」她的嘴巴沒有動。",
+      "en": "At the next stop, she turned her head. “Do you remember where you got off?” she asked. Her lips never moved."
+    },
+    {
+      "scene": 3,
+      "zh": "我抬頭看後照鏡。鏡子裡，女人正站在我身後；我猛然回頭，座位卻是空的。",
+      "en": "I glanced at the rearview mirror. She was standing right behind me. I spun around. Her seat was empty."
+    },
+    {
+      "scene": 4,
+      "zh": "手機收到一張剛拍的照片。照片裡，我仍坐在車上，而拍照的人，正站在車外的雨裡。",
+      "en": "My phone received a photo taken seconds ago. In it, I was still sitting on the bus. Whoever took the picture was standing outside in the rain."
+    },
+    {
+      "scene": 5,
+      "zh": "我瘋狂按下車鈴。窗玻璃慢慢浮出幾個字：「你還沒下車。」車門始終沒有開。",
+      "en": "I hammered the stop button. Words slowly appeared on the window: YOU HAVEN’T GOTTEN OFF. The doors stayed locked."
+    },
+    {
+      "scene": 6,
+      "zh": "公車駛進沒有路燈的山路，電子站牌突然顯示：「終點站：山林路口。」我終於認出那個站名。",
+      "en": "The bus climbed a road without streetlights. Its display changed: FINAL STOP — FOREST CROSSING. Suddenly, I recognized that name."
+    },
+    {
+      "scene": 7,
+      "zh": "三天前的新聞裡，一名女子在山林路口遭末班車撞倒。照片裡的死者，就是我。原來我一直躺在站牌下面，而這輛車，每晚都來接我。",
+      "en": "Three days earlier, a woman had been struck by the last bus at Forest Crossing. The victim in the news photo was me. I was still lying beneath the bus stop sign. And every night, this bus came back for me."
+    }
+  ],
   "assets": {
     "images": [
       {
-        "file": "assets/episodes/20261026-doorbell/scene01.png",
+        "file": "assets/episodes/20261027-last-bus/scene01.png",
         "effect": "slow_zoom",
         "effects": [
           "film_grain"
         ]
       },
       {
-        "file": "assets/episodes/20261026-doorbell/scene02.png",
+        "file": "assets/episodes/20261027-last-bus/scene02.png",
         "effect": "pan_right",
         "effects": [
           "film_grain"
         ]
       },
       {
-        "file": "assets/episodes/20261026-doorbell/scene03.png",
+        "file": "assets/episodes/20261027-last-bus/scene03.png",
         "effect": "slow_zoom",
         "effects": [
-          "film_grain",
-          "flicker"
+          "film_grain"
         ]
       },
       {
-        "file": "assets/episodes/20261026-doorbell/scene04.png",
+        "file": "assets/episodes/20261027-last-bus/scene04.png",
         "effect": "pan_left",
         "effects": [
+          "film_grain",
+          "flicker"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261027-last-bus/scene05.png",
+        "effect": "slow_zoom",
+        "effects": [
           "film_grain"
         ]
       },
       {
-        "file": "assets/episodes/20261026-doorbell/scene05.png",
-        "effect": "slow_zoom",
+        "file": "assets/episodes/20261027-last-bus/scene06.png",
+        "effect": "pan_right",
         "effects": [
           "film_grain",
           "flicker"
         ]
       },
       {
-        "file": "assets/episodes/20261026-doorbell/scene06.png",
-        "effect": "pan_right",
+        "file": "assets/episodes/20261027-last-bus/scene07.png",
+        "effect": "slow_zoom",
         "effects": [
           "film_grain"
         ]
       },
       {
-        "file": "assets/episodes/20261026-doorbell/scene07.png",
+        "file": "assets/episodes/20261027-last-bus/scene08.png",
         "effect": "slow_zoom",
         "effects": [
           "film_grain"
@@ -70,141 +111,49 @@
       }
     ]
   },
-  "rights": "獨立原創虛構怪談，為午夜異常廣播 Midnight Anomaly 新寫；使用智慧門鈴與鏡像異常的常見恐怖母題，未改編任何特定2ch、Reddit、SCP或其他既有作品。",
+  "en_promo": {
+    "enabled": true,
+    "pause_seconds": 0.75,
+    "duration_target_seconds": 7,
+    "voice_text": "For English courses, visit Instagram at speakoutnow88.",
+    "display_title": "English Course Promotion／英文課程推廣",
+    "display_account": "IG @speakoutnow88"
+  },
+  "rights": "獨立原創虛構恐怖短篇；圖像由生成式 AI 依本集分鏡製作。未改編既有受保護故事。",
   "source_type": "original",
   "youtube": {
-    "title_zh": "門鈴說，我已經回家了｜門外那個人也是我 #Shorts",
-    "title_en": "The Doorbell Said I Was Already Home | Learn English with Horror #Shorts",
-    "description_zh": "凌晨兩點，門鈴通知說「本人正在門外」。但他明明就在家裡。\n\n原創虛構怪談。AI 輔助製作；使用生成場景圖、圖片運鏡、固定 AI 旁白與字幕。未改編特定 2ch、Reddit 或 SCP 作品。\n\n#怪談 #都市傳說 #恐怖故事 #智慧門鈴 #Shorts",
-    "description_en": "At 2:13 a.m., the doorbell app says you are standing outside. But you are already home.\n\nAn original fictional horror story for English listening practice. AI-assisted production using generated scene images, image motion, fixed AI narration, and captions. No specific 2ch, Reddit, or SCP story was adapted.\n\nEnglish course promotion / 英文課程推廣\nIG @speakoutnow88\nhttps://www.instagram.com/speakoutnow88?obrf=MWx0NGttd3ZzNDYwcw%3D%3D&utm_source=qr\n\n#HorrorStories #LearnEnglish #EnglishListening #Shorts",
+    "title_zh": "末班車，從來沒讓我下車｜深夜公車怪談 #Shorts",
+    "title_en": "The Last Bus Never Let Me Off | Horror English Listening #Shorts",
+    "description_zh": "當末班車已經停駛，一輛沒有司機的公車卻停在你面前。原創虛構恐怖故事，AI 輔助視覺與影音製作。\n\n#午夜異常廣播 #末班車 #恐怖故事 #怪談 #Shorts",
+    "description_en": "A bus arrives hours after the final service. There is no driver, and you cannot get off. Original fictional horror story, AI-assisted production.\n\nEnglish course promotion: IG @speakoutnow88\n\n#MidnightAnomaly #HorrorShorts #LearnEnglish #EnglishListening #Shorts",
     "hashtags_zh": [
-      "#怪談",
-      "#都市傳說",
+      "#午夜異常廣播",
+      "#末班車",
       "#恐怖故事",
-      "#智慧門鈴",
+      "#怪談",
       "#Shorts"
     ],
     "hashtags_en": [
-      "#HorrorStories",
+      "#MidnightAnomaly",
+      "#HorrorShorts",
       "#LearnEnglish",
       "#EnglishListening",
       "#Shorts"
     ]
   },
   "thumbnail": {
-    "headline_zh": "門外的人是我",
-    "headline_en": "THAT IS ME OUTSIDE",
-    "frame_scene": 1
+    "headline_zh": "你還沒下車",
+    "headline_en": "YOU NEVER GOT OFF",
+    "frame_scene": 5
   },
   "product_recommendation": {
     "burn_into_zh_video": false,
     "status": "candidate_pending_user_confirmation",
-    "product": "TP-Link Tapo D235 2K 智慧門鈴（公開蝦皮商品頁）",
-    "url": "https://shopee.tw/%E3%80%8A-TP-LINK-%E2%AD%90-%E7%84%A1%E7%B7%9A-%E5%85%85%E9%9B%BB%E6%AC%BE-%E3%80%8BTapo-D235-%E6%99%BA%E6%85%A7%E9%96%80%E9%88%B4-%E9%81%A0%E8%B7%9D-%E9%80%9A%E8%A9%B1-%E6%94%9D%E5%BD%B1%E6%A9%9F-2K-%E5%A4%9C%E8%A6%96%E5%85%A8%E5%BD%A9-%E6%94%9D%E5%83%8F%E9%A0%AD-%E9%8F%A1%E9%A0%AD-i.274017631.29473613747",
-    "ad_copy_zh": "故事結束後，你敢再看一次門外嗎？至少真正的智慧門鈴，能讓你先看清來客，再決定要不要開門。只是今晚，看到自己的時候——千萬別按通話。",
-    "slogan": "先看清門外，再決定誰能回家。",
-    "estimated_seconds": 12
-  },
-  "segments": [
-    {
-      "scene": 0,
-      "zh": "凌晨兩點十三分，手機跳出門鈴通知：偵測到訪客——我。",
-      "en": "At 2:13 a.m., my doorbell app sent an alert: Person detected—you."
-    },
-    {
-      "scene": 0,
-      "zh": "但我明明坐在公寓裡。",
-      "en": "But I was sitting inside."
-    },
-    {
-      "scene": 1,
-      "zh": "即時畫面裡，一個全身濕透的男人站在門外。",
-      "en": "The live view showed a soaked man outside."
-    },
-    {
-      "scene": 1,
-      "zh": "他穿著我的黑外套，連左眉的疤都和我一樣。",
-      "en": "He wore my coat. Even the scar above his left eye matched mine."
-    },
-    {
-      "scene": 1,
-      "zh": "他不停說話，鏡頭卻沒有聲音。",
-      "en": "He kept speaking without sound."
-    },
-    {
-      "scene": 1,
-      "zh": "我看懂了他的嘴型：別回頭。",
-      "en": "I read his lips: Don’t turn around."
-    },
-    {
-      "scene": 2,
-      "zh": "身後的浴室，傳來一聲輕笑。",
-      "en": "A quiet laugh came from the bathroom behind me."
-    },
-    {
-      "scene": 2,
-      "zh": "我衝進去，鏡子裡的我卻沒有跟著轉身。",
-      "en": "I ran there. My reflection did not turn with me."
-    },
-    {
-      "scene": 2,
-      "zh": "它反而先對我笑了。",
-      "en": "It smiled first."
-    },
-    {
-      "scene": 1,
-      "zh": "門外那個我舉起手機，上面只有兩個字：躲好。",
-      "en": "The man outside raised his phone. Two words filled its screen: Hide now."
-    },
-    {
-      "scene": 3,
-      "zh": "我鑽進臥室衣櫃，從縫隙看向客廳。",
-      "en": "I crawled into the bedroom wardrobe and looked through the slats."
-    },
-    {
-      "scene": 3,
-      "zh": "另一個我赤腳走過，濕衣服一路滴水。",
-      "en": "Another me walked barefoot across the room, dripping water."
-    },
-    {
-      "scene": 4,
-      "zh": "他從屋內打開大門，走進走廊。",
-      "en": "He opened the front door from inside and stepped into the hall."
-    },
-    {
-      "scene": 4,
-      "zh": "門鈴通知顯示：陌生人已離開。",
-      "en": "The app said: Unknown person left."
-    },
-    {
-      "scene": 3,
-      "zh": "屋裡安靜了。我離開衣櫃，搭電梯下樓。",
-      "en": "The apartment went silent. I left the wardrobe and took the elevator down."
-    },
-    {
-      "scene": 5,
-      "zh": "電梯金屬鏡面裡，只有空蕩蕩的轎廂。",
-      "en": "The metal wall showed an empty elevator."
-    },
-    {
-      "scene": 5,
-      "zh": "我沒有倒影。",
-      "en": "I had no reflection."
-    },
-    {
-      "scene": 6,
-      "zh": "手機再次震動。濕透的男人還站在門外，指著我。",
-      "en": "My phone vibrated again. The soaked man was still outside, pointing at me."
-    },
-    {
-      "scene": 6,
-      "zh": "這一次，門鈴終於傳來他的聲音。",
-      "en": "This time, his voice came through."
-    },
-    {
-      "scene": 6,
-      "zh": "他說：「錯的那個，逃出去了。」",
-      "en": "“The wrong one escaped.”"
-    }
-  ]
+    "product": "夜間交通安全用反光掛飾／反光吊牌（選品候選，未確認特定賣場）",
+    "url": null,
+    "price": null,
+    "ad_copy_zh": "故事結束了，末班車也走了。真正走在深夜路邊，至少要讓來車看得見你。反光吊牌不是護身符，但能讓你的背包在車燈下更顯眼。",
+    "slogan": "夜路不怕黑，只怕沒被看見。",
+    "reason": "故事主題為深夜站牌及路邊交通風險；候選品與故事後置情境相關。"
+  }
 }
