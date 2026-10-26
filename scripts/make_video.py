@@ -162,8 +162,9 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         f"Dialogue: 0,{ass_time(0)},{ass_time(title_end)},Title,,0,0,0,,{ass_escape(title)}",
     ]
     for start, end, phrase in phrase_rows(data, lang, story_seconds):
+        body_text = ass_escape(phrase).replace("\\\\N", "\\N")
         events.append(
-            f"Dialogue: 0,{ass_time(start)},{ass_time(end)},Body,,0,0,0,,{ass_escape(phrase).replace('\\\\N', '\\N')}"
+            f"Dialogue: 0,{ass_time(start)},{ass_time(end)},Body,,0,0,0,,{body_text}"
         )
     if promo.get("enabled"):
         promo_start = story_seconds + float(promo.get("pause_seconds", 0.75))
@@ -172,8 +173,9 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         events.append(
             f"Dialogue: 1,{ass_time(promo_start)},{ass_time(total_seconds)},PromoTitle,,0,0,0,,English Course Promotion\\N英文課程推廣 · {promo_account}"
         )
+        promo_ass_text = ass_escape(promo_text).replace("\\\\N", "\\N")
         events.append(
-            f"Dialogue: 1,{ass_time(promo_start)},{ass_time(total_seconds)},Promo,,0,0,0,,{ass_escape(promo_text).replace('\\\\N', '\\N')}"
+            f"Dialogue: 1,{ass_time(promo_start)},{ass_time(total_seconds)},Promo,,0,0,0,,{promo_ass_text}"
         )
     path.write_text(header + "\n".join(events) + "\n", encoding="utf-8")
 
