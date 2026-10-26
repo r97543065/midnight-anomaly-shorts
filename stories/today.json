@@ -1,35 +1,210 @@
 {
+  "schema_version": 2,
+  "story_id": "smart_doorbell_wrong_one_20261026",
+  "episode_id": "20261026-smart-doorbell-wrong-one",
   "date": "2026-10-26",
-  "title_zh": "不存在的十三樓",
-  "title_en": "The Floor That Didn't Exist",
-  "story_zh": "凌晨三點，電梯停在不存在的十三樓。門開了，走廊盡頭站著另一個我。它緩緩抬起頭，對我說：你終於回來了。就在這時，電梯門上的倒影裡，我發現自己根本沒有臉。",
-  "story_en": "At three in the morning, the elevator stopped on a floor that didn't exist. When the doors opened, another version of me stood at the end of the hall. It slowly raised its head and whispered, You finally came back. Then I looked at my reflection in the elevator doors. I had no face.",
+  "title_zh": "門鈴說，我已經回家了",
+  "title_en": "The Doorbell Said I Was Already Home",
+  "story_zh": "凌晨兩點十三分，手機跳出門鈴通知：偵測到訪客——我。但我明明坐在公寓裡。即時畫面裡，一個全身濕透的男人站在門外。他穿著我的黑外套，連左眉的疤都和我一樣。他不停說話，鏡頭卻沒有聲音。我看懂了他的嘴型：別回頭。身後的浴室，傳來一聲輕笑。我衝進去，鏡子裡的我卻沒有跟著轉身。它反而先對我笑了。門外那個我舉起手機，上面只有兩個字：躲好。我鑽進臥室衣櫃，從縫隙看向客廳。另一個我赤腳走過，濕衣服一路滴水。他從屋內打開大門，走進走廊。門鈴通知顯示：陌生人已離開。屋裡安靜了。我離開衣櫃，搭電梯下樓。電梯金屬鏡面裡，只有空蕩蕩的轎廂。我沒有倒影。手機再次震動。濕透的男人還站在門外，指著我。這一次，門鈴終於傳來他的聲音。他說：「錯的那個，逃出去了。」",
+  "story_en": "At 2:13 a.m., my doorbell app sent an alert: Person detected—you. But I was sitting inside. The live view showed a soaked man outside. He wore my coat. Even the scar above his left eye matched mine. He kept speaking without sound. I read his lips: Don’t turn around. A quiet laugh came from the bathroom behind me. I ran there. My reflection did not turn with me. It smiled first. The man outside raised his phone. Two words filled its screen: Hide now. I crawled into the bedroom wardrobe and looked through the slats. Another me walked barefoot across the room, dripping water. He opened the front door from inside and stepped into the hall. The app said: Unknown person left. The apartment went silent. I left the wardrobe and took the elevator down. The metal wall showed an empty elevator. I had no reflection. My phone vibrated again. The soaked man was still outside, pointing at me. This time, his voice came through. “The wrong one escaped.”",
+  "en_promo": {
+    "enabled": true,
+    "pause_seconds": 0.75,
+    "duration_target_seconds": 7,
+    "voice_text": "For English courses, see the Instagram account in the description.",
+    "display_title": "English Course Promotion／英文課程推廣",
+    "display_account": "IG @speakoutnow88"
+  },
   "assets": {
     "images": [
       {
-        "file": "assets/episodes/20261026/scene01.png",
-        "effect": "slow_zoom"
+        "file": "assets/episodes/20261026-doorbell/scene01.png",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
       },
       {
-        "file": "assets/episodes/20261026/scene02.png",
-        "effect": "slow_zoom"
+        "file": "assets/episodes/20261026-doorbell/scene02.png",
+        "effect": "pan_right",
+        "effects": [
+          "film_grain"
+        ]
       },
       {
-        "file": "assets/episodes/20261026/scene03.png",
-        "effect": "slow_zoom"
+        "file": "assets/episodes/20261026-doorbell/scene03.png",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain",
+          "flicker"
+        ]
       },
       {
-        "file": "assets/episodes/20261026/scene04.png",
-        "effect": "slow_zoom"
+        "file": "assets/episodes/20261026-doorbell/scene04.png",
+        "effect": "pan_left",
+        "effects": [
+          "film_grain"
+        ]
       },
       {
-        "file": "assets/episodes/20261026/scene05.png",
-        "effect": "slow_zoom"
+        "file": "assets/episodes/20261026-doorbell/scene05.png",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain",
+          "flicker"
+        ]
       },
       {
-        "file": "assets/episodes/20261026/scene06.png",
-        "effect": "slow_zoom"
+        "file": "assets/episodes/20261026-doorbell/scene06.png",
+        "effect": "pan_right",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261026-doorbell/scene07.png",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
       }
     ]
-  }
+  },
+  "rights": "獨立原創虛構怪談，為午夜異常廣播 Midnight Anomaly 新寫；使用智慧門鈴與鏡像異常的常見恐怖母題，未改編任何特定2ch、Reddit、SCP或其他既有作品。",
+  "source_type": "original",
+  "youtube": {
+    "title_zh": "門鈴說，我已經回家了｜門外那個人也是我 #Shorts",
+    "title_en": "The Doorbell Said I Was Already Home | Learn English with Horror #Shorts",
+    "description_zh": "凌晨兩點，門鈴通知說「本人正在門外」。但他明明就在家裡。\n\n原創虛構怪談。AI 輔助製作；使用生成場景圖、圖片運鏡、固定 AI 旁白與字幕。未改編特定 2ch、Reddit 或 SCP 作品。\n\n#怪談 #都市傳說 #恐怖故事 #智慧門鈴 #Shorts",
+    "description_en": "At 2:13 a.m., the doorbell app says you are standing outside. But you are already home.\n\nAn original fictional horror story for English listening practice. AI-assisted production using generated scene images, image motion, fixed AI narration, and captions. No specific 2ch, Reddit, or SCP story was adapted.\n\nEnglish course promotion / 英文課程推廣\nIG @speakoutnow88\nhttps://www.instagram.com/speakoutnow88?obrf=MWx0NGttd3ZzNDYwcw%3D%3D&utm_source=qr\n\n#HorrorStories #LearnEnglish #EnglishListening #Shorts",
+    "hashtags_zh": [
+      "#怪談",
+      "#都市傳說",
+      "#恐怖故事",
+      "#智慧門鈴",
+      "#Shorts"
+    ],
+    "hashtags_en": [
+      "#HorrorStories",
+      "#LearnEnglish",
+      "#EnglishListening",
+      "#Shorts"
+    ]
+  },
+  "thumbnail": {
+    "headline_zh": "門外的人是我",
+    "headline_en": "THAT IS ME OUTSIDE",
+    "frame_scene": 1
+  },
+  "product_recommendation": {
+    "burn_into_zh_video": false,
+    "status": "candidate_pending_user_confirmation",
+    "product": "TP-Link Tapo D235 2K 智慧門鈴（公開蝦皮商品頁）",
+    "url": "https://shopee.tw/%E3%80%8A-TP-LINK-%E2%AD%90-%E7%84%A1%E7%B7%9A-%E5%85%85%E9%9B%BB%E6%AC%BE-%E3%80%8BTapo-D235-%E6%99%BA%E6%85%A7%E9%96%80%E9%88%B4-%E9%81%A0%E8%B7%9D-%E9%80%9A%E8%A9%B1-%E6%94%9D%E5%BD%B1%E6%A9%9F-2K-%E5%A4%9C%E8%A6%96%E5%85%A8%E5%BD%A9-%E6%94%9D%E5%83%8F%E9%A0%AD-%E9%8F%A1%E9%A0%AD-i.274017631.29473613747",
+    "ad_copy_zh": "故事結束後，你敢再看一次門外嗎？至少真正的智慧門鈴，能讓你先看清來客，再決定要不要開門。只是今晚，看到自己的時候——千萬別按通話。",
+    "slogan": "先看清門外，再決定誰能回家。",
+    "estimated_seconds": 12
+  },
+  "segments": [
+    {
+      "scene": 0,
+      "zh": "凌晨兩點十三分，手機跳出門鈴通知：偵測到訪客——我。",
+      "en": "At 2:13 a.m., my doorbell app sent an alert: Person detected—you."
+    },
+    {
+      "scene": 0,
+      "zh": "但我明明坐在公寓裡。",
+      "en": "But I was sitting inside."
+    },
+    {
+      "scene": 1,
+      "zh": "即時畫面裡，一個全身濕透的男人站在門外。",
+      "en": "The live view showed a soaked man outside."
+    },
+    {
+      "scene": 1,
+      "zh": "他穿著我的黑外套，連左眉的疤都和我一樣。",
+      "en": "He wore my coat. Even the scar above his left eye matched mine."
+    },
+    {
+      "scene": 1,
+      "zh": "他不停說話，鏡頭卻沒有聲音。",
+      "en": "He kept speaking without sound."
+    },
+    {
+      "scene": 1,
+      "zh": "我看懂了他的嘴型：別回頭。",
+      "en": "I read his lips: Don’t turn around."
+    },
+    {
+      "scene": 2,
+      "zh": "身後的浴室，傳來一聲輕笑。",
+      "en": "A quiet laugh came from the bathroom behind me."
+    },
+    {
+      "scene": 2,
+      "zh": "我衝進去，鏡子裡的我卻沒有跟著轉身。",
+      "en": "I ran there. My reflection did not turn with me."
+    },
+    {
+      "scene": 2,
+      "zh": "它反而先對我笑了。",
+      "en": "It smiled first."
+    },
+    {
+      "scene": 1,
+      "zh": "門外那個我舉起手機，上面只有兩個字：躲好。",
+      "en": "The man outside raised his phone. Two words filled its screen: Hide now."
+    },
+    {
+      "scene": 3,
+      "zh": "我鑽進臥室衣櫃，從縫隙看向客廳。",
+      "en": "I crawled into the bedroom wardrobe and looked through the slats."
+    },
+    {
+      "scene": 3,
+      "zh": "另一個我赤腳走過，濕衣服一路滴水。",
+      "en": "Another me walked barefoot across the room, dripping water."
+    },
+    {
+      "scene": 4,
+      "zh": "他從屋內打開大門，走進走廊。",
+      "en": "He opened the front door from inside and stepped into the hall."
+    },
+    {
+      "scene": 4,
+      "zh": "門鈴通知顯示：陌生人已離開。",
+      "en": "The app said: Unknown person left."
+    },
+    {
+      "scene": 3,
+      "zh": "屋裡安靜了。我離開衣櫃，搭電梯下樓。",
+      "en": "The apartment went silent. I left the wardrobe and took the elevator down."
+    },
+    {
+      "scene": 5,
+      "zh": "電梯金屬鏡面裡，只有空蕩蕩的轎廂。",
+      "en": "The metal wall showed an empty elevator."
+    },
+    {
+      "scene": 5,
+      "zh": "我沒有倒影。",
+      "en": "I had no reflection."
+    },
+    {
+      "scene": 6,
+      "zh": "手機再次震動。濕透的男人還站在門外，指著我。",
+      "en": "My phone vibrated again. The soaked man was still outside, pointing at me."
+    },
+    {
+      "scene": 6,
+      "zh": "這一次，門鈴終於傳來他的聲音。",
+      "en": "This time, his voice came through."
+    },
+    {
+      "scene": 6,
+      "zh": "他說：「錯的那個，逃出去了。」",
+      "en": "“The wrong one escaped.”"
+    }
+  ]
 }
