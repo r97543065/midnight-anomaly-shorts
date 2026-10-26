@@ -33,7 +33,29 @@ def main():
     qa = json.loads((OUT / "production-status.json").read_text(encoding="utf-8"))
     if qa.get("qa_status") != "success" or qa.get("errors") or qa.get("warnings"):
         raise RuntimeError("Refusing upload: production QA is not clean SUCCESS")
-    story = json.loads(Path(os.environ["STORY_FILE"]).read_text(encoding="utf-8"))
+    required = [
+        "STORY_FILE", "SOURCE_RUN_ID", "SOURCE_COMMIT_SHA", "SOURCE_STORY_PATH",
+        "EXPECTED_STORY_ID", "EXPECTED_TITLE",
+    ]
+    missing = [name for name in required if not os.environ.get(name)]
+    if missing:
+        raise RuntimeError("Refusing upload: missing verified source metadata: " + ", ".join(missing))
+    if str(qa.get("run_id")) != os.environ["SOURCE_RUN_ID"]:
+        raise RuntimeError("Refusing upload: QA report does not match requested source run")
+    qa_commit = qa.get("commit_sha")
+    if qa_commit and qa_commit != os.environ["SOURCE_COMMIT_SHA"]:
+        raise RuntimeError("Refusing upload: QA commit SHA does not match source run commit")
+    source_path = Path(os.environ["SOURCE_STORY_PATH"])
+    if source_path.is_absolute() or ".." in source_path.parts or source_path.suffix != ".json":
+        raise RuntimeError("Refusing upload: unsafe source story path")
+    story_path = Path(os.environ["STORY_FILE"])
+    if not story_path.is_file():
+        raise FileNotFoundError(story_path)
+    story = json.loads(story_path.read_text(encoding="utf-8"))
+    if not story.get("story_id") or not story.get("title_zh") or not story.get("title_en"):
+        raise RuntimeError("Refusing upload: source story lacks story_id or bilingual titles")
+    if story["story_id"] != os.environ["EXPECTED_STORY_ID"]:
+        raise RuntimeError("Refusing upload: confirmed story ID does not match source story")
     if qa.get("story_id") and qa.get("story_id") != story.get("story_id"):
         raise RuntimeError("Story ID mismatch between video QA and metadata")
     language = os.environ["UPLOAD_LANGUAGE"]
@@ -42,13 +64,22 @@ def main():
     video = OUT / f"{language}.mp4"
     if not video.is_file():
         raise FileNotFoundError(video)
-    title = story["title_zh" if language == "zh" else "title_en"] + " #Shorts"
-    description = (("原創虛構怪談。#午夜異常廣播 #恐怖故事 #Shorts" if language == "zh"
-                    else "Original fictional horror short. #MidnightAnomaly #HorrorShorts #Shorts"))
+    youtube = story.get("youtube", {})
+    title = youtube.get(f"title_{language}") or story[f"title_{language}"] + " #Shorts"
+    description = youtube.get(f"description_{language}") or (
+        "原創虛構怪談。#午夜異常廣播 #恐怖故事 #Shorts" if language == "zh"
+        else "Original fictional horror short. #MidnightAnomaly #HorrorShorts #Shorts"
+    )
+    upload_title = title[:100]
+    if upload_title != os.environ["EXPECTED_TITLE"]:
+        raise RuntimeError("Refusing upload: confirmed title does not match source story")
+    privacy = os.environ.get("YOUTUBE_PRIVACY", "private")
+    if privacy != "private":
+        raise RuntimeError("Refusing upload: this workflow only permits private uploads")
     metadata = {
-        "snippet": {"title": title[:100], "description": description,
+        "snippet": {"title": upload_title, "description": description,
                     "categoryId": "24", "defaultLanguage": "zh-TW" if language == "zh" else "en"},
-        "status": {"privacyStatus": os.environ.get("YOUTUBE_PRIVACY", "private"),
+        "status": {"privacyStatus": privacy,
                    "selfDeclaredMadeForKids": False}
     }
     access_token = token()
