@@ -28,11 +28,11 @@ jobs:
         with:
           python-version: "3.11"
 
-      # - name: Install dependencies
-      #   run: |
-      #     python -m pip install --disable-pip-version-check --no-cache-dir edge-tts==7.3.1 pillow
-      #     ffmpeg -version
-      #     ffprobe -version
+      - name: Install dependencies
+        run: |
+          python -m pip install --disable-pip-version-check --no-cache-dir edge-tts==7.3.1 pillow
+          ffmpeg -version
+          ffprobe -version
 
       - name: Build videos
         id: build
