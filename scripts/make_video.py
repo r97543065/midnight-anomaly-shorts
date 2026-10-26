@@ -63,7 +63,7 @@ def render(data,lang):
         for i,scene in enumerate(scenes):
             image=safe_file(scene['file'])
             if not image.is_file():
-                image=tmp/f'placeholder{i}.png';placeholder(image,i);print('WARNING: placeholder',scene['file'],flush=True)
+                raise FileNotFoundError(f"Missing scene image: {scene['file']}")
             with Image.open(image) as src:
                 src=src.convert('RGB'); factor=max(1080/src.width,1920/src.height)
                 scaled=src.resize((math.ceil(src.width*factor),math.ceil(src.height*factor)),Image.Resampling.LANCZOS)
