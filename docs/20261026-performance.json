@@ -1,0 +1,16 @@
+{
+  "story_id": "photo_booth_retake_20261026",
+  "prepared_at": "2026-10-26",
+  "token_usage": null,
+  "token_usage_note": "Exact model token usage was not surfaced; no estimate provided.",
+  "local_prior_stage_metrics_source": "See ChatGPT deliverable performance report; GitHub Actions writes output/build-performance.json.",
+  "image_generation": {
+    "existing_images_reused": 4,
+    "new_images_generated": 3,
+    "new_image_generation_retries": 0
+  },
+  "publication": {
+    "youtube_status": "not_uploaded",
+    "comments_status": "not_applicable_until_upload"
+  }
+}

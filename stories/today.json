@@ -1,35 +1,195 @@
 {
+  "schema_version": 2,
+  "story_id": "photo_booth_retake_20261026",
+  "episode_id": "20261026-photo-booth-retake",
   "date": "2026-10-26",
-  "title_zh": "不存在的十三樓",
-  "title_en": "The Floor That Didn't Exist",
-  "story_zh": "凌晨三點，電梯停在不存在的十三樓。門開了，走廊盡頭站著另一個我。它緩緩抬起頭，對我說：你終於回來了。就在這時，電梯門上的倒影裡，我發現自己根本沒有臉。",
-  "story_en": "At three in the morning, the elevator stopped on a floor that didn't exist. When the doors opened, another version of me stood at the end of the hall. It slowly raised its head and whispered, You finally came back. Then I looked at my reflection in the elevator doors. I had no face.",
+  "title_zh": "重拍一次，少一隻手",
+  "title_en": "The Photo Booth Took My Hand",
+  "story_zh": "閃光後，我的拇指不見了。那晚，我在日本一座小車站等末班車。候車室角落，有台亮著燈的老拍貼機。離發車還有十分鐘，我投幣坐了進去。第一張照片裡，我舉起的右手少了拇指。我低頭一看，掌邊也只剩平滑的皮膚。不流血，也不痛，像從來沒有長過。螢幕跳出兩個字：重拍。我想把手拍回來，便按了那個按鈕。第二次閃光後，整隻右手都消失了。袖口下面，手腕變成封死的圓頭。我終於明白，重拍只會刪掉更多身體。我掀開布簾，卻被安全帶猛地拉回。剛坐下時，椅子上根本沒有安全帶。螢幕自己開始倒數：三，二。我用左手扯斷插頭，閃光燈熄了。安全帶鬆開，我衝到月台找站員。他看見我的手腕，立刻拉下候車室鐵門。鐵門裡，機器仍用我的聲音說著：重拍。我搭上末班車，右手卻永遠沒有回來。",
+  "story_en": "The flash stole my thumb. I was waiting for the last train in Japan. An old photo booth stood in the waiting room. With ten minutes left, I paid and sat down. In the first photo, my raised hand had no thumb. I looked down. Smooth skin covered its place. No blood. No pain. As though it never existed. The screen offered another picture. I pressed the button, hoping to get it back. The second flash took my entire right hand. My wrist ended in a smooth stump. Another picture would only erase more of me. I lifted the curtain. The seat belt pulled me back. There had been no belt when I sat down. The screen began counting down. Three. Two. I pulled the plug. The flash died. The belt loosened. I ran to the station attendant. He saw my wrist and locked the waiting room. Inside, it said, \"Another picture,\" in my voice. I caught the last train. My hand never returned.",
+  "en_promo": {
+    "enabled": true,
+    "pause_seconds": 0.75,
+    "duration_target_seconds": 7,
+    "voice_text": "For English courses, see the Instagram account in the description.",
+    "display_title": "English Course Promotion／英文課程推廣",
+    "display_account": "IG @speakoutnow88"
+  },
   "assets": {
     "images": [
       {
         "file": "assets/episodes/20261026/scene01.png",
-        "effect": "slow_zoom"
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
       },
       {
         "file": "assets/episodes/20261026/scene02.png",
-        "effect": "slow_zoom"
+        "effect": "pan_right",
+        "effects": [
+          "film_grain"
+        ]
       },
       {
         "file": "assets/episodes/20261026/scene03.png",
-        "effect": "slow_zoom"
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
       },
       {
         "file": "assets/episodes/20261026/scene04.png",
-        "effect": "slow_zoom"
+        "effect": "pan_left",
+        "effects": [
+          "film_grain",
+          "flicker"
+        ]
       },
       {
         "file": "assets/episodes/20261026/scene05.png",
-        "effect": "slow_zoom"
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain",
+          "flicker"
+        ]
       },
       {
         "file": "assets/episodes/20261026/scene06.png",
-        "effect": "slow_zoom"
+        "effect": "pan_right",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261026/scene07.png",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
       }
     ]
-  }
+  },
+  "rights": "獨立原創虛構怪談，為午夜異常廣播 Midnight Anomaly 新寫；使用日常設備異常的常見恐怖母題，未改編任何特定2ch、Reddit、SCP或其他既有作品。",
+  "source_type": "original",
+  "youtube": {
+    "title_zh": "重拍一次，少一隻手｜那台拍貼機會刪掉身體 #Shorts",
+    "title_en": "The Photo Booth Took My Hand | Learn English with Horror #Shorts",
+    "description_zh": "原創虛構怪談。AI 輔助製作；使用生成場景圖、圖片運鏡、固定 AI 旁白與字幕。未改編特定 2ch、Reddit 或 SCP 作品。\n\n#怪談 #都市傳說 #恐怖故事 #Shorts",
+    "description_en": "An original fictional horror story for English listening practice. AI-assisted production using generated scene images, image motion, fixed AI narration, and captions. No specific 2ch, Reddit, or SCP story was adapted.\n\nEnglish course promotion / 英文課程推廣\nIG @speakoutnow88\nhttps://www.instagram.com/speakoutnow88?obrf=MWx0NGttd3ZzNDYwcw%3D%3D&utm_source=qr\n\n#HorrorStories #LearnEnglish #EnglishListening #Shorts",
+    "hashtags_zh": [
+      "#怪談",
+      "#都市傳說",
+      "#恐怖故事",
+      "#Shorts"
+    ],
+    "hashtags_en": [
+      "#HorrorStories",
+      "#LearnEnglish",
+      "#EnglishListening",
+      "#Shorts"
+    ]
+  },
+  "segments": [
+    {
+      "scene": 0,
+      "zh": "閃光後，我的拇指不見了。",
+      "en": "The flash stole my thumb."
+    },
+    {
+      "scene": 1,
+      "zh": "那晚，我在日本一座小車站等末班車。",
+      "en": "I was waiting for the last train in Japan."
+    },
+    {
+      "scene": 1,
+      "zh": "候車室角落，有台亮著燈的老拍貼機。",
+      "en": "An old photo booth stood in the waiting room."
+    },
+    {
+      "scene": 1,
+      "zh": "離發車還有十分鐘，我投幣坐了進去。",
+      "en": "With ten minutes left, I paid and sat down."
+    },
+    {
+      "scene": 2,
+      "zh": "第一張照片裡，我舉起的右手少了拇指。",
+      "en": "In the first photo, my raised hand had no thumb."
+    },
+    {
+      "scene": 2,
+      "zh": "我低頭一看，掌邊也只剩平滑的皮膚。",
+      "en": "I looked down. Smooth skin covered its place."
+    },
+    {
+      "scene": 2,
+      "zh": "不流血，也不痛，像從來沒有長過。",
+      "en": "No blood. No pain. As though it never existed."
+    },
+    {
+      "scene": 3,
+      "zh": "螢幕跳出兩個字：重拍。",
+      "en": "The screen offered another picture."
+    },
+    {
+      "scene": 3,
+      "zh": "我想把手拍回來，便按了那個按鈕。",
+      "en": "I pressed the button, hoping to get it back."
+    },
+    {
+      "scene": 4,
+      "zh": "第二次閃光後，整隻右手都消失了。",
+      "en": "The second flash took my entire right hand."
+    },
+    {
+      "scene": 4,
+      "zh": "袖口下面，手腕變成封死的圓頭。",
+      "en": "My wrist ended in a smooth stump."
+    },
+    {
+      "scene": 4,
+      "zh": "我終於明白，重拍只會刪掉更多身體。",
+      "en": "Another picture would only erase more of me."
+    },
+    {
+      "scene": 5,
+      "zh": "我掀開布簾，卻被安全帶猛地拉回。",
+      "en": "I lifted the curtain. The seat belt pulled me back."
+    },
+    {
+      "scene": 5,
+      "zh": "剛坐下時，椅子上根本沒有安全帶。",
+      "en": "There had been no belt when I sat down."
+    },
+    {
+      "scene": 5,
+      "zh": "螢幕自己開始倒數：三，二。",
+      "en": "The screen began counting down. Three. Two."
+    },
+    {
+      "scene": 5,
+      "zh": "我用左手扯斷插頭，閃光燈熄了。",
+      "en": "I pulled the plug. The flash died."
+    },
+    {
+      "scene": 6,
+      "zh": "安全帶鬆開，我衝到月台找站員。",
+      "en": "The belt loosened. I ran to the station attendant."
+    },
+    {
+      "scene": 6,
+      "zh": "他看見我的手腕，立刻拉下候車室鐵門。",
+      "en": "He saw my wrist and locked the waiting room."
+    },
+    {
+      "scene": 6,
+      "zh": "鐵門裡，機器仍用我的聲音說著：重拍。",
+      "en": "Inside, it said, \"Another picture,\" in my voice."
+    },
+    {
+      "scene": 6,
+      "zh": "我搭上末班車，右手卻永遠沒有回來。",
+      "en": "I caught the last train. My hand never returned."
+    }
+  ]
 }
