@@ -40,7 +40,7 @@ def captions(text,total,path):
         start=total*cumulative/sum(weights); cumulative+=w;end=total*cumulative/sum(weights)
         if end-start<0.15: continue
         if len(phrase)>24: phrase='\\N'.join(textwrap.wrap(phrase,24,break_long_words=True,break_on_hyphens=False))
-        rows.append(f'Dialogue: 0,{ass_time(start)},{ass_time(end)},Default,,0,0,0,,{ass_escape(phrase)}')
+        rows.append(f'Dialogue: 0,{ass_time(start)},{ass_time(end)},Default,,0,0,0,,{ass_escape(phrase).replace(chr(92)+chr(92)+"N", chr(92)+"N")}')
     header='''[Script Info]
 ScriptType: v4.00+
 PlayResX: 1080
@@ -63,7 +63,7 @@ def render(data,lang):
         for i,scene in enumerate(scenes):
             image=safe_file(scene['file'])
             if not image.is_file():
-                image=tmp/f'placeholder{i}.png';placeholder(image,i);print('WARNING: placeholder',scene['file'],flush=True)
+                raise FileNotFoundError(f"Missing scene image: {scene['file']}")
             with Image.open(image) as src:
                 src=src.convert('RGB'); factor=max(1080/src.width,1920/src.height)
                 scaled=src.resize((math.ceil(src.width*factor),math.ceil(src.height*factor)),Image.Resampling.LANCZOS)

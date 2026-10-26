@@ -6,12 +6,30 @@
   "story_en": "At three in the morning, the elevator stopped on a floor that didn't exist. When the doors opened, another version of me stood at the end of the hall. It slowly raised its head and whispered, You finally came back. Then I looked at my reflection in the elevator doors. I had no face.",
   "assets": {
     "images": [
-      {"file": "assets/20261026/scene01.png", "effect": "slow_zoom"},
-      {"file": "assets/20261026/scene02.png", "effect": "slow_zoom"},
-      {"file": "assets/20261026/scene03.png", "effect": "slow_zoom"},
-      {"file": "assets/20261026/scene04.png", "effect": "slow_zoom"},
-      {"file": "assets/20261026/scene05.png", "effect": "slow_zoom"},
-      {"file": "assets/20261026/scene06.png", "effect": "slow_zoom"}
+      {
+        "file": "assets/episodes/20261026/scene01.png",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261026/scene02.png",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261026/scene03.png",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261026/scene04.png",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261026/scene05.png",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261026/scene06.png",
+        "effect": "slow_zoom"
+      }
     ]
   }
 }

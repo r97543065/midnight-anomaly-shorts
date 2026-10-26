@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-26",
+  "story_id": "20261026-weather-radio-trial",
+  "title_zh": "凌晨三點的天氣預報",
+  "title_en": "The Three A.M. Forecast",
+  "story_zh": "凌晨三點，停電的房間裡，收音機突然自己開了。主播說，明天凌晨三點，這棟公寓將下起黑色的雨。可是窗外明明是一片晴朗。第二天，我看到走廊地板出現濕腳印，從門外一路延伸到我的床邊。第三天，收音機預報，今晚會有一位住戶失蹤，請記得鎖門。我把門上了三道鎖，卻在半夜聽見有人從衣櫃裡敲門。第四天，主播不再播報氣溫，只念出我的姓名和地址，然後說：明天凌晨三點，這個人將停止呼吸。我拔掉插頭，砸碎收音機，把零件丟進垃圾桶。那一晚，我坐在客廳，盯著時鐘直到兩點五十九分。三點整，手機突然收到一則氣象警報：本日無降雨，請勿開窗。下一秒，窗外響起我的聲音：不要相信那台收音機。就在我轉身時，垃圾桶裡傳來熟悉的播報聲：更正預報，死亡時間已提前。現在。",
+  "story_en": "At three in the morning, the power went out, and my old radio switched itself on. The announcer said that tomorrow, black rain would fall inside our apartment building. The sky outside was perfectly clear. The next morning, wet footprints crossed my hallway and ended beside my bed. On the third night, the radio warned that one resident would disappear. Lock your door, it said. I used three locks. At midnight, something knocked from inside my wardrobe. On the fourth night, the announcer read my full name and address, then predicted that I would stop breathing at three a.m. tomorrow. I unplugged the radio, smashed it, and threw the pieces away. I spent the night staring at the clock. At exactly three, a weather alert lit up my phone: No rain expected. Do not open your windows. Then my own voice called from outside: Don't trust the radio. Behind me, the broken radio crackled from the trash. The announcer whispered: Forecast revised. Time of death moved forward. Now.",
+  "assets": {
+    "images": [
+      {
+        "file": "assets/episodes/20261026-weather-radio/scene01.png",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261026-weather-radio/scene02.png",
+        "effect": "pan_left"
+      },
+      {
+        "file": "assets/episodes/20261026-weather-radio/scene03.png",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261026-weather-radio/scene04.png",
+        "effect": "pan_right"
+      },
+      {
+        "file": "assets/episodes/20261026-weather-radio/scene05.png",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261026-weather-radio/scene06.png",
+        "effect": "pan_left"
+      },
+      {
+        "file": "assets/episodes/20261026-weather-radio/scene07.png",
+        "effect": "slow_zoom"
+      }
+    ]
+  },
+  "status": "DRAFT_ONLY_IMAGES_NOT_UPLOADED"
+}

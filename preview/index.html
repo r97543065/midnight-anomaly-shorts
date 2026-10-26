@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>午夜異常廣播｜製片預覽</title>
+<style>
+:root{color-scheme:dark}body{font-family:system-ui,-apple-system,sans-serif;background:#0c101a;color:#f5f6fa;margin:0;padding:24px}main{max-width:980px;margin:auto}h1{font-size:clamp(24px,5vw,40px)}.muted{color:#b5bfcd}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:24px;margin-top:24px}.card{background:#192233;border:1px solid #344055;border-radius:16px;padding:18px}video{width:100%;max-height:70vh;aspect-ratio:9/16;background:black;border-radius:10px}a{color:#9bc5ff}code{overflow-wrap:anywhere}
+</style></head><body><main>
+<h1>午夜異常廣播 <span class="muted">/ 製片預覽</span></h1>
+<p class="muted">此頁顯示最近一次成功通過製片 QA 的中英文版本。影片僅供審片，尚未公開上架 YouTube。</p>
+<p id="status" aria-live="polite">正在載入製片資訊…</p>
+<div class="grid">
+<section class="card"><h2>中文版</h2><video controls playsinline preload="metadata" src="./zh.mp4"></video><p><a href="./zh.mp4" download>下載中文版 MP4</a></p></section>
+<section class="card"><h2>English</h2><video controls playsinline preload="metadata" src="./en.mp4"></video><p><a href="./en.mp4" download>Download English MP4</a></p></section>
+</div>
+<p class="muted">若手機播放舊版，請重新整理頁面。GitHub Pages 需要在 Repository Settings → Pages 啟用 GitHub Actions 作為部署來源。</p>
+</main><script>
+fetch('./production-status.json',{cache:'no-store'}).then(r=>r.json()).then(d=>{
+const zh=d.videos?.zh?.duration_seconds,en=d.videos?.en?.duration_seconds;
+const run=d.run_url?'<a href="'+encodeURI(d.run_url)+'" rel="noopener">查看 Actions</a>':'';
+document.querySelector('#status').innerHTML='日期：'+(d.episode_date||'未知')+' ｜ QA：'+(d.qa_status||'未知')+' ｜ 中文 '+(zh??'?')+'s / English '+(en??'?')+'s ｜ '+run;
+}).catch(()=>{document.querySelector('#status').textContent='影片可直接播放，QA 資訊暫時無法載入。'});
+</script></body></html>
