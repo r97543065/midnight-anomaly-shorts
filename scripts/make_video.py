@@ -188,6 +188,25 @@ async def save_tts(text: str, lang: str, output: Path) -> None:
     await edge_tts.Communicate(text, voice, rate=rate, pitch=pitch).save(str(output))
 
 
+def add_horror_ambience(narration: Path, temp: Path) -> Path:
+    """Mix a very quiet, filtered brown-noise bed under the existing narration."""
+    if os.environ.get("MIDNIGHT_AMBIENCE_ENABLED", "1") == "0":
+        return narration
+    mixed = temp / (narration.stem + "-ambience.wav")
+    run(
+        "ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
+        "-i", narration,
+        "-f", "lavfi", "-i",
+        "anoisesrc=color=brown:amplitude=0.035:sample_rate=24000:seed=2710",
+        "-filter_complex",
+        "[1:a]highpass=f=45,lowpass=f=650,volume=0.20[bed];"
+        "[0:a][bed]amix=inputs=2:duration=first:dropout_transition=0:"
+        "normalize=0,alimiter=limit=0.95[mix]",
+        "-map", "[mix]", "-c:a", "pcm_s16le", mixed,
+    )
+    return mixed
+
+
 async def build_audio(data: dict, lang: str, temp: Path) -> tuple[Path, float, float]:
     raw_story = OUT / f"{lang}-raw-story.mp3"
     started = time.perf_counter()
@@ -251,6 +270,7 @@ async def build_audio(data: dict, lang: str, temp: Path) -> tuple[Path, float, f
         "pcm_s16le",
         narration,
     )
+    narration = add_horror_ambience(narration, temp)
     return narration, story_seconds, tts_seconds
 
 
