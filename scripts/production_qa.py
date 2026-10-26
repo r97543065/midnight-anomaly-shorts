@@ -189,7 +189,7 @@ def main() -> None:
     if summary_path:
         with open(summary_path, "a", encoding="utf-8") as handle:
             handle.write("\n".join(summary) + "\n")
-    if problems:
+    if problems or warnings:
         raise SystemExit(1)
 
 
