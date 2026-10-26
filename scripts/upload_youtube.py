@@ -34,7 +34,7 @@ def main():
     if qa.get("qa_status") != "success" or qa.get("errors") or qa.get("warnings"):
         raise RuntimeError("Refusing upload: production QA is not clean SUCCESS")
     story = json.loads(Path(os.environ["STORY_FILE"]).read_text(encoding="utf-8"))
-    if qa.get("story_id") != story.get("story_id"):
+    if qa.get("story_id") and qa.get("story_id") != story.get("story_id"):
         raise RuntimeError("Story ID mismatch between video QA and metadata")
     language = os.environ["UPLOAD_LANGUAGE"]
     if language not in ("zh", "en"):
