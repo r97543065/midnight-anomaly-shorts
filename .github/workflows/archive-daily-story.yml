@@ -1,0 +1,54 @@
+name: Archive daily story JSON
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "stories/today.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: archive-daily-story
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Archive without overwriting history
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          source = Path("stories/today.json")
+          data = json.loads(source.read_text(encoding="utf-8"))
+          date = data["date"]
+          if not isinstance(date, str) or len(date) != 10 or date[4] != "-" or date[7] != "-":
+              raise SystemExit("Invalid story date")
+          if not data.get("story_id"):
+              raise SystemExit("Missing story_id")
+          dest = Path("stories/archive") / (date + ".json")
+          dest.parent.mkdir(parents=True, exist_ok=True)
+          if dest.exists():
+              if json.loads(dest.read_text(encoding="utf-8")) != data:
+                  raise SystemExit("Archive already exists with different content; refusing overwrite")
+              print("Archive already matches:", dest)
+          else:
+              dest.write_bytes(source.read_bytes())
+              print("Archived:", dest)
+          PY
+      - name: Commit new archive only
+        run: |
+          git add stories/archive/
+          if git diff --cached --quiet; then
+            echo "No archive changes"
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "Archive daily story JSON"
+          git push
