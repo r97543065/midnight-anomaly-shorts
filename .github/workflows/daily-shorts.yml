@@ -32,12 +32,19 @@ jobs:
           sudo apt-get install -y ffmpeg fonts-noto-cjk
 
       - name: Build videos
+        id: build
         run: python scripts/make_video.py
+
+      - name: Production QA
+        if: always()
+        env:
+          BUILD_RESULT: ${{ steps.build.outcome }}
+        run: python scripts/production_qa.py
 
       - name: Upload videos
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: midnight-shorts-v2
+          name: midnight-shorts-${{ github.run_id }}-${{ github.run_attempt }}
           path: output/
           if-no-files-found: warn
