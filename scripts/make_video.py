@@ -338,7 +338,10 @@ def render_video(
         "-i",
         audio,
         "-vf",
-        f"ass='{subtitles.as_posix()}':fontsdir='{(ROOT / 'assets' / 'common').as_posix()}'",
+        (
+            f"ass='{subtitles.as_posix()}':fontsdir='{(ROOT / 'assets' / 'common').as_posix()}',"
+            "scale=in_range=full:out_range=tv,format=yuv420p"
+        ),
         "-map",
         "0:v:0",
         "-map",
