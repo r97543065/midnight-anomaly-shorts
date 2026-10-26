@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "output"
-STORY = ROOT / "stories" / "today.json"
+STORY = ROOT / "drafts" / "20261026-weather-radio" / "story.json"
 MIN_SECONDS = 60
 MAX_SECONDS = 90
 
