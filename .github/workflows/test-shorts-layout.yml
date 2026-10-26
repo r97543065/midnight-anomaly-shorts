@@ -1,0 +1,30 @@
+name: Test Shorts caption layout
+
+on:
+  push:
+    branches:
+      - fix/shorts-text-layout-20261027
+    paths:
+      - "scripts/make_video.py"
+      - "tests/test_shorts_layout.py"
+      - ".github/workflows/test-shorts-layout.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test import dependencies
+        run: python -m pip install --disable-pip-version-check edge-tts==7.3.1 pillow
+      - name: Check Python syntax
+        run: python -m py_compile scripts/make_video.py tests/test_shorts_layout.py
+      - name: Run layout regression tests
+        run: python -m unittest discover -s tests -p 'test_shorts_layout.py' -v
