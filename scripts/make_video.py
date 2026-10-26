@@ -2,6 +2,7 @@
 """Build two reproducible 9:16 horror shorts from stories/today.json."""
 from __future__ import annotations
 
+
 import asyncio
 import json
 import math
