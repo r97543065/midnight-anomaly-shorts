@@ -9,9 +9,12 @@ on:
       - "assets/**"
       - "scripts/**"
       - ".github/workflows/daily-shorts.yml"
+      - "preview/**"
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
@@ -48,3 +51,34 @@ jobs:
           name: midnight-shorts-${{ github.run_id }}-${{ github.run_attempt }}
           path: output/
           if-no-files-found: warn
+      - name: Prepare preview site
+        if: ${{ success() }}
+        run: |
+          mkdir -p preview-site
+          cp preview/index.html preview-site/index.html
+          cp output/zh.mp4 output/en.mp4 output/production-status.json preview-site/
+          touch preview-site/.nojekyll
+
+      - name: Configure Pages
+        if: ${{ success() }}
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        if: ${{ success() }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: preview-site
+
+      - name: Deploy preview
+        if: ${{ success() }}
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          enablement: true
+
+      - name: Preview URL
+        if: ${{ steps.deployment.outcome == 'success' }}
+        run: |
+          echo "### Video preview" >> "$GITHUB_STEP_SUMMARY"
+          echo "https://r97543065.github.io/midnight-anomaly-shorts/" >> "$GITHUB_STEP_SUMMARY"
