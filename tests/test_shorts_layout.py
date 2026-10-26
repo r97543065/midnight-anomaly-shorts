@@ -24,7 +24,8 @@ class TestShortsTypography(unittest.TestCase):
         self.assertEqual(" ".join(lines), sentence)
 
     def test_long_caption_split_into_max_two_lines(self):
-        text = "夜裡公車一直開過同一個站牌而那個沒有臉的乘客每一圈都坐得比我更近"
+        text = "夜裡公車一直開過同一個站牌而那個沒有臉的乘客每一圈都坐得比我更近我看見車窗外的自己不停拍打玻璃但司機卻說這台車根本沒有停靠過任何站牌"
+        self.assertGreater(len(text), 34, "Fixture must exceed two 17-character lines")
         data = {"segments": [{"zh": text, "en": "A shadow waited behind the glass."}]}
         rows = video.phrase_rows(data, "zh", 20)
         self.assertGreaterEqual(len(rows), 2)
