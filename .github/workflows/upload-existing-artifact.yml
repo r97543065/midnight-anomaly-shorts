@@ -1,0 +1,69 @@
+name: Upload existing Shorts artifact to YouTube
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "Successful source Actions run ID"
+        required: true
+        default: "40268994312"
+      privacy:
+        description: "YouTube visibility"
+        required: true
+        type: choice
+        options:
+          - private
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Download the exact existing artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ inputs.run_id }}
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "midnight-shorts-${SOURCE_RUN_ID}-1" --dir output
+          ls -lh output/
+      - name: Verify source artifact and QA
+        env:
+          SOURCE_RUN_ID: ${{ inputs.run_id }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          qa = json.loads(Path("output/production-status.json").read_text())
+          assert str(qa.get("run_id")) == os.environ["SOURCE_RUN_ID"], "Wrong source run"
+          assert qa.get("qa_status") == "success" and not qa.get("errors") and not qa.get("warnings"), "QA not clean"
+          assert all(Path("output", f"{lang}.mp4").is_file() for lang in ("zh", "en")), "Missing MP4"
+          print("Source artifact and QA verified")
+          PY
+      - name: Upload Chinese video privately
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          STORY_FILE: stories/today.json
+          UPLOAD_LANGUAGE: zh
+          YOUTUBE_PRIVACY: private
+        run: python scripts/upload_youtube.py
+      - name: Upload English video privately
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          STORY_FILE: stories/today.json
+          UPLOAD_LANGUAGE: en
+          YOUTUBE_PRIVACY: private
+        run: python scripts/upload_youtube.py
