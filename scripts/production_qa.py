@@ -141,7 +141,10 @@ def main() -> None:
         problems.append(f"build step: {build_result}")
     ad_report = {"enabled": False}
     try:
-        if os.environ.get("PRODUCT_AD_FILE"):
+        if os.environ.get("DAILY_AD_JOB_FILE"):
+            from ai_ad_job import apply_job
+            story = apply_job(story, Path(os.environ["DAILY_AD_JOB_FILE"]))
+        elif os.environ.get("PRODUCT_AD_FILE"):
             story["product_ad"] = json.loads(Path(os.environ["PRODUCT_AD_FILE"]).read_text(encoding="utf-8"))
         ad = ad_for_language(story, "zh")
         performance = {}
