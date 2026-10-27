@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
-from product_ads import ad_for_language, description_suffix
+from product_ads import ad_for_language, description_suffix, validate_offer
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "output"
@@ -73,13 +73,21 @@ def publishing_text(story, language, qa):
     ad_data = dict(story)
     if os.environ.get("PRODUCT_AD_FILE"):
         ad_data["product_ad"] = json.loads(Path(os.environ["PRODUCT_AD_FILE"]).read_text(encoding="utf-8"))
-    ad = ad_for_language(ad_data, language)
+    # Match the *rendered* historical artifact even if the offer has since expired.
+    # Never silently replace or omit a link from an already-rendered product card.
+    ad = ad_for_language(ad_data, language, require_fresh=False)
     rendered = qa.get("product_ad", {})
     if language == "zh" and bool(ad) != bool(rendered.get("enabled")):
         raise ValueError("Product ad metadata does not match rendered video QA")
     if ad:
-        if rendered.get("product_id") != ad["product"]["id"]:
-            raise ValueError("Product link does not match rendered product")
+        if rendered.get("product_id") != ad["product"]["id"] or rendered.get("affiliate_url") != ad["product"]["affiliate_url"]:
+            raise ValueError("Product link does not match rendered product; refusing upload")
+        if rendered.get("verified_at") != ad["product"]["verified_at"]:
+            raise ValueError("Offer verification snapshot differs from rendered artifact")
+        try:
+            validate_offer(ad["product"])  # A fresh offer is mandatory at publication time.
+        except ValueError as exc:
+            raise ValueError("Offer expired or no longer verifiable: refuse upload; revalidate and rebuild the same ad, never silently switch its link") from exc
         description += description_suffix(ad)
     if len(description) > 5000:
         raise ValueError("YouTube description exceeds 5000 characters")
