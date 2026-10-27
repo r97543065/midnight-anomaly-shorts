@@ -1,0 +1,29 @@
+name: Daily CSV affiliate ad candidates (no publishing)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"  # 08:00 Asia/Taipei, may be delayed
+permissions:
+  contents: read
+concurrency:
+  group: daily-candidate-ads
+  cancel-in-progress: false
+jobs:
+  candidate:
+    if: ${{ github.event_name == 'workflow_dispatch' || vars.CANDIDATE_ADS_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install validator dependencies
+        run: python -m pip install pillow
+      - name: Produce candidate or blocked report
+        run: python scripts/build_product_candidate.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: product-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: output/candidate-product-ad.json
+          if-no-files-found: error
