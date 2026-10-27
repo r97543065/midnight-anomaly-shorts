@@ -36,6 +36,8 @@ def apply_job(story, job_path):
                 raise ValueError("Ad approval required")
             asset_path(ad["card_image"])
             from product_ads import validate_ad
+            from verify_ai_product import verify_selected_product
+            verify_selected_product(ad, ROOT / "data/affiliate/reviewed-products.csv")
             validate_ad(ad, story)
         story["product_ad"] = ad
     return story
