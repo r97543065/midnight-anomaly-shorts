@@ -321,176 +321,122 @@ def render_video(
             "ffmpeg",
             "-hide_banner",
             "-loglevel",
-     …2293 tokens truncated… story.get("story_zh", "")).lower()
-    candidates = []
-    for product in feed.get("products", []):
-        try:
-            validate_offer(product, now)
-            score = sum(len(str(k)) for k in product["keywords"]
-                        if len(str(k).strip()) >= 2 and str(k).lower() in text)
-            if score:
-                candidates.append((score, product["id"], product))
-        except (ValueError, TypeError, KeyError):
-            continue
-    if not candidates:
-        raise ValueError("No fresh, eligible, story-relevant affiliate offers. No ad generated.")
-    return sorted(candidates, key=lambda x: (-x[0], x[1]))[0][2]
+            "error",
+            "-y",
+            "-loop",
+            "1",
+            "-i",
+            base,
+            "-vf",
+            visual,
+            "-frames:v",
+            frames,
+            "-c:v",
+            "libx264",
+            "-preset",
+            "veryfast",
+            "-crf",
+            "25",
+            "-an",
+            clip,
+        )
+        clips.append(clip)
+    manifest = temp / f"{lang}-clips.txt"
+    manifest.write_text("".join(f"file '{p.as_posix()}'\n" for p in clips), encoding="utf-8")
+    subtitles = OUT / f"{lang}.ass"
+    write_ass(data, lang, story_seconds, total, subtitles)
+    output = OUT / f"{lang}.mp4"
+    started = time.perf_counter()
+    run(
+        "ffmpeg",
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        "-y",
+        "-f",
+        "concat",
+        "-safe",
+        "0",
+        "-i",
+        manifest,
+        "-i",
+        audio,
+        "-vf",
+        (
+            f"ass='{subtitles.as_posix()}':fontsdir='{(ROOT / 'assets' / 'common').as_posix()}',"
+            "scale=in_range=full:out_range=tv,format=yuv420p"
+        ),
+        "-map",
+        "0:v:0",
+        "-map",
+        "1:a:0",
+        "-t",
+        f"{total:.3f}",
+        "-c:v",
+        "libx264",
+        "-preset",
+        "veryfast",
+        "-crf",
+        "24",
+        "-pix_fmt",
+        "yuv420p",
+        "-r",
+        str(FPS),
+        "-c:a",
+        "aac",
+        "-b:a",
+        "160k",
+        "-movflags",
+        "+faststart",
+        output,
+    )
+    ad = ad_for_language(data, lang)
+    if ad:
+        if total + float(ad["duration_seconds"]) > 90:
+            raise ValueError("Story plus product ad exceeds 90s; shorten the story before rendering")
+        card = append_silent_card(output, ad, temp)
+        (OUT / "product-ad.png").write_bytes(card.read_bytes())
+    return output, time.perf_counter() - started
 
 
-def make_ad(story: dict, product: dict) -> dict:
-    name = product["name"]
-    # Product facts come only from the approved feed. No invented discounts or claims.
-    benefit = product.get("benefit_zh", "")
-    return {
-        "enabled": True, "status": "verified", "language": "zh",
-        "duration_seconds": 8, "voiceover": False,
-        "story_id": story["story_id"], "product": product,
-        "headline": "故事結束了，日常還在繼續。",
-        "ad_copy_zh": benefit or f"今天的故事選物：{name}。",
-        "slogan": f"把{name}，留給真實的日常。",
-        "cta": "商品分潤連結請見影片說明",
-        "disclosure": "商品推廣｜透過連結購買，我可能獲得分潤",
+async def main_async() -> None:
+    started = time.perf_counter()
+    data = json.loads((ROOT / "stories" / "today.json").read_text(encoding="utf-8"))
+    if os.environ.get("PRODUCT_AD_FILE"):
+        data["product_ad"] = json.loads(Path(os.environ["PRODUCT_AD_FILE"]).read_text(encoding="utf-8"))
+    product_ad = ad_for_language(data, "zh")
+    if not data.get("story_id"):
+        raise ValueError("story_id is required")
+    if not 6 <= len(data.get("assets", {}).get("images", [])) <= 8:
+        raise ValueError("Exactly 6-8 real scene images are required")
+    OUT.mkdir(exist_ok=True)
+    metrics = {
+        "story_id": data["story_id"],
+        "token_usage": None,
+        "token_usage_note": "Exact model token usage is not available in GitHub Actions.",
+        "languages": {},
+        "product_ad": ({"enabled": True, "language": "zh", "voiceover": False,
+                        "duration_seconds": product_ad["duration_seconds"],
+                        "product_id": product_ad["product"]["id"]} if product_ad else {"enabled": False}),
     }
-
-
-def validate_ad(ad: dict, story: dict | None = None) -> dict:
-    if ad.get("status") != "verified" or ad.get("voiceover") is not False:
-        raise ValueError("Product ad must be verified and have voiceover=false")
-    if ad.get("language", "zh") != "zh":
-        raise ValueError("Product ads currently support Chinese videos only")
-    if story and ad.get("story_id") != story.get("story_id"):
-        raise ValueError("Product ad belongs to another story")
-    duration = float(ad.get("duration_seconds", 8))
-    if not math.isfinite(duration) or not 5 <= duration <= 12:
-        raise ValueError("Product card must last 5-12 seconds")
-    validate_offer(ad["product"])
-    for field in ("headline", "ad_copy_zh", "slogan", "cta", "disclosure"):
-        if not isinstance(ad.get(field), str) or not ad[field].strip():
-            raise ValueError(f"Product ad requires {field}")
-    return ad
-
-
-def ad_for_language(data: dict, lang: str) -> dict | None:
-    ad = data.get("product_ad", {})
-    if lang != "zh" or not ad.get("enabled"):
-        return None
-    return validate_ad(ad, data)
-
-
-@lru_cache(maxsize=16)
-def font(size: int) -> ImageFont.FreeTypeFont:
-    path = os.environ.get("PRODUCT_AD_FONT")
-    if not path:
-        path = subprocess.check_output(
-            ["fc-match", "-f", "%{file}", "Noto Sans CJK TC"], text=True).strip()
-    loaded = ImageFont.truetype(path, size)
-    # Fail rather than publish a card containing missing-glyph boxes.
-    if "Noto" not in loaded.getname()[0] and not os.environ.get("PRODUCT_AD_FONT"):
-        raise ValueError("Install fonts-noto-cjk or set PRODUCT_AD_FONT to a CJK font")
-    return loaded
-
-
-@lru_cache(maxsize=8)
-def font_characters(path: str) -> frozenset[int]:
-    from fontTools.ttLib import TTFont
-    with TTFont(path, fontNumber=0) as source:
-        return frozenset(source.getBestCmap())
-
-
-def draw_text(draw, text, y, size=48, color="#eee9df", max_lines=3):
-    face = font(size)
-    missing = sorted({c for c in text if not c.isspace() and ord(c) not in font_characters(face.path)})
-    if missing:
-        raise ValueError("Product card font is missing characters: " + "".join(missing))
-    lines, line = [], ""
-    for char in text:
-        if char == "\n" or draw.textlength(line + char, font=face) > 800:
-            lines.append(line)
-            line = "" if char == "\n" else char
-        else:
-            line += char
-    if line:
-        lines.append(line)
-    if len(lines) > max_lines:
-        raise ValueError("Product card text is too long; shorten the source copy")
-    for line in lines:
-        draw.text((90, y), line, font=face, fill=color)
-        y += int(size * 1.45)
-    return y
-
-
-def render_card(ad: dict, target: Path) -> None:
-    validate_ad(ad)
-    image = Image.new("RGB", (1080, 1920), "#11171c")
-    draw = ImageDraw.Draw(image)
-    draw.rounded_rectangle((60, 210, 940, 1490), radius=32, fill="#202a30")
-    draw.rectangle((90, 320, 880, 326), fill="#d6bd83")
-    draw_text(draw, "午夜異常廣播 · 故事後選物", 250, 34, "#d6bd83")
-    draw_text(draw, ad["headline"], 390, 46, max_lines=2)
-    draw_text(draw, ad["product"]["name"], 600, 62, "#d6bd83", max_lines=3)
-    draw_text(draw, ad["ad_copy_zh"], 900, 42, max_lines=3)
-    draw_text(draw, ad["slogan"], 1120, 40, "#d6bd83", max_lines=2)
-    draw_text(draw, ad["cta"], 1330, 35, max_lines=2)
-    draw_text(draw, ad["disclosure"], 1550, 29, "#b8c1c6", max_lines=2)
-    image.save(target)
-
-
-def append_silent_card(video: Path, ad: dict, temp: Path) -> Path:
-    """Append after all story frames/audio. Never send ad text to TTS."""
-    validate_ad(ad)
-    card = temp / "product-ad.png"
-    render_card(ad, card)
-    duration = float(ad["duration_seconds"])
-    result = temp / "zh-with-product-ad.mp4"
-    subprocess.run([
-        "ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", str(video),
-        "-loop", "1", "-framerate", "30", "-i", str(card),
-        "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo",
-        "-filter_complex",
-        f"[0:v]setsar=1,setpts=PTS-STARTPTS[v0];"
-        f"[1:v]trim=duration={duration},format=yuv420p,setsar=1,setpts=PTS-STARTPTS[v1];"
-        f"[0:a]aresample=48000,aformat=channel_layouts=stereo,asetpts=PTS-STARTPTS[a0];"
-        f"[2:a]atrim=duration={duration},asetpts=PTS-STARTPTS[a1];"
-        "[v0][a0][v1][a1]concat=n=2:v=1:a=1[v][a]",
-        "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast",
-        "-crf", "24", "-r", "30", "-pix_fmt", "yuv420p", "-c:a", "aac",
-        "-b:a", "160k", "-movflags", "+faststart", str(result),
-    ], check=True)
-    result.replace(video)
-    return card
-
-
-def description_suffix(ad: dict) -> str:
-    validate_ad(ad)
-    return (f"\n\n【故事後選物・商品推廣】\n{ad['product']['name']}\n"
-            f"{ad['slogan']}\n{ad['product']['affiliate_url']}\n{ad['disclosure']}")
-
-
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--story", default=str(ROOT / "stories/today.json"))
-    parser.add_argument("--feed", help="Approved affiliate JSON export; otherwise query configured adapter")
-    parser.add_argument("--out", default=str(ROOT / "output/product-ad.json"))
-    parser.add_argument("--render-preview", action="store_true")
-    args = parser.parse_args()
-    story = json.loads(Path(args.story).read_text(encoding="utf-8"))
-    target = Path(args.out)
-    # Remove stale results before fetching. A failed selection cannot reuse yesterday's ad.
-    target.unlink(missing_ok=True)
-    target.with_suffix(".txt").unlink(missing_ok=True)
-    target.with_suffix(".png").unlink(missing_ok=True)
-    product = select_offer(story, load_feed(story, args.feed))
-    ad = make_ad(story, product)
-    validate_ad(ad, story)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    if args.render_preview:
-        render_card(ad, target.with_suffix(".png"))
-    target.write_text(json.dumps(ad, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    target.with_suffix(".txt").write_text(
-        ad["headline"] + "\n" + ad["ad_copy_zh"] + "\n" + ad["slogan"] + description_suffix(ad),
-        encoding="utf-8")
-    print(f"Generated silent product ad for {story['story_id']}; selected {product['id']}")
+    with tempfile.TemporaryDirectory() as directory:
+        temp = Path(directory)
+        for lang in ("zh", "en"):
+            audio, story_seconds, tts_seconds = await build_audio(data, lang, temp)
+            output, render_seconds = render_video(data, lang, audio, story_seconds, temp)
+            metrics["languages"][lang] = {
+                "tts_seconds": round(tts_seconds, 3),
+                "story_audio_seconds": round(story_seconds, 3),
+                "output_seconds": round(probe_duration(output), 3),
+                "render_seconds": round(render_seconds, 3),
+                "output_bytes": output.stat().st_size,
+            }
+    metrics["total_wall_seconds"] = round(time.perf_counter() - started, 3)
+    (OUT / "build-performance.json").write_text(
+        json.dumps(metrics, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    print(json.dumps(metrics, ensure_ascii=False, indent=2), flush=True)
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main_async())
