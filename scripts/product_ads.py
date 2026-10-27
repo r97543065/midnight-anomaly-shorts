@@ -225,7 +225,16 @@ def append_silent_card(video: Path, ad: dict, temp: Path) -> Path:
     """Append after all story frames/audio. Never send ad text to TTS."""
     validate_ad(ad)
     card = temp / "product-ad.png"
-    render_card(ad, card)
+    if ad.get("card_image"):
+        source = (ROOT / ad["card_image"]).resolve()
+        if not source.is_relative_to((ROOT / "assets").resolve()) or not source.is_file():
+            raise ValueError("Invalid AI card image path")
+        with Image.open(source) as source_image:
+            if source_image.size != (1080, 1920):
+                raise ValueError("AI card image must be 1080x1920")
+            source_image.convert("RGB").save(card)
+    else:
+        render_card(ad, card)
     duration = float(ad["duration_seconds"])
     result = temp / "zh-with-product-ad.mp4"
     subprocess.run([
