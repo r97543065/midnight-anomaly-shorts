@@ -15,7 +15,7 @@
 2. 依取得的官方文件建立你授權的轉接服務，回傳以下 JSON。這個 feed contract 是本專案定義的介面，**不是蝦皮原生 API 格式**。轉接服務需要即時搜尋、確認可分潤與可購買，並產生屬於你的追蹤連結。只有可信任的服務能設定為來源；檢查格式本身無法獨立證明服務提供的資料是真的。
 3. 在 GitHub Actions Secrets 設定 `SHOPEE_AFFILIATE_FEED_URL`（HTTPS，無查詢字串）及選用的 `SHOPEE_AFFILIATE_FEED_TOKEN`。不要把密鑰放進程式碼、JSON 或聊天。服務不能重新導向到其他網址。
 4. 設定 Repository Variable `PRODUCT_ADS_ENABLED=true`，讓每次影片建置先選品並附加廣告。預設關閉，避免現有影片生成流程因尚未設定來源而失敗。啟用後查詢失敗或沒有合格商品，會停止該次建置，不會沿用昨天商品。
-5. 合併到 default branch 後，`daily-product-ads.yml` 每天台灣時間 08:00 產生商品廣告 JSON、文案、預覽卡 artifact；GitHub 可能延遲排程。它讀取當下 `stories/today.json`，不生成新故事、不提交商品資料到公開分支、不自動上傳 YouTube。影片建置會針對當次故事重新查詢。可先手動執行測試。
+5. 合併到 default branch 並啟用 `PRODUCT_ADS_ENABLED=true` 後，`daily-product-ads.yml` 每天台灣時間 08:00 產生商品廣告 JSON、文案、預覽卡 artifact；GitHub 可能延遲排程。尚未啟用時排程會跳過，手動執行仍可檢查來源設定。它讀取當下 `stories/today.json`，不生成新故事、不提交商品資料到公開分支、不自動上傳 YouTube。影片建置會針對當次故事重新查詢。可先手動執行測試。
 
 ## 授權商品來源介面
 
