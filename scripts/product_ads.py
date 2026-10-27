@@ -37,7 +37,7 @@ def timestamp(value: str) -> datetime:
     return result
 
 
-def validate_offer(product: dict, now: datetime | None = None) -> dict:
+def validate_offer(product: dict, now: datetime | None = None, *, require_fresh: bool = True) -> dict:
     now = now or datetime.now(timezone.utc)
     for field in ("id", "name", "affiliate_url", "verified_at", "expires_at", "source"):
         if not isinstance(product.get(field), str) or not product[field].strip():
@@ -51,7 +51,7 @@ def validate_offer(product: dict, now: datetime | None = None) -> dict:
         raise ValueError("Offer link must be a Shopee tracking link from the approved source")
     verified, expires = timestamp(product["verified_at"]), timestamp(product["expires_at"])
     age = (now - verified).total_seconds()
-    if age < -300 or age > MAX_AGE_HOURS * 3600 or expires <= now or expires <= verified:
+    if expires <= verified or (require_fresh and (age < -300 or age > MAX_AGE_HOURS * 3600 or expires <= now)):
         raise ValueError("Offer is stale, expired, or has invalid timestamps")
     # A URL alone does not establish eligibility: require upstream verification above.
     if not isinstance(product.get("keywords"), list) or not product["keywords"]:
@@ -129,7 +129,7 @@ def make_ad(story: dict, product: dict) -> dict:
     }
 
 
-def validate_ad(ad: dict, story: dict | None = None) -> dict:
+def validate_ad(ad: dict, story: dict | None = None, *, require_fresh: bool = True) -> dict:
     if ad.get("status") != "verified" or ad.get("voiceover") is not False:
         raise ValueError("Product ad must be verified and have voiceover=false")
     if ad.get("language", "zh") != "zh":
@@ -139,18 +139,18 @@ def validate_ad(ad: dict, story: dict | None = None) -> dict:
     duration = float(ad.get("duration_seconds", 8))
     if not math.isfinite(duration) or not 5 <= duration <= 12:
         raise ValueError("Product card must last 5-12 seconds")
-    validate_offer(ad["product"])
+    validate_offer(ad["product"], require_fresh=require_fresh)
     for field in ("headline", "ad_copy_zh", "slogan", "cta", "disclosure"):
         if not isinstance(ad.get(field), str) or not ad[field].strip():
             raise ValueError(f"Product ad requires {field}")
     return ad
 
 
-def ad_for_language(data: dict, lang: str) -> dict | None:
+def ad_for_language(data: dict, lang: str, *, require_fresh: bool = True) -> dict | None:
     ad = data.get("product_ad", {})
     if lang != "zh" or not ad.get("enabled"):
         return None
-    return validate_ad(ad, data)
+    return validate_ad(ad, data, require_fresh=require_fresh)
 
 
 @lru_cache(maxsize=16)
@@ -237,7 +237,8 @@ def append_silent_card(video: Path, ad: dict, temp: Path) -> Path:
 
 
 def description_suffix(ad: dict) -> str:
-    validate_ad(ad)
+    # Publication freshness is checked separately before using this snapshot.
+    validate_ad(ad, require_fresh=False)
     return (f"\n\n【故事後選物・商品推廣】\n{ad['product']['name']}\n"
             f"{ad['slogan']}\n{ad['product']['affiliate_url']}\n{ad['disclosure']}")
 
