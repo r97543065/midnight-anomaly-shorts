@@ -27,6 +27,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Install metadata dependency
+        run: python -m pip install pillow
       - name: Download the exact existing artifact
         env:
           GH_TOKEN: ${{ github.token }}
@@ -57,7 +59,9 @@ jobs:
           STORY_FILE: stories/today.json
           UPLOAD_LANGUAGE: zh
           YOUTUBE_PRIVACY: private
-        run: python scripts/upload_youtube.py
+        run: |
+          if test -f output/product-ad.json; then export PRODUCT_AD_FILE=output/product-ad.json; fi
+          python scripts/upload_youtube.py
       - name: Upload English video privately
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
@@ -66,4 +70,6 @@ jobs:
           STORY_FILE: stories/today.json
           UPLOAD_LANGUAGE: en
           YOUTUBE_PRIVACY: private
-        run: python scripts/upload_youtube.py
+        run: |
+          if test -f output/product-ad.json; then export PRODUCT_AD_FILE=output/product-ad.json; fi
+          python scripts/upload_youtube.py
