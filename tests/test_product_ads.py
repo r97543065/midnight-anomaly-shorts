@@ -74,7 +74,7 @@ class ProductAdsTests(unittest.TestCase):
     def test_publishing_preserves_full_description_and_matches_product(self):
         ad = ads.make_ad(STORY, fixture())
         story = dict(STORY, product_ad=ad)
-        qa = {"product_ad": {"enabled": True, "product_id": ad["product"]["id"]}}
+        qa = {"product_ad": {"enabled": True, "product_id": ad["product"]["id"], "affiliate_url": ad["product"]["affiliate_url"], "verified_at": ad["product"]["verified_at"]}}
         with patch.dict(os.environ, {"PRODUCT_AD_FILE": ""}):
             _, desc = publishing_text(story, "zh", qa)
             self.assertTrue(desc.startswith("完整中文說明"))
@@ -84,6 +84,31 @@ class ProductAdsTests(unittest.TestCase):
             self.assertEqual(en, "Full description")
             qa["product_ad"]["product_id"] = "different-product"
             with self.assertRaises(ValueError):
+                publishing_text(story, "zh", qa)
+
+    def test_delayed_upload_fails_closed_even_when_snapshot_matches(self):
+        from datetime import datetime, timedelta, timezone
+        old = fixture()
+        old["verified_at"] = (datetime.now(timezone.utc)-timedelta(days=3)).isoformat()
+        old["expires_at"] = (datetime.now(timezone.utc)-timedelta(days=2)).isoformat()
+        ad = ads.make_ad(STORY, old)
+        story = dict(STORY, product_ad=ad)
+        qa = {"product_ad": {"enabled": True, "product_id": old["id"],
+                             "affiliate_url": old["affiliate_url"], "verified_at": old["verified_at"]}}
+        with patch.dict(os.environ, {"PRODUCT_AD_FILE": ""}):
+            with self.assertRaisesRegex(ValueError, "refuse upload"):
+                publishing_text(story, "zh", qa)
+        # Historical snapshot can still be read, without treating it as fresh.
+        self.assertIsNotNone(ads.ad_for_language(story, "zh", require_fresh=False))
+
+    def test_changed_affiliate_link_is_rejected(self):
+        ad = ads.make_ad(STORY, fixture())
+        story = dict(STORY, product_ad=ad)
+        qa = {"product_ad": {"enabled": True, "product_id": ad["product"]["id"],
+                             "affiliate_url": "https://s.shopee.tw/different",
+                             "verified_at": ad["product"]["verified_at"]}}
+        with patch.dict(os.environ, {"PRODUCT_AD_FILE": ""}):
+            with self.assertRaisesRegex(ValueError, "link does not match"):
                 publishing_text(story, "zh", qa)
 
     def test_ad_metadata_required_when_video_has_ad(self):
