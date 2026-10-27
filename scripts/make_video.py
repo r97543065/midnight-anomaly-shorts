@@ -15,6 +15,7 @@ from pathlib import Path
 
 import edge_tts
 from PIL import Image
+from product_ads import ad_for_language, append_silent_card
 
 if os.environ.get("CODEX_PROXY_CERT"):
     proxy_cert = Path(os.environ["CODEX_PROXY_CERT"])
@@ -389,12 +390,24 @@ def render_video(
         "+faststart",
         output,
     )
+    ad = ad_for_language(data, lang)
+    if ad:
+        if total + float(ad["duration_seconds"]) > 90:
+            raise ValueError("Story plus product ad exceeds 90s; shorten the story before rendering")
+        card = append_silent_card(output, ad, temp)
+        (OUT / "product-ad.png").write_bytes(card.read_bytes())
     return output, time.perf_counter() - started
 
 
 async def main_async() -> None:
     started = time.perf_counter()
     data = json.loads((ROOT / "stories" / "today.json").read_text(encoding="utf-8"))
+    if os.environ.get("DAILY_AD_JOB_FILE"):
+        from ai_ad_job import apply_job
+        data = apply_job(data, Path(os.environ["DAILY_AD_JOB_FILE"]))
+    elif os.environ.get("PRODUCT_AD_FILE"):
+        data["product_ad"] = json.loads(Path(os.environ["PRODUCT_AD_FILE"]).read_text(encoding="utf-8"))
+    product_ad = ad_for_language(data, "zh")
     if not data.get("story_id"):
         raise ValueError("story_id is required")
     if not 6 <= len(data.get("assets", {}).get("images", [])) <= 8:
@@ -405,6 +418,9 @@ async def main_async() -> None:
         "token_usage": None,
         "token_usage_note": "Exact model token usage is not available in GitHub Actions.",
         "languages": {},
+        "product_ad": ({"enabled": True, "language": "zh", "voiceover": False,
+                        "duration_seconds": product_ad["duration_seconds"],
+                        "product_id": product_ad["product"]["id"]} if product_ad else {"enabled": False}),
     }
     with tempfile.TemporaryDirectory() as directory:
         temp = Path(directory)

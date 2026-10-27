@@ -20,6 +20,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      PRODUCT_AD_FILE: ${{ vars.PRODUCT_ADS_ENABLED == 'true' && vars.AI_AD_JOB_ENABLED != 'true' && 'output/product-ad.json' || '' }}
+      DAILY_AD_JOB_FILE: ${{ vars.AI_AD_JOB_ENABLED == 'true' && 'jobs/daily-ad-job.json' || '' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -36,9 +39,20 @@ jobs:
 
       - name: Install Python dependencies
         run: |
-          python -m pip install --disable-pip-version-check --no-cache-dir edge-tts==7.3.1 pillow
+          python -m pip install --disable-pip-version-check --no-cache-dir edge-tts==7.3.1 pillow fonttools
           ffmpeg -version
           ffprobe -version
+
+      - name: Select verified product and generate silent ad
+        if: ${{ vars.PRODUCT_ADS_ENABLED == 'true' && vars.AI_AD_JOB_ENABLED != 'true' }}
+        env:
+          SHOPEE_AFFILIATE_FEED_URL: ${{ secrets.SHOPEE_AFFILIATE_FEED_URL }}
+          SHOPEE_AFFILIATE_FEED_TOKEN: ${{ secrets.SHOPEE_AFFILIATE_FEED_TOKEN }}
+        run: python scripts/product_ads.py --render-preview
+
+      - name: Validate AI creative handoff
+        if: ${{ vars.AI_AD_JOB_ENABLED == 'true' }}
+        run: python scripts/ai_ad_job.py --job jobs/daily-ad-job.json
 
       - name: Build videos
         id: build

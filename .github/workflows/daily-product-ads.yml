@@ -1,0 +1,43 @@
+name: Daily verified affiliate product and ad
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 08:00 Asia/Taipei. GitHub may delay scheduled starts.
+    - cron: "0 0 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-product-ads
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    if: ${{ github.event_name == 'workflow_dispatch' || vars.PRODUCT_ADS_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install card dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fontconfig fonts-noto-cjk
+          python -m pip install pillow fonttools
+      - name: Search approved affiliate feed and generate today's ad
+        env:
+          SHOPEE_AFFILIATE_FEED_URL: ${{ secrets.SHOPEE_AFFILIATE_FEED_URL }}
+          SHOPEE_AFFILIATE_FEED_TOKEN: ${{ secrets.SHOPEE_AFFILIATE_FEED_TOKEN }}
+        run: python scripts/product_ads.py --render-preview
+      - uses: actions/upload-artifact@v4
+        with:
+          name: product-ad-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            output/product-ad.json
+            output/product-ad.txt
+            output/product-ad.png
+          if-no-files-found: error

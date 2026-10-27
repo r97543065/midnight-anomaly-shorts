@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
+from product_ads import ad_for_language, description_suffix, validate_offer
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "output"
@@ -42,9 +43,7 @@ def main():
     video = OUT / f"{language}.mp4"
     if not video.is_file():
         raise FileNotFoundError(video)
-    title = story["title_zh" if language == "zh" else "title_en"] + " #Shorts"
-    description = (("原創虛構怪談。#午夜異常廣播 #恐怖故事 #Shorts" if language == "zh"
-                    else "Original fictional horror short. #MidnightAnomaly #HorrorShorts #Shorts"))
+    title, description = publishing_text(story, language, qa)
     metadata = {
         "snippet": {"title": title[:100], "description": description,
                     "categoryId": "24", "defaultLanguage": "zh-TW" if language == "zh" else "en"},
@@ -63,6 +62,39 @@ def main():
                          "Content-Type": f"multipart/related; boundary={boundary}"})
     print("Uploaded video ID:", result["id"])
     print("URL: https://www.youtube.com/watch?v=" + result["id"])
+
+
+def publishing_text(story, language, qa):
+    publishing = story.get("youtube", {})
+    title = publishing.get(f"title_{language}") or story[f"title_{language}"] + " #Shorts"
+    description = publishing.get(f"description_{language}") or (
+        "原創虛構怪談。#午夜異常廣播 #恐怖故事 #Shorts" if language == "zh"
+        else "Original fictional horror short. #MidnightAnomaly #HorrorShorts #Shorts")
+    ad_data = dict(story)
+    if os.environ.get("DAILY_AD_JOB_FILE"):
+        from ai_ad_job import apply_job
+        ad_data = apply_job(ad_data, Path(os.environ["DAILY_AD_JOB_FILE"]))
+    elif os.environ.get("PRODUCT_AD_FILE"):
+        ad_data["product_ad"] = json.loads(Path(os.environ["PRODUCT_AD_FILE"]).read_text(encoding="utf-8"))
+    # Match the *rendered* historical artifact even if the offer has since expired.
+    # Never silently replace or omit a link from an already-rendered product card.
+    ad = ad_for_language(ad_data, language, require_fresh=False)
+    rendered = qa.get("product_ad", {})
+    if language == "zh" and bool(ad) != bool(rendered.get("enabled")):
+        raise ValueError("Product ad metadata does not match rendered video QA")
+    if ad:
+        if rendered.get("product_id") != ad["product"]["id"] or rendered.get("affiliate_url") != ad["product"]["affiliate_url"]:
+            raise ValueError("Product link does not match rendered product; refusing upload")
+        if rendered.get("verified_at") != ad["product"]["verified_at"]:
+            raise ValueError("Offer verification snapshot differs from rendered artifact")
+        try:
+            validate_offer(ad["product"])  # A fresh offer is mandatory at publication time.
+        except ValueError as exc:
+            raise ValueError("Offer expired or no longer verifiable: refuse upload; revalidate and rebuild the same ad, never silently switch its link") from exc
+        description += description_suffix(ad)
+    if len(description) > 5000:
+        raise ValueError("YouTube description exceeds 5000 characters")
+    return title, description
 
 if __name__ == "__main__":
     main()

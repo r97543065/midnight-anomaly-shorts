@@ -8,6 +8,7 @@ import re
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
+from product_ads import ad_for_language
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "output"
@@ -138,6 +139,44 @@ def main() -> None:
     build_result = os.environ.get("BUILD_RESULT", "success")
     if build_result != "success":
         problems.append(f"build step: {build_result}")
+    ad_report = {"enabled": False}
+    try:
+        if os.environ.get("DAILY_AD_JOB_FILE"):
+            from ai_ad_job import apply_job
+            story = apply_job(story, Path(os.environ["DAILY_AD_JOB_FILE"]))
+        elif os.environ.get("PRODUCT_AD_FILE"):
+            story["product_ad"] = json.loads(Path(os.environ["PRODUCT_AD_FILE"]).read_text(encoding="utf-8"))
+        ad = ad_for_language(story, "zh")
+        performance = {}
+        if (OUT / "build-performance.json").is_file():
+            performance = json.loads((OUT / "build-performance.json").read_text(encoding="utf-8"))
+        if bool(performance.get("product_ad", {}).get("enabled")) != bool(ad):
+            raise ValueError("Rendered ad and requested ad disagree")
+        if ad:
+            built = performance.get("product_ad", {})
+            if not built.get("enabled") or built.get("product_id") != ad["product"]["id"]:
+                raise ValueError("Ad does not match build metrics")
+            if performance.get("story_id") != story.get("story_id"):
+                raise ValueError("Ad build belongs to another story")
+            duration = float(ad["duration_seconds"])
+            total = videos["zh"]["duration_seconds"]
+            # Confirm actual silence in the final card, excluding the AAC boundary.
+            tail = command(["ffmpeg", "-hide_banner", "-ss", str(total-duration+0.25),
+                            "-i", str(OUT / "zh.mp4"), "-t", str(duration-0.5),
+                            "-af", "volumedetect", "-vn", "-f", "null", "-"])
+            peak = re.search(r"max_volume:\s*(-?inf|-?[0-9.]+) dB", tail.stderr)
+            silent = tail.returncode == 0 and peak is not None and float(peak.group(1)) <= -80
+            if not silent:
+                raise ValueError("Product ad audio is not silent")
+            ad_report = {"enabled": True, "product_id": ad["product"]["id"],
+                         "affiliate_url": ad["product"]["affiliate_url"],
+                         "verified_at": ad["product"]["verified_at"],
+                         "source": ad["product"]["source"],
+                         "story_id": story.get("story_id"),
+                         "duration_seconds": duration, "voiceover": False,
+                         "silence_check": "passed"}
+    except Exception as exc:
+        problems.append(f"product ad QA: {exc}")
     status = "failure" if problems else ("warning" if warnings else "success")
     report = {
         "schema_version": 2,
@@ -156,6 +195,7 @@ def main() -> None:
         "qa_status": status,
         "scene_count": len(story.get("assets", {}).get("images", [])),
         "videos": videos,
+        "product_ad": ad_report,
         "errors": problems,
         "warnings": warnings,
         "manual_review_required": [
