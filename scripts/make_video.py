@@ -402,7 +402,10 @@ def render_video(
 async def main_async() -> None:
     started = time.perf_counter()
     data = json.loads((ROOT / "stories" / "today.json").read_text(encoding="utf-8"))
-    if os.environ.get("PRODUCT_AD_FILE"):
+    if os.environ.get("DAILY_AD_JOB_FILE"):
+        from ai_ad_job import apply_job
+        data = apply_job(data, Path(os.environ["DAILY_AD_JOB_FILE"]))
+    elif os.environ.get("PRODUCT_AD_FILE"):
         data["product_ad"] = json.loads(Path(os.environ["PRODUCT_AD_FILE"]).read_text(encoding="utf-8"))
     product_ad = ad_for_language(data, "zh")
     if not data.get("story_id"):
