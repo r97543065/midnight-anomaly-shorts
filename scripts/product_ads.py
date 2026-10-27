@@ -190,6 +190,10 @@ def draw_text(draw, text, y, size=48, color="#eee9df", max_lines=3):
     if len(lines) > max_lines:
         raise ValueError("Product card text is too long; shorten the source copy")
     for line in lines:
+        # Keep every glyph inside the designated horizontal/vertical safe area.
+        bounds = draw.textbbox((90, y), line, font=face)
+        if bounds[0] < 70 or bounds[2] > 1010 or bounds[1] < 180 or bounds[3] > 1740:
+            raise ValueError("Product card text exceeds visual safe area")
         draw.text((90, y), line, font=face, fill=color)
         y += int(size * 1.45)
     return y
@@ -203,9 +207,15 @@ def render_card(ad: dict, target: Path) -> None:
     draw.rectangle((90, 320, 880, 326), fill="#d6bd83")
     draw_text(draw, "午夜異常廣播 · 故事後選物", 250, 34, "#d6bd83")
     draw_text(draw, ad["headline"], 390, 46, max_lines=2)
-    draw_text(draw, ad["product"]["name"], 600, 62, "#d6bd83", max_lines=3)
-    draw_text(draw, ad["ad_copy_zh"], 900, 42, max_lines=3)
-    draw_text(draw, ad["slogan"], 1120, 40, "#d6bd83", max_lines=2)
+    end_name = draw_text(draw, ad["product"]["name"], 600, 62, "#d6bd83", max_lines=3)
+    if end_name > 895:
+        raise ValueError("Product name overlaps description")
+    end_copy = draw_text(draw, ad["ad_copy_zh"], 900, 42, max_lines=3)
+    if end_copy > 1115:
+        raise ValueError("Product description overlaps slogan")
+    end_slogan = draw_text(draw, ad["slogan"], 1120, 40, "#d6bd83", max_lines=2)
+    if end_slogan > 1325:
+        raise ValueError("Product slogan overlaps CTA")
     draw_text(draw, ad["cta"], 1330, 35, max_lines=2)
     draw_text(draw, ad["disclosure"], 1550, 29, "#b8c1c6", max_lines=2)
     image.save(target)
