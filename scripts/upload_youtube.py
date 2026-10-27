@@ -71,7 +71,10 @@ def publishing_text(story, language, qa):
         "原創虛構怪談。#午夜異常廣播 #恐怖故事 #Shorts" if language == "zh"
         else "Original fictional horror short. #MidnightAnomaly #HorrorShorts #Shorts")
     ad_data = dict(story)
-    if os.environ.get("PRODUCT_AD_FILE"):
+    if os.environ.get("DAILY_AD_JOB_FILE"):
+        from ai_ad_job import apply_job
+        ad_data = apply_job(ad_data, Path(os.environ["DAILY_AD_JOB_FILE"]))
+    elif os.environ.get("PRODUCT_AD_FILE"):
         ad_data["product_ad"] = json.loads(Path(os.environ["PRODUCT_AD_FILE"]).read_text(encoding="utf-8"))
     # Match the *rendered* historical artifact even if the offer has since expired.
     # Never silently replace or omit a link from an already-rendered product card.
