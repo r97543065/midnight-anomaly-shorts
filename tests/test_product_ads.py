@@ -116,6 +116,18 @@ class ProductAdsTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 publishing_text(STORY, "zh", {"product_ad": {"enabled": True}})
 
+    def test_long_product_card_copy_fails_safe_area(self):
+        from PIL import Image, ImageDraw
+        with self.assertRaisesRegex(ValueError, "safe area"):
+            ads.draw_text(ImageDraw.Draw(Image.new("RGB", (1080, 1920))),
+                          "測試", 1800, size=48)
+
+    def test_excessively_long_product_name_is_rejected(self):
+        ad = ads.make_ad(STORY, fixture())
+        ad["product"]["name"] = "很長的反光商品名稱" * 20
+        with self.assertRaises(ValueError):
+            ads.validate_ad(ad)
+
     def test_missing_feed_does_not_reuse_stale_output(self):
         with tempfile.TemporaryDirectory() as directory:
             story_path, out = Path(directory)/"story.json", Path(directory)/"ad.json"
