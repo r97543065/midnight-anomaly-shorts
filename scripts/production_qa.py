@@ -166,6 +166,10 @@ def main() -> None:
             if not silent:
                 raise ValueError("Product ad audio is not silent")
             ad_report = {"enabled": True, "product_id": ad["product"]["id"],
+                         "affiliate_url": ad["product"]["affiliate_url"],
+                         "verified_at": ad["product"]["verified_at"],
+                         "source": ad["product"]["source"],
+                         "story_id": story.get("story_id"),
                          "duration_seconds": duration, "voiceover": False,
                          "silence_check": "passed"}
     except Exception as exc:
