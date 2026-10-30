@@ -96,14 +96,40 @@ def load_feed(story: dict, feed: str | None) -> dict:
     return json.loads(payload)
 
 
-def select_offer(story: dict, feed: dict, now: datetime | None = None, *, require_fresh: bool = True) -> dict:
+# Conservative, auditable Chinese story-context synonyms. A contextual match
+# only counts when the *product's own* reviewed keywords contain that category.
+# No LLM guesses, external API calls, or automatic eligibility changes.
+STORY_CONTEXT_TERMS = {
+    "下雨": ("雨裡", "雨中", "雨天", "雨水", "淋雨", "暴雨"),
+    "雨傘": ("雨裡", "雨中", "雨天", "淋雨", "暴雨"),
+    "夜晚": ("深夜", "凌晨", "夜裡", "半夜", "午夜"),
+    "夜燈": ("黑暗", "沒有路燈", "夜路"),
+    "攝影": ("照片", "拍照", "相片", "鏡頭"),
+    "拍照": ("照片", "相片", "攝影", "鏡頭"),
+    "相機": ("拍照", "攝影", "照片", "相片"),
+}
+
+
+def story_relevance_score(story: dict, product: dict) -> int:
     text = (story.get("title_zh", "") + " " + story.get("story_zh", "")).lower()
+    score = 0
+    for raw_keyword in product.get("keywords", []):
+        keyword = str(raw_keyword).strip().lower()
+        if len(keyword) < 2:
+            continue
+        if keyword in text:
+            score += 10 + len(keyword)  # Explicit matches beat inferred context.
+        elif any(term in text for term in STORY_CONTEXT_TERMS.get(keyword, ())):
+            score += 3  # Capped and weaker than an exact keyword match.
+    return score
+
+
+def select_offer(story: dict, feed: dict, now: datetime | None = None, *, require_fresh: bool = True) -> dict:
     candidates = []
     for product in feed.get("products", []):
         try:
             validate_offer(product, now, require_fresh=require_fresh)
-            score = sum(len(str(k)) for k in product["keywords"]
-                        if len(str(k).strip()) >= 2 and str(k).lower() in text)
+            score = story_relevance_score(story, product)
             if score:
                 candidates.append((score, product["id"], product))
         except (ValueError, TypeError, KeyError):
