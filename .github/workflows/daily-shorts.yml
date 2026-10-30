@@ -48,6 +48,9 @@ jobs:
           ffmpeg -version
           ffprobe -version
 
+      - name: Verify PNG JPEG and WebP scene support
+        run: python -m unittest discover -s tests -p "test_scene_images.py" -v
+
       - name: Select verified product and generate silent ad
         if: ${{ vars.PRODUCT_ADS_ENABLED == 'true' && vars.AI_AD_JOB_ENABLED != 'true' }}
         env:
