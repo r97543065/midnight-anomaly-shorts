@@ -51,7 +51,7 @@ def validate_offer(product: dict, now: datetime | None = None, *, require_fresh:
         raise ValueError("Offer link must be a Shopee tracking link from the approved source")
     verified, expires = timestamp(product["verified_at"]), timestamp(product["expires_at"])
     age = (now - verified).total_seconds()
-    if expires <= verified or (require_fresh and (age < -300 or age > MAX_AGE_HOURS * 3600 or expires <= now)):
+    if expires <= verified or expires <= now or age < -300 or (require_fresh and age > MAX_AGE_HOURS * 3600):
         raise ValueError("Offer is stale, expired, or has invalid timestamps")
     # A URL alone does not establish eligibility: require upstream verification above.
     if not isinstance(product.get("keywords"), list) or not product["keywords"]:
@@ -96,12 +96,12 @@ def load_feed(story: dict, feed: str | None) -> dict:
     return json.loads(payload)
 
 
-def select_offer(story: dict, feed: dict, now: datetime | None = None) -> dict:
+def select_offer(story: dict, feed: dict, now: datetime | None = None, *, require_fresh: bool = True) -> dict:
     text = (story.get("title_zh", "") + " " + story.get("story_zh", "")).lower()
     candidates = []
     for product in feed.get("products", []):
         try:
-            validate_offer(product, now)
+            validate_offer(product, now, require_fresh=require_fresh)
             score = sum(len(str(k)) for k in product["keywords"]
                         if len(str(k).strip()) >= 2 and str(k).lower() in text)
             if score:
@@ -109,7 +109,7 @@ def select_offer(story: dict, feed: dict, now: datetime | None = None) -> dict:
         except (ValueError, TypeError, KeyError):
             continue
     if not candidates:
-        raise ValueError("No fresh, eligible, story-relevant affiliate offers. No ad generated.")
+        raise ValueError("No unexpired, eligible, story-relevant affiliate offers. No ad generated.")
     return sorted(candidates, key=lambda x: (-x[0], x[1]))[0][2]
 
 
