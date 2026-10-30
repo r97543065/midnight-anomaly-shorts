@@ -99,7 +99,7 @@ class ProductAdsTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "refuse upload"):
                 publishing_text(story, "zh", qa)
         # Historical snapshot can still be read, without treating it as fresh.
-        self.assertIsNotNone(ads.ad_for_language(story, "zh", require_fresh=False))
+        self.assertIsNotNone(ads.ad_for_language(story, "zh", require_fresh=False, historical_snapshot=True))
 
     def test_changed_affiliate_link_is_rejected(self):
         ad = ads.make_ad(STORY, fixture())
