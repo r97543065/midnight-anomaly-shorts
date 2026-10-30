@@ -78,7 +78,7 @@ def publishing_text(story, language, qa):
         ad_data["product_ad"] = json.loads(Path(os.environ["PRODUCT_AD_FILE"]).read_text(encoding="utf-8"))
     # Match the *rendered* historical artifact even if the offer has since expired.
     # Never silently replace or omit a link from an already-rendered product card.
-    ad = ad_for_language(ad_data, language, require_fresh=False)
+    ad = ad_for_language(ad_data, language, require_fresh=False, historical_snapshot=True)
     rendered = qa.get("product_ad", {})
     if language == "zh" and bool(ad) != bool(rendered.get("enabled")):
         raise ValueError("Product ad metadata does not match rendered video QA")
