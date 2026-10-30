@@ -29,7 +29,12 @@ The daily candidate workflow is opt-in with repository variable
 `CANDIDATE_ADS_ENABLED=true`, and can also be run manually. It only uploads
 `output/candidate-product-ad.json` as an Actions artifact. It never pushes to
 `main`, renders videos, dispatches the Shorts workflow, or calls YouTube.
-If the CSV is missing, stale, ineligible, or unrelated to the story, it creates
+CSV offers older than 24 hours may still produce **candidates only**, as long as
+`expires_at` remains in the future. This expiry is a user-provided data retention
+limit, **not** proof of continuous Shopee affiliate eligibility. The original
+`verified_at` must be preserved; importing a file never renews it. Production
+rendering and upload still require fresh independent verification.
+If the CSV is missing, expired, ineligible, or unrelated to the story, it creates
 a blocked report rather than reusing yesterday's product.
 
 **Important:** `PRODUCT_ADS_ENABLED` from PR #3 is a separate switch.
