@@ -7,9 +7,14 @@ on:
     paths:
       - "stories/**"
       - "assets/**"
+      - "jobs/**"
       - "scripts/**"
       - ".github/workflows/daily-shorts.yml"
       - "preview/**"
+
+concurrency:
+  group: shorts-${{ github.ref }}
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -97,30 +102,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           enablement: true
 
-      - name: Upload Chinese Short to YouTube (private)
-        if: ${{ success() && steps.deployment.outcome == 'success' && github.event_name == 'workflow_dispatch' }}
-        env:
-          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
-          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
-          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          STORY_FILE: stories/today.json
-          UPLOAD_LANGUAGE: zh
-          YOUTUBE_PRIVACY: private
-        run: python scripts/upload_youtube.py
-
-      - name: Upload English Short to YouTube (private)
-        if: ${{ success() && steps.deployment.outcome == 'success' && github.event_name == 'workflow_dispatch' }}
-        env:
-          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
-          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
-          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          STORY_FILE: stories/today.json
-          UPLOAD_LANGUAGE: en
-          YOUTUBE_PRIVACY: private
-        run: python scripts/upload_youtube.py
-
       - name: Preview URL
         if: ${{ steps.deployment.outcome == 'success' }}
         run: |
-          echo "### Video preview" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Video preview (GitHub Pages may be public; no YouTube upload)" >> "$GITHUB_STEP_SUMMARY"
           echo "https://r97543065.github.io/midnight-anomaly-shorts/" >> "$GITHUB_STEP_SUMMARY"
