@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import asyncio
 import json
-import math
 import os
 import re
 import subprocess
@@ -14,7 +13,7 @@ import time
 from pathlib import Path
 
 import edge_tts
-from PIL import Image
+from scene_images import prepare_scene_image
 from product_ads import ad_for_language, append_silent_card
 
 if os.environ.get("CODEX_PROXY_CERT"):
@@ -290,17 +289,8 @@ def render_video(
     clips: list[Path] = []
     for index, scene in enumerate(scenes):
         image = safe_file(scene["file"])
-        with Image.open(image) as source:
-            source = source.convert("RGB")
-            scale = max(SIZE[0] / source.width, SIZE[1] / source.height)
-            resized = source.resize(
-                (math.ceil(source.width * scale), math.ceil(source.height * scale)),
-                Image.Resampling.LANCZOS,
-            )
-            left = (resized.width - SIZE[0]) // 2
-            top = (resized.height - SIZE[1]) // 2
-            base = temp / f"{lang}-base-{index:02}.jpg"
-            resized.crop((left, top, left + SIZE[0], top + SIZE[1])).save(base, quality=92)
+        base = temp / f"{lang}-base-{index:02}.png"
+        prepare_scene_image(image, base, SIZE)
         frames = max(1, math.ceil(segment_seconds * FPS))
         effect = scene.get("effect", "slow_zoom")
         if effect == "static":

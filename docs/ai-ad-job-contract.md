@@ -2,6 +2,8 @@
 
 The human operator maintains the reviewed affiliate CSV. ChatGPT (or another authorized external AI process) selects a product and creates scene images, an ad image, and creative copy. GitHub only validates the submitted job and renders/QA-checks videos. **This PR does not schedule or call ChatGPT, fetch CSV itself, or automatically upload images.** The job and PNG files must exist on the checked-out branch before running.
 
+Scene images may be still PNG, JPEG, or WebP files. They are decoded by Pillow and converted into lossless PNG intermediates before FFmpeg renders the 1080x1920 H.264 shorts. WebP support does not change the final MP4 format. Square images are center-cropped for vertical video, so provide 9:16 artwork when possible.
+
 To opt in, add `jobs/daily-ad-job.json` and its files under `assets/` then set the repository variable `AI_AD_JOB_ENABLED=true`. Keep `PRODUCT_ADS_ENABLED=false` while using this mode; the two are mutually exclusive. `daily-shorts.yml` produces videos, QA, artifacts and potentially **public GitHub Pages previews**, but never uploads to YouTube (including manual runs). Only the separate `upload-existing-artifact.yml` may upload, after explicit human review, a supplied run ID, run attempt, story ID, and approval checkbox. It checks source SHA against the artifact and uses the original build commit metadata.
 
 The job payload is:
