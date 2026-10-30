@@ -41,6 +41,16 @@ class AdapterTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 convert(path)
 
+    def test_old_but_unexpired_csv_is_candidate_only(self):
+        with tempfile.TemporaryDirectory() as d:
+            now = datetime.now(timezone.utc)
+            path = self.csv(d, verified_at=(now-timedelta(days=7)).isoformat(),
+                            expires_at=(now+timedelta(days=358)).isoformat())
+            candidate = generate({"story_id":"test", "title_zh":"末班車", "story_zh":"深夜"}, path)
+            self.assertFalse(candidate["enabled"])
+            self.assertTrue(candidate["requires_live_reverification"])
+            self.assertFalse(candidate["publication_approved"])
+
     def test_expired_fails_closed(self):
         with tempfile.TemporaryDirectory() as d:
             path = self.csv(d, verified_at="2020-01-01T00:00:00+00:00",
