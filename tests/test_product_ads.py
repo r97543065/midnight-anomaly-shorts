@@ -36,6 +36,28 @@ class ProductAdsTests(unittest.TestCase):
         irrelevant.update(id="irrelevant", keywords=["咖啡"], commission_rate=0.9)
         self.assertEqual(ads.select_offer(STORY, {"products": [irrelevant, good]})["id"], good["id"])
 
+    def test_rainy_bus_story_matches_umbrella_context(self):
+        rainy = dict(STORY, title_zh="末班車", story_zh="手機收到照片，拍照的人站在車外的雨裡。")
+        umbrella = fixture()
+        umbrella.update(id="umbrella", keywords=["下雨", "夜晚"])
+        camera = fixture()
+        camera.update(id="camera", keywords=["咖啡"])
+        self.assertEqual(ads.select_offer(rainy, {"products": [camera, umbrella]})["id"], "umbrella")
+
+    def test_exact_keyword_beats_context_only(self):
+        story = dict(STORY, story_zh="雨裡的末班車停在我面前")
+        exact, contextual = fixture(), fixture()
+        exact.update(id="exact", keywords=["末班車"])
+        contextual.update(id="context", keywords=["下雨"])
+        self.assertEqual(ads.select_offer(story, {"products": [contextual, exact]})["id"], "exact")
+
+    def test_unrelated_story_fails_closed(self):
+        story = dict(STORY, title_zh="空白", story_zh="一個安靜的房間")
+        unrelated = fixture()
+        unrelated.update(keywords=["下雨", "相機"])
+        with self.assertRaises(ValueError):
+            ads.select_offer(story, {"products": [unrelated]})
+
     def test_rejects_unverified_expired_and_wrong_market(self):
         now = datetime.now(timezone.utc)
         mutations = [{"affiliate_eligible": False}, {"available": False}, {"market": "BR"},
