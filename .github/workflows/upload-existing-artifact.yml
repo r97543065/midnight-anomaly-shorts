@@ -6,7 +6,19 @@ on:
       run_id:
         description: "Successful source Actions run ID"
         required: true
-        default: "40268994312"
+      run_attempt:
+        description: "Source run attempt number"
+        required: true
+        type: string
+      story_id:
+        description: "Exact story ID in source artifact"
+        required: true
+        type: string
+      reviewed_and_authorized:
+        description: "I reviewed both videos and explicitly authorize PRIVATE upload"
+        required: true
+        type: boolean
+        default: false
       privacy:
         description: "YouTube visibility"
         required: true
@@ -20,6 +32,7 @@ permissions:
 
 jobs:
   upload:
+    if: ${{ inputs.reviewed_and_authorized == true && inputs.privacy == 'private' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -33,24 +46,41 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_RUN_ID: ${{ inputs.run_id }}
+          SOURCE_ATTEMPT: ${{ inputs.run_attempt }}
         run: |
           set -euo pipefail
           mkdir -p output
-          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "midnight-shorts-${SOURCE_RUN_ID}-1" --dir output
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "midnight-shorts-${SOURCE_RUN_ID}-${SOURCE_ATTEMPT}" --dir output
           ls -lh output/
       - name: Verify source artifact and QA
         env:
           SOURCE_RUN_ID: ${{ inputs.run_id }}
+          SOURCE_ATTEMPT: ${{ inputs.run_attempt }}
+          EXPECTED_STORY_ID: ${{ inputs.story_id }}
         run: |
           python - <<'PY'
           import json, os
           from pathlib import Path
           qa = json.loads(Path("output/production-status.json").read_text())
           assert str(qa.get("run_id")) == os.environ["SOURCE_RUN_ID"], "Wrong source run"
+          assert str(qa.get("run_attempt")) == os.environ["SOURCE_ATTEMPT"], "Wrong run attempt"
+          assert qa.get("story_id") == os.environ["EXPECTED_STORY_ID"], "Wrong story ID"
+          assert qa.get("commit_sha"), "Missing source commit SHA"
           assert qa.get("qa_status") == "success" and not qa.get("errors") and not qa.get("warnings"), "QA not clean"
           assert all(Path("output", f"{lang}.mp4").is_file() for lang in ("zh", "en")), "Missing MP4"
           print("Source artifact and QA verified")
           PY
+      - name: Checkout original build commit
+        env:
+          SOURCE_RUN_ID: ${{ inputs.run_id }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          source_sha="$(gh run view "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --json headSha --jq .headSha)"
+          test -n "$source_sha"
+          SOURCE_SHA="$source_sha" python -c 'import json,os; from pathlib import Path; qa=json.loads(Path("output/production-status.json").read_text()); assert qa["commit_sha"]==os.environ["SOURCE_SHA"], "Source commit mismatch"' 
+          git fetch --depth=1 origin "$source_sha"
+          git checkout --detach "$source_sha"
       - name: Upload Chinese video privately
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
@@ -61,6 +91,7 @@ jobs:
           YOUTUBE_PRIVACY: private
         run: |
           if test -f output/product-ad.json; then export PRODUCT_AD_FILE=output/product-ad.json; fi
+          if test -f jobs/daily-ad-job.json; then export DAILY_AD_JOB_FILE=jobs/daily-ad-job.json; fi
           python scripts/upload_youtube.py
       - name: Upload English video privately
         env:
