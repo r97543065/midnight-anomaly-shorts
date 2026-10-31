@@ -1,10 +1,21 @@
 name: Bonus bilingual Shorts - 2026-10-31 umbrella
 
+# The original procedural scene images were NOT visually approved. Never
+# generate/upload new images merely because a bonus story was pushed.
+# Keep this historical workflow manual and fail closed until explicit
+# user review of the exact locally rendered images is recorded.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "stories/bonus/20261031-umbrella-bonus.json"
+  workflow_dispatch:
+    inputs:
+      reviewed_story_id:
+        description: "Exact bonus story_id and per-image review approval"
+        required: true
+        type: string
+      visual_review_approved:
+        description: "I reviewed all eight scenes individually before GitHub upload"
+        required: true
+        type: boolean
+        default: false
 
 concurrency:
   group: bonus-umbrella-20261031
@@ -15,6 +26,8 @@ permissions:
 
 jobs:
   render:
+    if: >-
+      ${{ inputs.visual_review_approved == true && inputs.reviewed_story_id == 'umbrella_second_pair_20261031_bonus' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
@@ -34,6 +47,12 @@ jobs:
         run: python -m pip install --disable-pip-version-check edge-tts==7.3.1 pillow numpy fonttools
       - name: Generate eight original 9-by-16 WebP scene images
         run: python scripts/generate_bonus_umbrella_assets.py
+      - name: Verify human-approved image hashes before rendering or uploading artifacts
+        run: |
+          python scripts/verify_visual_approval.py \
+            --story stories/bonus/20261031-umbrella-bonus.json \
+            --story-id umbrella_second_pair_20261031_bonus \
+            --manifest reviews/umbrella_second_pair_20261031_bonus.json
       - name: Validate all images and reviewed affiliate product
         run: |
           python scripts/ai_ad_job.py --story stories/bonus/20261031-umbrella-bonus.json --job "$DAILY_AD_JOB_FILE"

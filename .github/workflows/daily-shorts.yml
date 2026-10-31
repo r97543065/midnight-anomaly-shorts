@@ -1,20 +1,21 @@
 name: Build bilingual horror shorts
 
+# IMAGE REVIEW GATE: never auto-run on story/photo pushes.
+# Show all 6-8 images to the user BEFORE committing any image to GitHub.
+# Only after explicit per-episode approval may an operator commit exact approved
+# images + SHA-256 review manifest, then manually dispatch this workflow.
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "stories/**"
-      - "!stories/bonus/**"
-      - "assets/**"
-      - "!assets/episodes/20261031-umbrella-bonus/**"
-      - "jobs/**"
-      - "!jobs/bonus-20261031-umbrella.json"
-      - "scripts/**"
-      - "!scripts/generate_bonus_umbrella_assets.py"
-      - ".github/workflows/daily-shorts.yml"
-      - "preview/**"
+    inputs:
+      approved_story_id:
+        description: "Exact user-reviewed story_id"
+        required: true
+        type: string
+      visual_review_approved:
+        description: "I personally approved every scene image BEFORE uploading it to GitHub"
+        required: true
+        type: boolean
+        default: false
 
 concurrency:
   group: shorts-${{ github.ref }}
@@ -27,6 +28,8 @@ permissions:
 
 jobs:
   build:
+    if: >-
+      ${{ inputs.visual_review_approved == true && inputs.approved_story_id != '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
@@ -37,6 +40,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Verify exact human-approved scene-image hashes BEFORE any rendering or preview upload
+        env:
+          APPROVED_STORY_ID: ${{ inputs.approved_story_id }}
+        run: |
+          python scripts/verify_visual_approval.py \
+            --story stories/today.json \
+            --story-id "$APPROVED_STORY_ID" \
+            --manifest "reviews/${APPROVED_STORY_ID}.json"
 
       - uses: actions/setup-python@v5
         with:
