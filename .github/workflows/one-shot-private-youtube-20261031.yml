@@ -18,7 +18,8 @@ concurrency:
 
 jobs:
   upload:
-    if: ${{ github.run_attempt == 1 && startsWith(github.event.head_commit.message, 'chore: request one-time private YouTube upload for 2026-10-31') }}
+    if: >-
+      ${{ github.run_attempt == 1 && startsWith(github.event.head_commit.message, 'chore: request one-time private YouTube upload for 2026-10-31') }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
