@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "story_id": "second_viewer_20261031",
+  "publication_approved": false,
+  "scene_images": [
+    {
+      "file": "assets/episodes/20261031-second-viewer/scene01.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261031-second-viewer/scene02.webp",
+      "effect": "pan_right"
+    },
+    {
+      "file": "assets/episodes/20261031-second-viewer/scene03.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261031-second-viewer/scene04.webp",
+      "effect": "pan_left"
+    },
+    {
+      "file": "assets/episodes/20261031-second-viewer/scene05.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261031-second-viewer/scene06.webp",
+      "effect": "pan_right"
+    },
+    {
+      "file": "assets/episodes/20261031-second-viewer/scene07.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261031-second-viewer/scene08.webp",
+      "effect": "slow_zoom"
+    }
+  ],
+  "product_ad": {
+    "enabled": false,
+    "status": "not_approved",
+    "reason": "No advertisement is authorized for this episode; candidate remains review-only.",
+    "burn_into_zh_video": false
+  }
+}
