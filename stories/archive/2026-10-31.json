@@ -1,0 +1,158 @@
+{
+  "schema_version": 2,
+  "story_id": "second_viewer_20261031",
+  "episode_id": "20261031-second-viewer",
+  "date": "2026-10-31",
+  "title_zh": "凌晨兩點的第二位觀眾",
+  "title_en": "The Second Viewer at 2 A.M.",
+  "story_zh": "「第二位觀眾已加入。」凌晨兩點，手機突然跳出這行字。我沒有開直播。下一行寫著：「共享你的視線中。」我獨居，門窗全鎖。我閉左眼，螢幕立刻黑了一半。有人正在使用我的眼睛。我開前鏡頭。沙發上坐著穿同款睡衣的女人，長髮遮臉。轉頭一看，沙發空無一人。洗手間鏡子裡，倒影慢了半秒才抬頭。她盯著我，一次也沒有眨眼。手機問：「要保留哪位觀眾？」我按下「保留本人」。倒數開始。鏡中的我忽然笑了，指向那道反鎖的房門。我切斷網路，把手機塞進抽屜。抽屜裡傳出我的聲音：「你怎麼知道，按鈕上的本人是你？」房門自己打開。手機亮起：「第一位觀眾已離線。」鏡中的女人走出來，拿起手機，輕輕關燈。我想叫，卻只能看見她的手指隔著玻璃滑動。原來被關在螢幕裡的，從來不是那個觀眾。通知最後寫著：「視線已歸還原主人。」",
+  "story_en": "SECOND VIEWER JOINED. At two in the morning, my phone flashed that warning. I wasn’t streaming. Below it appeared: SHARING YOUR VISION. I lived alone. Every door was locked. When I closed my left eye, half the screen went dark. Someone wasn’t watching my phone. They were looking through me. I opened the front camera. A woman in my pajamas sat on the sofa, her hair covering her face. I turned. The sofa was empty. In the bathroom mirror, my reflection raised her head half a second late. She stared without blinking. My phone asked: WHICH VIEWER SHOULD REMAIN? I tapped KEEP ME. A countdown began. My reflection smiled and pointed at the bedroom door, locked from the inside. I disconnected the Wi-Fi and hid the phone in a drawer. My own voice whispered from it: HOW DO YOU KNOW THE WORD ME MEANS YOU? The bedroom door opened. The screen announced: FIRST VIEWER DISCONNECTED. The woman stepped out of the mirror, picked up my phone, and turned off the light. I tried to scream. All I could see was her finger swiping across glass. I was inside the screen. The final message said: VISION RETURNED TO ITS ORIGINAL OWNER.",
+  "segments": [
+    {
+      "scene": 0,
+      "zh": "「第二位觀眾已加入。」凌晨兩點，手機突然跳出這行字。我沒有開直播。下一行寫著：「共享你的視線中。」",
+      "en": "SECOND VIEWER JOINED. At two in the morning, my phone flashed that warning. I wasn’t streaming. Below it appeared: SHARING YOUR VISION."
+    },
+    {
+      "scene": 1,
+      "zh": "我獨居，門窗全鎖。我閉左眼，螢幕立刻黑了一半。有人正在使用我的眼睛。",
+      "en": "I lived alone. Every door was locked. When I closed my left eye, half the screen went dark. Someone wasn’t watching my phone. They were looking through me."
+    },
+    {
+      "scene": 2,
+      "zh": "我開前鏡頭。沙發上坐著穿同款睡衣的女人，長髮遮臉。轉頭一看，沙發空無一人。",
+      "en": "I opened the front camera. A woman in my pajamas sat on the sofa, her hair covering her face. I turned. The sofa was empty."
+    },
+    {
+      "scene": 3,
+      "zh": "洗手間鏡子裡，倒影慢了半秒才抬頭。她盯著我，一次也沒有眨眼。手機問：「要保留哪位觀眾？」",
+      "en": "In the bathroom mirror, my reflection raised her head half a second late. She stared without blinking. My phone asked: WHICH VIEWER SHOULD REMAIN?"
+    },
+    {
+      "scene": 4,
+      "zh": "我按下「保留本人」。倒數開始。鏡中的我忽然笑了，指向那道反鎖的房門。",
+      "en": "I tapped KEEP ME. A countdown began. My reflection smiled and pointed at the bedroom door, locked from the inside."
+    },
+    {
+      "scene": 5,
+      "zh": "我切斷網路，把手機塞進抽屜。抽屜裡傳出我的聲音：「你怎麼知道，按鈕上的本人是你？」",
+      "en": "I disconnected the Wi-Fi and hid the phone in a drawer. My own voice whispered from it: HOW DO YOU KNOW THE WORD ME MEANS YOU?"
+    },
+    {
+      "scene": 6,
+      "zh": "房門自己打開。手機亮起：「第一位觀眾已離線。」鏡中的女人走出來，拿起手機，輕輕關燈。",
+      "en": "The bedroom door opened. The screen announced: FIRST VIEWER DISCONNECTED. The woman stepped out of the mirror, picked up my phone, and turned off the light."
+    },
+    {
+      "scene": 7,
+      "zh": "我想叫，卻只能看見她的手指隔著玻璃滑動。原來被關在螢幕裡的，從來不是那個觀眾。通知最後寫著：「視線已歸還原主人。」",
+      "en": "I tried to scream. All I could see was her finger swiping across glass. I was inside the screen. The final message said: VISION RETURNED TO ITS ORIGINAL OWNER."
+    }
+  ],
+  "assets": {
+    "images": [
+      {
+        "file": "assets/episodes/20261031-second-viewer/scene01.webp",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261031-second-viewer/scene02.webp",
+        "effect": "pan_right",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261031-second-viewer/scene03.webp",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261031-second-viewer/scene04.webp",
+        "effect": "pan_left",
+        "effects": [
+          "film_grain",
+          "flicker"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261031-second-viewer/scene05.webp",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261031-second-viewer/scene06.webp",
+        "effect": "pan_right",
+        "effects": [
+          "film_grain",
+          "flicker"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261031-second-viewer/scene07.webp",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261031-second-viewer/scene08.webp",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
+      }
+    ]
+  },
+  "en_promo": {
+    "enabled": true,
+    "pause_seconds": 0.75,
+    "duration_target_seconds": 7,
+    "voice_text": "For English courses, visit Instagram at speakoutnow88.",
+    "display_title": "English Course Promotion／英文課程推廣",
+    "display_account": "IG @speakoutnow88"
+  },
+  "rights": "獨立原創虛構恐怖短篇；視覺由生成式 AI 分鏡構圖產物剪裁與二次處理。未使用商家商品圖或冒用品牌素材。",
+  "source_type": "original",
+  "youtube": {
+    "title_zh": "凌晨兩點的第二位觀眾｜有人正在使用你的眼睛 #Shorts",
+    "title_en": "The Second Viewer at 2 A.M. | Original Horror Short #Shorts",
+    "description_zh": "凌晨兩點，手機通知第二位觀眾加入。但我沒有開直播。\n\n原創虛構恐怖故事，AI 輔助視覺與影音製作。未啟用商品廣告；沒有商品購物連結。\n\n#午夜異常廣播 #恐怖故事 #怪談 #手機 #Shorts",
+    "description_en": "At 2 a.m., someone joins a stream I never started. Original fictional horror story with AI-assisted visuals.\n\nEnglish course promotion: IG @speakoutnow88\n\n#MidnightAnomaly #HorrorShorts #EnglishListening #Shorts",
+    "hashtags_zh": [
+      "#午夜異常廣播",
+      "#恐怖故事",
+      "#怪談",
+      "#手機",
+      "#Shorts"
+    ],
+    "hashtags_en": [
+      "#MidnightAnomaly",
+      "#HorrorShorts",
+      "#EnglishListening",
+      "#Shorts"
+    ]
+  },
+  "thumbnail": {
+    "headline_zh": "第二位觀眾已加入",
+    "headline_en": "SECOND VIEWER JOINED",
+    "frame_scene": 0
+  },
+  "product_recommendation": {
+    "burn_into_zh_video": false,
+    "status": "candidate_pending_user_confirmation",
+    "product": "ZIFRIEND 零失敗隱視貼 iPhone / Samsung Galaxy（候選，未核准）",
+    "url": null,
+    "price": null,
+    "ad_copy_zh": "鬼看不看得見，這張貼沒保證。至少你可以先照顧真實生活的螢幕隱私。",
+    "slogan": "防的是旁邊那位，不是鏡子裡那位。",
+    "reason": "已取消 24 小時資料年齡限制；候選商品仍須符合 CSV 到期日與資格檢查，且此集尚未取得廣告或發布授權。"
+  }
+}
