@@ -1,0 +1,41 @@
+name: Post approved affiliate comment to existing YouTube Short
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_id:
+        description: "Already-uploaded YouTube video ID (unlisted or public only)"
+        required: true
+      story_id:
+        description: "Exact reviewed story ID"
+        required: true
+      reviewed_and_authorized:
+        description: "I authorize posting this disclosed affiliate link comment"
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  comment:
+    if: ${{ inputs.reviewed_and_authorized == true }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Publish an idempotent disclosure comment
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          COMMENT_REVIEWED_AND_AUTHORIZED: "true"
+          VIDEO_ID: ${{ inputs.video_id }}
+          STORY_ID: ${{ inputs.story_id }}
+        run: |
+          python -m pip install pillow
+          python scripts/post_affiliate_comment.py --video-id "$VIDEO_ID" --story-id "$STORY_ID"

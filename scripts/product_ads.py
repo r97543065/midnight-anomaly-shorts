@@ -148,7 +148,7 @@ def make_ad(story: dict, product: dict) -> dict:
         "headline": "故事結束了，日常還在繼續。",
         "ad_copy_zh": benefit or f"今天的故事選物：{name}。",
         "slogan": f"把{name}，留給真實的日常。",
-        "cta": "商品分潤連結請見影片說明",
+        "cta": "商品資訊請見影片留言",
         "disclosure": "商品推廣｜透過連結購買，我可能獲得分潤",
     }
 
@@ -164,6 +164,8 @@ def validate_ad(ad: dict, story: dict | None = None, *, historical_snapshot: boo
     if not math.isfinite(duration) or not 5 <= duration <= 12:
         raise ValueError("Product card must last 5-12 seconds")
     validate_offer(ad["product"], historical_snapshot=historical_snapshot)
+    if "display_name" in ad and (not isinstance(ad["display_name"], str) or not ad["display_name"].strip() or len(ad["display_name"]) > 50):
+        raise ValueError("Product display_name must be a nonempty short label")
     for field in ("headline", "ad_copy_zh", "slogan", "cta", "disclosure"):
         if not isinstance(ad.get(field), str) or not ad[field].strip():
             raise ValueError(f"Product ad requires {field}")
@@ -231,7 +233,7 @@ def render_card(ad: dict, target: Path) -> None:
     draw.rectangle((90, 320, 880, 326), fill="#d6bd83")
     draw_text(draw, "午夜異常廣播 · 故事後選物", 250, 34, "#d6bd83")
     draw_text(draw, ad["headline"], 390, 46, max_lines=2)
-    end_name = draw_text(draw, ad["product"]["name"], 600, 62, "#d6bd83", max_lines=3)
+    end_name = draw_text(draw, ad.get("display_name", ad["product"]["name"]), 600, 62, "#d6bd83", max_lines=3)
     if end_name > 895:
         raise ValueError("Product name overlaps description")
     end_copy = draw_text(draw, ad["ad_copy_zh"], 900, 42, max_lines=3)
@@ -241,7 +243,9 @@ def render_card(ad: dict, target: Path) -> None:
     if end_slogan > 1325:
         raise ValueError("Product slogan overlaps CTA")
     draw_text(draw, ad["cta"], 1330, 35, max_lines=2)
-    draw_text(draw, ad["disclosure"], 1550, 29, "#b8c1c6", max_lines=2)
+    # Display a clear promotion label, not earnings copy, in the creative.
+    # Full affiliate disclosure remains in publishing metadata and the product comment.
+    draw_text(draw, "商品推廣", 1550, 29, "#b8c1c6", max_lines=2)
     image.save(target)
 
 
