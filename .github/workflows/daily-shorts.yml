@@ -6,9 +6,13 @@ on:
     branches: [main]
     paths:
       - "stories/**"
+      - "!stories/bonus/**"
       - "assets/**"
+      - "!assets/episodes/20261031-umbrella-bonus/**"
       - "jobs/**"
+      - "!jobs/bonus-20261031-umbrella.json"
       - "scripts/**"
+      - "!scripts/generate_bonus_umbrella_assets.py"
       - ".github/workflows/daily-shorts.yml"
       - "preview/**"
 
