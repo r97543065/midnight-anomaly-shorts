@@ -1,0 +1,78 @@
+name: Bonus bilingual Shorts - 2026-10-31 umbrella
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "stories/bonus/20261031-umbrella-bonus.json"
+
+concurrency:
+  group: bonus-umbrella-20261031
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DAILY_AD_JOB_FILE: jobs/bonus-20261031-umbrella.json
+      PRODUCT_AD_FILE: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install ffmpeg and Traditional Chinese fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fontconfig fonts-noto-cjk
+          fc-match -f '%{family}\\n' 'Noto Sans CJK TC' | grep -F 'Noto Sans CJK TC'
+      - name: Install drawing and TTS packages
+        run: python -m pip install --disable-pip-version-check edge-tts==7.3.1 pillow numpy fonttools
+      - name: Generate eight original 9-by-16 WebP scene images
+        run: python scripts/generate_bonus_umbrella_assets.py
+      - name: Validate all images and reviewed affiliate product
+        run: |
+          python scripts/ai_ad_job.py --story stories/bonus/20261031-umbrella-bonus.json --job "$DAILY_AD_JOB_FILE"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from PIL import Image
+          job=json.loads(Path("jobs/bonus-20261031-umbrella.json").read_text(encoding="utf-8"))
+          assert job["publication_approved"] is False
+          for scene in job["scene_images"]:
+              image=Path(scene["file"])
+              with Image.open(image) as im:
+                  assert im.format=="WEBP" and im.size==(1080,1920) and im.n_frames==1
+                  im.verify()
+          print("All eight original WebP scene files generated and verified")
+          PY
+      - name: Stage bonus story only inside the runner (no repository mutation)
+        run: cp stories/bonus/20261031-umbrella-bonus.json stories/today.json
+      - name: Render bilingual Shorts using existing production engine
+        id: build
+        run: python scripts/make_video.py
+      - name: Run existing production QA
+        if: always()
+        env:
+          BUILD_RESULT: ${{ steps.build.outcome }}
+        run: python scripts/production_qa.py
+      - name: Upload bonus bilingual videos and matching generated scene art
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: midnight-bonus-umbrella-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            output/
+            stories/bonus/20261031-umbrella-bonus.json
+            jobs/bonus-20261031-umbrella.json
+            assets/episodes/20261031-umbrella-bonus/
+          if-no-files-found: warn
+      - name: Print artifact location
+        if: ${{ success() }}
+        run: |
+          echo "### Bonus episode `umbrella_second_pair_20261031_bonus`" >> "$GITHUB_STEP_SUMMARY"
+          echo "The MP4s and QA report are in the run artifact. No YouTube upload and no GitHub Pages overwrite." >> "$GITHUB_STEP_SUMMARY"
