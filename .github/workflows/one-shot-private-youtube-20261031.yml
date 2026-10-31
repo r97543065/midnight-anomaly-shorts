@@ -1,0 +1,121 @@
+name: One-time private YouTube upload - 2026-10-31
+
+# Activated only by the explicitly requested PR merge for this exact episode.
+# Re-running this workflow is disabled to prevent duplicate uploads.
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/one-shot-private-youtube-20261031.yml"
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: one-time-private-youtube-20261031
+  cancel-in-progress: false
+
+jobs:
+  upload:
+    if: >-
+      ${{ github.run_attempt == 1 && startsWith(github.event.head_commit.message, 'chore: request one-time private YouTube upload for 2026-10-31') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SOURCE_RUN_ID: "41183280357"
+      SOURCE_ATTEMPT: "1"
+      EXPECTED_STORY_ID: "second_viewer_20261031"
+      SOURCE_SHA: "7fa35dad31a1fabca632e683710e4a6d93c19dbd"
+      EXPECTED_PRODUCT_ID: "P0005"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install upload dependencies
+        run: python -m pip install pillow
+      - name: Verify YouTube credentials exist without logging secrets
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os
+          required=("YOUTUBE_CLIENT_ID","YOUTUBE_CLIENT_SECRET","YOUTUBE_REFRESH_TOKEN")
+          missing=[x for x in required if not os.getenv(x)]
+          if missing:
+              raise RuntimeError("Missing YouTube OAuth secrets: " + ", ".join(missing))
+          print("OAuth secret names configured")
+          PY
+      - name: Download precisely QA-approved videos from source build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "midnight-shorts-${SOURCE_RUN_ID}-${SOURCE_ATTEMPT}" --dir output
+          ls -lh output/zh.mp4 output/en.mp4 output/production-status.json
+      - name: Verify exact source SHA, story, QA, product and both videos
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          source_sha="$(gh run view "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --json headSha --jq .headSha)"
+          test "$source_sha" = "$SOURCE_SHA"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          report=json.loads(Path("output/production-status.json").read_text(encoding="utf-8"))
+          assert str(report.get("run_id"))==os.environ["SOURCE_RUN_ID"], "Wrong run ID"
+          assert str(report.get("run_attempt"))==os.environ["SOURCE_ATTEMPT"], "Wrong attempt"
+          assert report.get("story_id")==os.environ["EXPECTED_STORY_ID"], "Wrong story"
+          assert report.get("commit_sha")==os.environ["SOURCE_SHA"], "Wrong source SHA"
+          assert report.get("qa_status")=="success" and report.get("build_result")=="success", "QA/build failed"
+          assert not report.get("errors") and not report.get("warnings"), "QA is not clean"
+          ads=report.get("product_ad", {})
+          assert ads.get("enabled") is True and ads.get("product_id")==os.environ["EXPECTED_PRODUCT_ID"], "Wrong affiliate card"
+          for lang in ("zh", "en"):
+              assert (Path("output") / (lang+".mp4")).stat().st_size>100000, "Missing video"
+              duration=float(report["videos"][lang]["duration_seconds"])
+              assert 60<=duration<=90, "Video duration invalid"
+          print("Verified source artifact QA, story, affiliate ID, bilingual MP4 lengths")
+          PY
+      - name: Checkout the original build commit for exact ad metadata
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin "$SOURCE_SHA"
+          git checkout --detach "$SOURCE_SHA"
+      - name: Verify YouTube OAuth token before either upload
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: |
+          python - <<'PY'
+          import sys
+          sys.path.insert(0, "scripts")
+          from upload_youtube import token
+          assert token(), "Failed to acquire YouTube OAuth access token"
+          print("YouTube authentication confirmed")
+          PY
+      - name: Upload Chinese video privately (with promotion label in video)
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          STORY_FILE: stories/today.json
+          DAILY_AD_JOB_FILE: jobs/daily-ad-job.json
+          UPLOAD_LANGUAGE: zh
+          YOUTUBE_PRIVACY: private
+        run: python scripts/upload_youtube.py
+      - name: Upload English video privately
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          STORY_FILE: stories/today.json
+          UPLOAD_LANGUAGE: en
+          YOUTUBE_PRIVACY: private
+        run: python scripts/upload_youtube.py
