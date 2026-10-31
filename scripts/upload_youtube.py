@@ -78,7 +78,7 @@ def publishing_text(story, language, qa):
         ad_data["product_ad"] = json.loads(Path(os.environ["PRODUCT_AD_FILE"]).read_text(encoding="utf-8"))
     # Match the *rendered* historical artifact even if the offer has since expired.
     # Never silently replace or omit a link from an already-rendered product card.
-    ad = ad_for_language(ad_data, language, require_fresh=False, historical_snapshot=True)
+    ad = ad_for_language(ad_data, language, historical_snapshot=True)
     rendered = qa.get("product_ad", {})
     if language == "zh" and bool(ad) != bool(rendered.get("enabled")):
         raise ValueError("Product ad metadata does not match rendered video QA")
@@ -88,9 +88,9 @@ def publishing_text(story, language, qa):
         if rendered.get("verified_at") != ad["product"]["verified_at"]:
             raise ValueError("Offer verification snapshot differs from rendered artifact")
         try:
-            validate_offer(ad["product"])  # A fresh offer is mandatory at publication time.
+            validate_offer(ad["product"])  # Expiry, timestamp validity and eligibility still gate upload.
         except ValueError as exc:
-            raise ValueError("Offer expired or no longer verifiable: refuse upload; revalidate and rebuild the same ad, never silently switch its link") from exc
+            raise ValueError("Offer expired or timestamps invalid: refuse upload; correct and rebuild the same ad, never silently switch its link") from exc
         description += description_suffix(ad)
     if len(description) > 5000:
         raise ValueError("YouTube description exceeds 5000 characters")

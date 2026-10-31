@@ -61,8 +61,9 @@ class ProductAdsTests(unittest.TestCase):
     def test_rejects_unverified_expired_and_wrong_market(self):
         now = datetime.now(timezone.utc)
         mutations = [{"affiliate_eligible": False}, {"available": False}, {"market": "BR"},
-                     {"verified_at": (now-timedelta(hours=25)).isoformat()},
                      {"expires_at": (now-timedelta(seconds=1)).isoformat()},
+                     {"verified_at": (now+timedelta(minutes=10)).isoformat()},
+                     {"expires_at": (now-timedelta(minutes=1)).isoformat(), "verified_at": (now-timedelta(days=1)).isoformat()},
                      {"affiliate_url": "https://example.com/item"},
                      {"verified_at": "2026-10-27T08:00:00"}, {"commission_rate": float("nan")}]
         for mutation in mutations:
@@ -71,6 +72,23 @@ class ProductAdsTests(unittest.TestCase):
                 product.update(mutation)
                 with self.assertRaises(ValueError):
                     ads.select_offer(STORY, {"products": [product]})
+
+    def test_old_but_unexpired_offer_is_accepted_without_24h_limit(self):
+        now = datetime.now(timezone.utc)
+        old = fixture()
+        old["verified_at"] = (now-timedelta(days=30)).isoformat()
+        old["expires_at"] = (now+timedelta(days=30)).isoformat()
+        self.assertEqual(ads.validate_offer(old), old)
+        self.assertEqual(ads.select_offer(STORY, {"products": [old]})["id"], old["id"])
+        ad = ads.make_ad(STORY, old)
+        story = dict(STORY, product_ad=ad)
+        self.assertIsNotNone(ads.ad_for_language(story, "zh"))
+        qa = {"product_ad": {"enabled": True, "product_id": old["id"],
+                             "affiliate_url": old["affiliate_url"],
+                             "verified_at": old["verified_at"]}}
+        with patch.dict(os.environ, {"PRODUCT_AD_FILE": ""}):
+            _, desc = publishing_text(story, "zh", qa)
+            self.assertIn(old["affiliate_url"], desc)
 
     def test_pending_legacy_candidate_is_never_burned(self):
         story = dict(STORY, product_recommendation={"burn_into_zh_video": True,
@@ -121,7 +139,7 @@ class ProductAdsTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "refuse upload"):
                 publishing_text(story, "zh", qa)
         # Historical snapshot can still be read, without treating it as fresh.
-        self.assertIsNotNone(ads.ad_for_language(story, "zh", require_fresh=False, historical_snapshot=True))
+        self.assertIsNotNone(ads.ad_for_language(story, "zh", historical_snapshot=True))
 
     def test_changed_affiliate_link_is_rejected(self):
         ad = ads.make_ad(STORY, fixture())

@@ -20,8 +20,6 @@ from urllib.request import Request
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
-MAX_AGE_HOURS = 24
-
 
 def https_url(value: str) -> str:
     parsed = urlparse(value)
@@ -37,7 +35,7 @@ def timestamp(value: str) -> datetime:
     return result
 
 
-def validate_offer(product: dict, now: datetime | None = None, *, require_fresh: bool = True, historical_snapshot: bool = False) -> dict:
+def validate_offer(product: dict, now: datetime | None = None, *, historical_snapshot: bool = False) -> dict:
     now = now or datetime.now(timezone.utc)
     for field in ("id", "name", "affiliate_url", "verified_at", "expires_at", "source"):
         if not isinstance(product.get(field), str) or not product[field].strip():
@@ -51,8 +49,8 @@ def validate_offer(product: dict, now: datetime | None = None, *, require_fresh:
         raise ValueError("Offer link must be a Shopee tracking link from the approved source")
     verified, expires = timestamp(product["verified_at"]), timestamp(product["expires_at"])
     age = (now - verified).total_seconds()
-    if expires <= verified or (not historical_snapshot and (expires <= now or age < -300 or (require_fresh and age > MAX_AGE_HOURS * 3600))):
-        raise ValueError("Offer is stale, expired, or has invalid timestamps")
+    if expires <= verified or (not historical_snapshot and (expires <= now or age < -300)):
+        raise ValueError("Offer is expired or has invalid timestamps")
     # A URL alone does not establish eligibility: require upstream verification above.
     if not isinstance(product.get("keywords"), list) or not product["keywords"]:
         raise ValueError("Offer requires story-matching keywords")
@@ -124,11 +122,11 @@ def story_relevance_score(story: dict, product: dict) -> int:
     return score
 
 
-def select_offer(story: dict, feed: dict, now: datetime | None = None, *, require_fresh: bool = True) -> dict:
+def select_offer(story: dict, feed: dict, now: datetime | None = None) -> dict:
     candidates = []
     for product in feed.get("products", []):
         try:
-            validate_offer(product, now, require_fresh=require_fresh)
+            validate_offer(product, now)
             score = story_relevance_score(story, product)
             if score:
                 candidates.append((score, product["id"], product))
@@ -155,7 +153,7 @@ def make_ad(story: dict, product: dict) -> dict:
     }
 
 
-def validate_ad(ad: dict, story: dict | None = None, *, require_fresh: bool = True, historical_snapshot: bool = False) -> dict:
+def validate_ad(ad: dict, story: dict | None = None, *, historical_snapshot: bool = False) -> dict:
     if ad.get("status") != "verified" or ad.get("voiceover") is not False:
         raise ValueError("Product ad must be verified and have voiceover=false")
     if ad.get("language", "zh") != "zh":
@@ -165,18 +163,18 @@ def validate_ad(ad: dict, story: dict | None = None, *, require_fresh: bool = Tr
     duration = float(ad.get("duration_seconds", 8))
     if not math.isfinite(duration) or not 5 <= duration <= 12:
         raise ValueError("Product card must last 5-12 seconds")
-    validate_offer(ad["product"], require_fresh=require_fresh, historical_snapshot=historical_snapshot)
+    validate_offer(ad["product"], historical_snapshot=historical_snapshot)
     for field in ("headline", "ad_copy_zh", "slogan", "cta", "disclosure"):
         if not isinstance(ad.get(field), str) or not ad[field].strip():
             raise ValueError(f"Product ad requires {field}")
     return ad
 
 
-def ad_for_language(data: dict, lang: str, *, require_fresh: bool = True, historical_snapshot: bool = False) -> dict | None:
+def ad_for_language(data: dict, lang: str, *, historical_snapshot: bool = False) -> dict | None:
     ad = data.get("product_ad", {})
     if lang != "zh" or not ad.get("enabled"):
         return None
-    return validate_ad(ad, data, require_fresh=require_fresh, historical_snapshot=historical_snapshot)
+    return validate_ad(ad, data, historical_snapshot=historical_snapshot)
 
 
 @lru_cache(maxsize=16)
@@ -282,8 +280,8 @@ def append_silent_card(video: Path, ad: dict, temp: Path) -> Path:
 
 
 def description_suffix(ad: dict) -> str:
-    # Publication freshness is checked separately before using this snapshot.
-    validate_ad(ad, require_fresh=False, historical_snapshot=True)
+    # The uploader checks expiration and matching artifact metadata before publication.
+    validate_ad(ad, historical_snapshot=True)
     return (f"\n\n【故事後選物・商品推廣】\n{ad['product']['name']}\n"
             f"{ad['slogan']}\n{ad['product']['affiliate_url']}\n{ad['disclosure']}")
 

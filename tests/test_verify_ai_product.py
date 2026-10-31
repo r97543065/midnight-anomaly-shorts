@@ -59,6 +59,14 @@ class VerifyAIProductTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             verify_selected_product({"product":self.selected()},self.csv)
 
+    def test_old_but_unexpired_offer_matches_csv(self):
+        now = datetime.now(timezone.utc)
+        self.row["verified_at"] = (now-timedelta(days=30)).isoformat()
+        self.row["expires_at"] = (now+timedelta(days=30)).isoformat()
+        self.write_rows([self.row])
+        product = self.selected()
+        self.assertEqual(verify_selected_product({"product": product}, self.csv), product)
+
     def test_expired_offer_rejected(self):
         self.row["expires_at"]=(datetime.now(timezone.utc)-timedelta(hours=1)).isoformat()
         self.write_rows([self.row])

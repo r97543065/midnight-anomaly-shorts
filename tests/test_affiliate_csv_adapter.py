@@ -48,7 +48,8 @@ class AdapterTests(unittest.TestCase):
                             expires_at=(now+timedelta(days=358)).isoformat())
             candidate = generate({"story_id":"test", "title_zh":"末班車", "story_zh":"深夜"}, path)
             self.assertFalse(candidate["enabled"])
-            self.assertTrue(candidate["requires_live_reverification"])
+            self.assertNotIn("requires_live_reverification", candidate)
+            self.assertNotIn("verification_fresh_for_publication", candidate)
             self.assertFalse(candidate["publication_approved"])
 
     def test_expired_fails_closed(self):
