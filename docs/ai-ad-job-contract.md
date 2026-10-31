@@ -34,7 +34,7 @@ Example above is intentionally disabled; real affiliate offers and images are no
 ## V2 production handoff gates
 
 - CSV has 12 adapter fields; extra review columns are ignored by `import_affiliate_csv.py`. The selected `product` must equal the adapter's 12-field object exactly.
-- Candidate offers older than 24 hours may be recommended for review if still unexpired, but publication requires fresh validation; one-year CSV retention is not evidence of a valid affiliate link.
+- No fixed 24-hour `verified_at` age limit applies to candidate selection, approved ad rendering, or upload; the original timestamp is retained for audit. Validation still rejects expired (`expires_at`), future-dated, malformed, non-TW or ineligible offers and mismatches against the reviewed CSV. A long expiry is not proof that a Shopee affiliate link remains commercially active; the operator is responsible for accurate source data, and ad/publication authorization remains separate.
 - Build a complete branch with 6–8 actual image assets and matching `stories/today.json` and optional `jobs/daily-ad-job.json`; no fake paths. Keep `publication_approved=false`, `product_ad.enabled=false` until separately authorized.
 - In AI-job mode, set `AI_AD_JOB_ENABLED=true`, `PRODUCT_ADS_ENABLED=false`. This switch is configured in GitHub repository Variables, not automatically by the prompt.
 - Final videos must be 60–90 seconds. Chinese 8-second silent product end-card, if separately approved, must fit in that total; the English IG promo must also fit its total.

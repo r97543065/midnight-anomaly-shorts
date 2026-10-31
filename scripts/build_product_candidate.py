@@ -10,17 +10,15 @@ from import_affiliate_csv import convert
 from product_ads import select_offer, make_ad
 
 def generate(story: dict, csv_file: Path) -> dict:
-    # Stored CSV offers can be older than 24h, but never past expires_at.
-    # This is candidate selection only; production still requires fresh verification.
-    product = select_offer(story, convert(csv_file), require_fresh=False)
+    # No 24-hour age limit; the declared expiry and eligibility still apply.
+    # Candidate selection is not permission to render an ad or upload videos.
+    product = select_offer(story, convert(csv_file))
     ad = make_ad(story, product)
     # A verified offer is NOT authorization to use the ad in a video.
     ad["enabled"] = False
     ad["status"] = "candidate_pending_user_confirmation"
     ad["burn_into_zh_video"] = False
     ad["publication_approved"] = False
-    ad["verification_fresh_for_publication"] = False
-    ad["requires_live_reverification"] = True
     ad["source_story_id"] = story["story_id"]
     return ad
 
