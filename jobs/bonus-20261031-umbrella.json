@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "story_id": "umbrella_second_pair_20261031_bonus",
+  "publication_approved": false,
+  "scene_images": [
+    {
+      "file": "assets/episodes/20261031-umbrella-bonus/scene01.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261031-umbrella-bonus/scene02.webp",
+      "effect": "pan_right"
+    },
+    {
+      "file": "assets/episodes/20261031-umbrella-bonus/scene03.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261031-umbrella-bonus/scene04.webp",
+      "effect": "pan_left"
+    },
+    {
+      "file": "assets/episodes/20261031-umbrella-bonus/scene05.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261031-umbrella-bonus/scene06.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261031-umbrella-bonus/scene07.webp",
+      "effect": "pan_right"
+    },
+    {
+      "file": "assets/episodes/20261031-umbrella-bonus/scene08.webp",
+      "effect": "slow_zoom"
+    }
+  ],
+  "product_ad": {
+    "enabled": true,
+    "status": "verified",
+    "language": "zh",
+    "duration_seconds": 8,
+    "voiceover": false,
+    "story_id": "umbrella_second_pair_20261031_bonus",
+    "product": {
+      "id": "P0001",
+      "name": "骨架雨傘",
+      "market": "TW",
+      "available": true,
+      "affiliate_eligible": true,
+      "affiliate_url": "https://s.shopee.tw/4B13Qrnd6x",
+      "source": "Shopee",
+      "verified_at": "2026-10-27T00:00:00+08:00",
+      "expires_at": "2027-10-27T00:00:00+08:00",
+      "keywords": [
+        "下雨",
+        "傘下",
+        "夜晚"
+      ],
+      "benefit_zh": "強骨架傘 方便",
+      "commission_rate": 0.19
+    },
+    "display_name": "骨架雨傘",
+    "headline": "傘下，還有第二個人嗎？",
+    "ad_copy_zh": "故事後選物：一把給真實日常的雨傘。",
+    "slogan": "下雨帶傘，回家別多帶一個人。",
+    "cta": "商品資訊請見影片說明",
+    "disclosure": "商品推廣｜透過連結購買，我可能獲得分潤"
+  }
+}

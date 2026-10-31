@@ -1,0 +1,156 @@
+{
+  "schema_version": 2,
+  "story_id": "umbrella_second_pair_20261031_bonus",
+  "episode_id": "20261031-umbrella-bonus",
+  "date": "2026-10-31",
+  "title_zh": "雨傘下的第二雙鞋",
+  "title_en": "The Second Pair of Shoes Under the Umbrella",
+  "story_zh": "外頭根本沒下雨。我把黑傘靠在玄關，它卻不停滴水。更怪的是，水滴竟往天花板飄。天花板浮出一圈圈水痕，像一座倒掛的池塘。我打開走廊監視器，畫面裡空無一人。只有傘的影子不對。監視器裡，那道影子像兩個人並肩站著。可是家裡明明只有我。我伸手撐開傘。傘面內側黏著一張濕透的收據：「乘客兩位，單程。」日期竟是明天。地板忽然冒出一串濕腳印，從玄關一步步走向我。每多一枚腳印，傘骨就輕輕響一下。我衝向大門。門外卻下著暴雨，有人撐著一模一樣的黑傘，穿著我的外套，安靜地等著。那人慢慢抬起頭，是我的臉。嘴巴沒動，我的聲音卻從傘裡傳來：「你那一程，已經到了。」我把傘丟出去，雨瞬間停了。手機亮起：「乘客一位已下車。」我低頭看門邊，竟有兩雙鞋。第二雙正穿在我的腳上，而我已經感覺不到自己的腳。",
+  "story_en": "It wasn't raining when I got home. But the black umbrella by my door began to drip. The drops floated upward, toward the ceiling. Water spread across the plaster, like a pond hanging upside down. I checked the hallway camera. It showed an empty corridor. Then the umbrella's shadow moved. On the camera, it looked like two people standing together. But I lived alone. I opened the umbrella. A damp receipt was pinned inside. It read: TWO PASSENGERS. ONE WAY. The date printed underneath was tomorrow. Wet footprints appeared on the floor, coming straight toward me. Each new print made a tiny clicking sound inside the umbrella. I ran to the front door. Beyond it, rain crashed through the hallway. A figure stood under an identical black umbrella, wearing my coat. The figure looked up. It had my face. Its mouth didn't move, but my voice came from the umbrella: YOUR RIDE HAS ARRIVED. I threw the umbrella outside. The rain stopped. My phone lit up: ONE PASSENGER HAS EXITED. I looked down. Two pairs of shoes stood by the door. One pair was on my feet. But I couldn't feel my feet anymore.",
+  "segments": [
+    {
+      "scene": 0,
+      "zh": "外頭根本沒下雨。我把黑傘靠在玄關，它卻不停滴水。更怪的是，水滴竟往天花板飄。",
+      "en": "It wasn't raining when I got home. But the black umbrella by my door began to drip. The drops floated upward, toward the ceiling."
+    },
+    {
+      "scene": 1,
+      "zh": "天花板浮出一圈圈水痕，像一座倒掛的池塘。我打開走廊監視器，畫面裡空無一人。",
+      "en": "Water spread across the plaster, like a pond hanging upside down. I checked the hallway camera. It showed an empty corridor."
+    },
+    {
+      "scene": 2,
+      "zh": "只有傘的影子不對。監視器裡，那道影子像兩個人並肩站著。可是家裡明明只有我。",
+      "en": "Then the umbrella's shadow moved. On the camera, it looked like two people standing together. But I lived alone."
+    },
+    {
+      "scene": 3,
+      "zh": "我伸手撐開傘。傘面內側黏著一張濕透的收據：「乘客兩位，單程。」日期竟是明天。",
+      "en": "I opened the umbrella. A damp receipt was pinned inside. It read: TWO PASSENGERS. ONE WAY. The date printed underneath was tomorrow."
+    },
+    {
+      "scene": 4,
+      "zh": "地板忽然冒出一串濕腳印，從玄關一步步走向我。每多一枚腳印，傘骨就輕輕響一下。",
+      "en": "Wet footprints appeared on the floor, coming straight toward me. Each new print made a tiny clicking sound inside the umbrella."
+    },
+    {
+      "scene": 5,
+      "zh": "我衝向大門。門外卻下著暴雨，有人撐著一模一樣的黑傘，穿著我的外套，安靜地等著。",
+      "en": "I ran to the front door. Beyond it, rain crashed through the hallway. A figure stood under an identical black umbrella, wearing my coat."
+    },
+    {
+      "scene": 6,
+      "zh": "那人慢慢抬起頭，是我的臉。嘴巴沒動，我的聲音卻從傘裡傳來：「你那一程，已經到了。」",
+      "en": "The figure looked up. It had my face. Its mouth didn't move, but my voice came from the umbrella: YOUR RIDE HAS ARRIVED."
+    },
+    {
+      "scene": 7,
+      "zh": "我把傘丟出去，雨瞬間停了。手機亮起：「乘客一位已下車。」我低頭看門邊，竟有兩雙鞋。第二雙正穿在我的腳上，而我已經感覺不到自己的腳。",
+      "en": "I threw the umbrella outside. The rain stopped. My phone lit up: ONE PASSENGER HAS EXITED. I looked down. Two pairs of shoes stood by the door. One pair was on my feet. But I couldn't feel my feet anymore."
+    }
+  ],
+  "assets": {
+    "images": [
+      {
+        "file": "assets/episodes/20261031-umbrella-bonus/scene01.webp",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261031-umbrella-bonus/scene02.webp",
+        "effect": "pan_right",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261031-umbrella-bonus/scene03.webp",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261031-umbrella-bonus/scene04.webp",
+        "effect": "pan_left",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261031-umbrella-bonus/scene05.webp",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261031-umbrella-bonus/scene06.webp",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261031-umbrella-bonus/scene07.webp",
+        "effect": "pan_right",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261031-umbrella-bonus/scene08.webp",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
+      }
+    ]
+  },
+  "en_promo": {
+    "enabled": true,
+    "pause_seconds": 0.75,
+    "duration_target_seconds": 7,
+    "voice_text": "For English courses, visit Instagram at speakoutnow88.",
+    "display_title": "English Course Promotion／英文課程推廣",
+    "display_account": "IG @speakoutnow88"
+  },
+  "rights": "原創恐怖小說；8 張視覺素材以自製程式化插畫繪製，未使用第三方商品照片；AI 輔助故事與製作流程。",
+  "source_type": "original",
+  "youtube": {
+    "title_zh": "雨傘下的第二雙鞋｜沒有下雨，傘卻一直滴水 #Shorts",
+    "title_en": "The Second Pair of Shoes Under the Umbrella | Horror Short #Shorts",
+    "description_zh": "外頭沒下雨，黑傘卻滴著向上飄的水。玄關突然多出一雙鞋。\n\n原創虛構恐怖故事；自製插畫與 AI 輔助影音流程。\n\n#午夜異常廣播 #恐怖故事 #怪談 #雨傘 #Shorts",
+    "description_en": "It was not raining. Then the umbrella started dripping upward. Original fictional horror short with original illustrated scenes.\n\nEnglish listening and courses: IG @speakoutnow88\n\n#MidnightAnomaly #HorrorShorts #EnglishListening #Shorts",
+    "hashtags_zh": [
+      "#午夜異常廣播",
+      "#恐怖故事",
+      "#怪談",
+      "#雨傘",
+      "#Shorts"
+    ],
+    "hashtags_en": [
+      "#MidnightAnomaly",
+      "#HorrorShorts",
+      "#EnglishListening",
+      "#Shorts"
+    ]
+  },
+  "thumbnail": {
+    "headline_zh": "乘客兩位，單程",
+    "headline_en": "TWO PASSENGERS. ONE WAY.",
+    "frame_scene": 3
+  },
+  "product_recommendation": {
+    "burn_into_zh_video": true,
+    "status": "preview_only",
+    "product": "骨架雨傘",
+    "url": "https://s.shopee.tw/4B13Qrnd6x",
+    "price": null,
+    "ad_copy_zh": "這把傘，至少不用替另一位乘客留位。",
+    "slogan": "下雨帶傘，回家別多帶一個人。",
+    "reason": "雨傘與劇情關聯，來自人工審核 CSV 商品 P0001；僅供預覽，不授權 YouTube 發布。"
+  }
+}
