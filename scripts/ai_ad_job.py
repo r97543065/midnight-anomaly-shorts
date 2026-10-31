@@ -32,9 +32,10 @@ def apply_job(story, job_path):
         if not isinstance(ad, dict):
             raise ValueError("Invalid product ad")
         if ad.get("enabled"):
-            if job.get("publication_approved") is not True:
-                raise ValueError("Ad approval required")
-            asset_path(ad["card_image"])
+            # Preview rendering is separate from the manual YouTube upload approval.
+            # A card_image is optional: the renderer can create a text-only product card.
+            if ad.get("card_image"):
+                asset_path(ad["card_image"])
             from product_ads import validate_ad
             from verify_ai_product import verify_selected_product
             verify_selected_product(ad, ROOT / "data/affiliate/reviewed-products.csv")

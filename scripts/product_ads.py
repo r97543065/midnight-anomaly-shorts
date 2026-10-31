@@ -148,7 +148,7 @@ def make_ad(story: dict, product: dict) -> dict:
         "headline": "故事結束了，日常還在繼續。",
         "ad_copy_zh": benefit or f"今天的故事選物：{name}。",
         "slogan": f"把{name}，留給真實的日常。",
-        "cta": "商品分潤連結請見影片說明",
+        "cta": "商品資訊請見影片留言",
         "disclosure": "商品推廣｜透過連結購買，我可能獲得分潤",
     }
 
@@ -241,7 +241,9 @@ def render_card(ad: dict, target: Path) -> None:
     if end_slogan > 1325:
         raise ValueError("Product slogan overlaps CTA")
     draw_text(draw, ad["cta"], 1330, 35, max_lines=2)
-    draw_text(draw, ad["disclosure"], 1550, 29, "#b8c1c6", max_lines=2)
+    # Display a clear promotion label, not earnings copy, in the creative.
+    # Full affiliate disclosure remains in publishing metadata and the product comment.
+    draw_text(draw, "商品推廣", 1550, 29, "#b8c1c6", max_lines=2)
     image.save(target)
 
 

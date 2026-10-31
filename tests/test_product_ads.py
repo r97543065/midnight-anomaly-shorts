@@ -90,6 +90,14 @@ class ProductAdsTests(unittest.TestCase):
             _, desc = publishing_text(story, "zh", qa)
             self.assertIn(old["affiliate_url"], desc)
 
+    def test_ad_card_shows_promotion_label_not_commission_copy(self):
+        ad = ads.make_ad(STORY, fixture())
+        with tempfile.TemporaryDirectory() as directory, patch.object(ads, "draw_text", side_effect=lambda draw, content, y, *args, **kwargs: y+70) as spy:
+            ads.render_card(ad, Path(directory)/"ad.png")
+        displayed = [call.args[1] for call in spy.call_args_list]
+        self.assertIn("商品推廣", displayed)
+        self.assertFalse(any("分潤" in label for label in displayed))
+
     def test_pending_legacy_candidate_is_never_burned(self):
         story = dict(STORY, product_recommendation={"burn_into_zh_video": True,
                      "status": "candidate_pending_user_confirmation"})
