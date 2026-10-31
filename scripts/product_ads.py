@@ -164,6 +164,8 @@ def validate_ad(ad: dict, story: dict | None = None, *, historical_snapshot: boo
     if not math.isfinite(duration) or not 5 <= duration <= 12:
         raise ValueError("Product card must last 5-12 seconds")
     validate_offer(ad["product"], historical_snapshot=historical_snapshot)
+    if "display_name" in ad and (not isinstance(ad["display_name"], str) or not ad["display_name"].strip() or len(ad["display_name"]) > 50):
+        raise ValueError("Product display_name must be a nonempty short label")
     for field in ("headline", "ad_copy_zh", "slogan", "cta", "disclosure"):
         if not isinstance(ad.get(field), str) or not ad[field].strip():
             raise ValueError(f"Product ad requires {field}")
@@ -231,7 +233,7 @@ def render_card(ad: dict, target: Path) -> None:
     draw.rectangle((90, 320, 880, 326), fill="#d6bd83")
     draw_text(draw, "午夜異常廣播 · 故事後選物", 250, 34, "#d6bd83")
     draw_text(draw, ad["headline"], 390, 46, max_lines=2)
-    end_name = draw_text(draw, ad["product"]["name"], 600, 62, "#d6bd83", max_lines=3)
+    end_name = draw_text(draw, ad.get("display_name", ad["product"]["name"]), 600, 62, "#d6bd83", max_lines=3)
     if end_name > 895:
         raise ValueError("Product name overlaps description")
     end_copy = draw_text(draw, ad["ad_copy_zh"], 900, 42, max_lines=3)

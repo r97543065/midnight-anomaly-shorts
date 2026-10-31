@@ -98,6 +98,17 @@ class ProductAdsTests(unittest.TestCase):
         self.assertIn("商品推廣", displayed)
         self.assertFalse(any("分潤" in label for label in displayed))
 
+    def test_real_daily_product_card_fits_safe_area(self):
+        # The reviewed CSV contains a long product title; card uses a short, truthful label.
+        ad = json.loads((Path(__file__).resolve().parents[1] / "jobs/daily-ad-job.json").read_text(encoding="utf-8"))["product_ad"]
+        self.assertEqual(ad["display_name"], "ZIFRIEND 隱視貼")
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "card.png"
+            ads.render_card(ad, path)
+            from PIL import Image
+            with Image.open(path) as im:
+                self.assertEqual(im.size, (1080, 1920))
+
     def test_pending_legacy_candidate_is_never_burned(self):
         story = dict(STORY, product_recommendation={"burn_into_zh_video": True,
                      "status": "candidate_pending_user_confirmation"})
