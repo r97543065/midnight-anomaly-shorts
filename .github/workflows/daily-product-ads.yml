@@ -1,10 +1,20 @@
 name: Daily verified affiliate product and ad
 
+# Image-review gate: cards must be reviewed in chat BEFORE any PNG upload.
+# This workflow cannot run from schedule; manual dispatch requires the
+# SHA-256 of the exact user-approved product card image.
 on:
   workflow_dispatch:
-  schedule:
-    # 08:00 Asia/Taipei. GitHub may delay scheduled starts.
-    - cron: "0 0 * * *"
+    inputs:
+      approved_card_sha256:
+        description: "SHA-256 of the exact ad PNG the user approved before uploading"
+        required: true
+        type: string
+      reviewed_and_authorized:
+        description: "I reviewed this exact card image before GitHub upload"
+        required: true
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -15,7 +25,7 @@ concurrency:
 
 jobs:
   generate:
-    if: ${{ github.event_name == 'workflow_dispatch' || vars.PRODUCT_ADS_ENABLED == 'true' }}
+    if: ${{ inputs.reviewed_and_authorized == true && inputs.approved_card_sha256 != '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -33,6 +43,24 @@ jobs:
           SHOPEE_AFFILIATE_FEED_URL: ${{ secrets.SHOPEE_AFFILIATE_FEED_URL }}
           SHOPEE_AFFILIATE_FEED_TOKEN: ${{ secrets.SHOPEE_AFFILIATE_FEED_TOKEN }}
         run: python scripts/product_ads.py --render-preview
+      - name: Verify uploaded card will match the exact human-reviewed PNG
+        env:
+          APPROVED_CARD_SHA256: ${{ inputs.approved_card_sha256 }}
+        run: |
+          python - <<'PY'
+          import hashlib,os,re
+          from pathlib import Path
+          expected=os.environ["APPROVED_CARD_SHA256"].lower()
+          if not re.fullmatch(r"[a-f0-9]{64}",expected):
+              raise SystemExit("Missing or invalid user-approved card SHA-256")
+          png=Path("output/product-ad.png")
+          if not png.is_file():
+              raise SystemExit("No product card PNG to compare")
+          actual=hashlib.sha256(png.read_bytes()).hexdigest()
+          if actual!=expected:
+              raise SystemExit("Card PNG differs from what user approved; refusing artifact upload")
+          print("Reviewed product-card SHA-256 matched")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: product-ad-${{ github.run_id }}-${{ github.run_attempt }}
