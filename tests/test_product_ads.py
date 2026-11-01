@@ -108,6 +108,10 @@ class ProductAdsTests(unittest.TestCase):
         self.assertIn("ZIFRIEND", product["name"])
         ad = ads.make_ad(STORY, product)
         ad["display_name"] = "ZIFRIEND 隱視貼"
+        # The full original name and benefit stay in the reviewed product
+        # metadata, but creative copy must fit the real on-screen safe area.
+        ad["ad_copy_zh"] = "故事後選物：防窺保護貼。"
+        ad["slogan"] = "讓螢幕資訊留在視線內。"
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "card.png"
             ads.render_card(ad, path)
