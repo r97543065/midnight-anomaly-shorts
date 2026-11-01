@@ -1,0 +1,126 @@
+{
+  "schema_version": 2,
+  "story_id": "voicemail_from_tomorrow_20261101",
+  "episode_id": "20261101-voicemail-from-tomorrow",
+  "date": "2026-11-01",
+  "title_zh": "語音信箱裡的明天留言",
+  "title_en": "Tomorrow’s Voicemail",
+  "story_zh": "凌晨兩點，我收到一封語音留言。發送時間竟是明天晚上十點，寄件號碼是我自己。 留言說，九點十四分我會打破杯子；下午四點公司會停電；晚上十點，無論誰敲門都不要開。 我當它是惡作劇。但九點十四分，杯子滑落，正好碎在我腳邊，一秒都不差。 下午四點，辦公室燈光全滅。人群忙著找手電筒，只有我盯著手機，害怕最後一句。 我提早回家，把門上三道鎖扣好。九點五十九分，第二封來自明天的留言出現：「別相信第一個我。」 十點整，門外響起三下重敲。有人喊：「消防隊！這棟樓失火了！」門縫裡真的鑽進淡淡煙味。 第一則留言急喊「不要開！」第二則卻說：「你聽見的警報是真的。那個聲音，只想把你留在屋內。」 我扭開門鎖。門外空蕩蕩，地上只有一台正在播放救援喊聲的錄音機。它亮起錄音燈；手機顯示：留言正在寄給昨天。",
+  "story_en": "At two in the morning, I received a voicemail timestamped tomorrow at ten p.m. The sender was my own phone number. The voice predicted a broken cup at nine fourteen, an office blackout at four, and one last rule: at ten tonight, do not open the door. I called it a prank. But at exactly nine fourteen, a cup slipped from my hand and shattered beside my feet. At four, the office lights died. Everyone searched for flashlights. I stared at my phone, terrified of the final prediction. I went home and locked the door. At nine fifty-nine, a second message arrived from tomorrow: Don’t trust the first version of me. At ten, three heavy knocks shook the door. “Fire department! The building is burning!” A thin ribbon of smoke slipped underneath. The first message screamed, “Don’t open!” The second whispered, “The fire is real. That voice only wants you trapped inside.” I opened the door. No firefighters. Just a recorder playing their voices. Its red light switched to RECORD. My phone said: SENDING THIS MESSAGE TO YESTERDAY.",
+  "segments": [
+    {
+      "scene": 0,
+      "zh": "凌晨兩點，我收到一封語音留言。發送時間竟是明天晚上十點，寄件號碼是我自己。",
+      "en": "At two in the morning, I received a voicemail timestamped tomorrow at ten p.m. The sender was my own phone number."
+    },
+    {
+      "scene": 1,
+      "zh": "留言說，九點十四分我會打破杯子；下午四點公司會停電；晚上十點，無論誰敲門都不要開。",
+      "en": "The voice predicted a broken cup at nine fourteen, an office blackout at four, and one last rule: at ten tonight, do not open the door."
+    },
+    {
+      "scene": 2,
+      "zh": "我當它是惡作劇。但九點十四分，杯子滑落，正好碎在我腳邊，一秒都不差。",
+      "en": "I called it a prank. But at exactly nine fourteen, a cup slipped from my hand and shattered beside my feet."
+    },
+    {
+      "scene": 3,
+      "zh": "下午四點，辦公室燈光全滅。人群忙著找手電筒，只有我盯著手機，害怕最後一句。",
+      "en": "At four, the office lights died. Everyone searched for flashlights. I stared at my phone, terrified of the final prediction."
+    },
+    {
+      "scene": 4,
+      "zh": "我提早回家，把門上三道鎖扣好。九點五十九分，第二封來自明天的留言出現：「別相信第一個我。」",
+      "en": "I went home and locked the door. At nine fifty-nine, a second message arrived from tomorrow: Don’t trust the first version of me."
+    },
+    {
+      "scene": 5,
+      "zh": "十點整，門外響起三下重敲。有人喊：「消防隊！這棟樓失火了！」門縫裡真的鑽進淡淡煙味。",
+      "en": "At ten, three heavy knocks shook the door. “Fire department! The building is burning!” A thin ribbon of smoke slipped underneath."
+    },
+    {
+      "scene": 6,
+      "zh": "第一則留言急喊「不要開！」第二則卻說：「你聽見的警報是真的。那個聲音，只想把你留在屋內。」",
+      "en": "The first message screamed, “Don’t open!” The second whispered, “The fire is real. That voice only wants you trapped inside.”"
+    },
+    {
+      "scene": 7,
+      "zh": "我扭開門鎖。門外空蕩蕩，地上只有一台正在播放救援喊聲的錄音機。它亮起錄音燈；手機顯示：留言正在寄給昨天。",
+      "en": "I opened the door. No firefighters. Just a recorder playing their voices. Its red light switched to RECORD. My phone said: SENDING THIS MESSAGE TO YESTERDAY."
+    }
+  ],
+  "assets": {
+    "images": [
+      {
+        "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene01.webp",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene02.webp",
+        "effect": "pan_right"
+      },
+      {
+        "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene03.webp",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene04.webp",
+        "effect": "pan_left"
+      },
+      {
+        "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene05.webp",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene06.webp",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene07.webp",
+        "effect": "pan_right"
+      },
+      {
+        "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene08.webp",
+        "effect": "slow_zoom"
+      }
+    ]
+  },
+  "en_promo": {
+    "enabled": true,
+    "pause_seconds": 0.75,
+    "duration_target_seconds": 7,
+    "voice_text": "For English courses, visit Instagram at speakoutnow88.",
+    "display_title": "English Course Promotion／英文課程推廣",
+    "display_account": "IG @speakoutnow88"
+  },
+  "rights": "原創虛構恐怖故事及 AI 生成視覺。使用者已在對話核准 8 張原始 PNG；為 GitHub 傳輸與製片將其轉為 WebP 品質98，保留原始 PNG 的 SHA-256 記錄。原始解析度 941×1672；最終 1080×1920 由渲染時縮放輸出，非原生高解析。商品廣告尚未核准用於影片。",
+  "source_type": "original",
+  "youtube": {
+    "title_zh": "語音信箱裡的明天留言｜午夜異常廣播 #Shorts",
+    "title_en": "Tomorrow’s Voicemail | Midnight Anomaly Shorts #Shorts",
+    "description_zh": "凌晨兩點，手機收到來自明天、由我自己留下的語音留言。最可怕的是，它說的都會成真。\n\n原創虛構恐怖故事。此預覽版本不含商品廣告。\n\n#午夜異常廣播 #恐怖故事 #時間異常 #Shorts",
+    "description_en": "A voicemail from tomorrow predicts everything, including why I must not open the door. Original fictional horror short.\n\nEnglish listening: IG @speakoutnow88\n\n#MidnightAnomaly #HorrorShorts #Shorts",
+    "hashtags_zh": [
+      "#午夜異常廣播",
+      "#恐怖故事",
+      "#時間異常",
+      "#Shorts"
+    ],
+    "hashtags_en": [
+      "#MidnightAnomaly",
+      "#HorrorShorts",
+      "#Shorts"
+    ]
+  },
+  "thumbnail": {
+    "headline_zh": "留言正在寄給昨天",
+    "headline_en": "SENDING TO YESTERDAY",
+    "frame_scene": 7
+  },
+  "product_recommendation": {
+    "status": "candidate_pending_user_confirmation",
+    "burn_into_zh_video": false,
+    "id": "P0008",
+    "reason": "有線耳機與聆聽語音的情節具語意關聯；廣告創意僅為已提供之候選草稿，本集暫不將商品卡加入影片。"
+  }
+}

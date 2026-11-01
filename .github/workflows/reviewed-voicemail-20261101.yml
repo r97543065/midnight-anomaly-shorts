@@ -1,0 +1,88 @@
+name: Reviewed Tomorrow's Voicemail Shorts 2026-11-01
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "stories/bonus/20261101-voicemail-from-tomorrow.json"
+  workflow_dispatch:
+    inputs:
+      approved_story_id:
+        description: "Exact story ID whose images were reviewed by the user"
+        required: true
+        type: string
+      visual_review_approved:
+        description: "I reviewed and approved these exact eight images before upload"
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: reviewed-voicemail-20261101
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: >-
+      ${{ (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'content: reviewed 2026-11-01 voicemail short')) || (github.event_name == 'workflow_dispatch' && inputs.visual_review_approved == true && inputs.approved_story_id == 'voicemail_from_tomorrow_20261101') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DAILY_AD_JOB_FILE: "jobs/voicemail-20261101.json"
+      PRODUCT_AD_FILE: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify human approved all eight scene image hashes
+        run: |
+          python scripts/verify_visual_approval.py \
+            --story stories/bonus/20261101-voicemail-from-tomorrow.json \
+            --story-id voicemail_from_tomorrow_20261101 \
+            --manifest reviews/voicemail_from_tomorrow_20261101.json
+      - name: Install video rendering dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-noto-cjk fontconfig
+          python -m pip install --disable-pip-version-check edge-tts==7.3.1 pillow fonttools
+          fc-match -f '%{family}\n' 'Noto Sans CJK TC' | grep -F 'Noto Sans CJK TC'
+      - name: Stage reviewed standalone story without changing repository history
+        run: |
+          cp stories/bonus/20261101-voicemail-from-tomorrow.json stories/today.json
+          python scripts/ai_ad_job.py --job jobs/voicemail-20261101.json --story stories/today.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from PIL import Image
+          s=json.loads(Path("stories/today.json").read_text(encoding="utf-8"))
+          j=json.loads(Path("jobs/voicemail-20261101.json").read_text(encoding="utf-8"))
+          assert s["story_id"]==j["story_id"]=="voicemail_from_tomorrow_20261101"
+          assert j["publication_approved"] is False and j["product_ad"]["enabled"] is False
+          assert len(s["assets"]["images"])==len(j["scene_images"])==8
+          for x in s["assets"]["images"]:
+            with Image.open(x["file"]) as im:
+              im.verify()
+          print("All eight scene images validated; affiliate ad OFF; YouTube publishing OFF")
+          PY
+      - name: Build bilingual Shorts using Edge TTS
+        id: build
+        run: python scripts/make_video.py
+      - name: Production QA
+        if: always()
+        env:
+          BUILD_RESULT: ${{ steps.build.outcome }}
+        run: python scripts/production_qa.py
+      - name: Upload review-only artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reviewed-voicemail-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            output/
+            stories/bonus/20261101-voicemail-from-tomorrow.json
+            reviews/voicemail_from_tomorrow_20261101.json
+          if-no-files-found: warn

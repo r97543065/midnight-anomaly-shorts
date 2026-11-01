@@ -1,0 +1,79 @@
+{
+  "story_id": "voicemail_from_tomorrow_20261101",
+  "episode_id": "20261101-voicemail-from-tomorrow",
+  "visual_review_approved": true,
+  "approval_basis": "使用者於對話明確表示「第一集圖片核准」，隨後明確要求提交並授權。核准範圍是第一集 8 張分鏡原圖，不包括 YouTube 發布。",
+  "source_format": "PNG",
+  "source_resolution": [
+    941,
+    1672
+  ],
+  "repository_format": "WEBP",
+  "repository_encoding": "quality=98,method=6",
+  "images": [
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene01.webp",
+      "sha256": "e15a108f7fc889d79257d1c029d1537bf193ab425b71a1030b041eb702b1b4ff",
+      "source_png_sha256": "fb44625f8807246650960a983ead1c720d1c74adc639ec525be0a5d5bcadd305",
+      "source_png_original_filename": "scene01.png",
+      "source_image_width": 941,
+      "source_image_height": 1672
+    },
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene02.webp",
+      "sha256": "d7943c2ce9e46e5f9f9076fdf99b3f3dab6c8101b03fb14f934b1ad0f65db894",
+      "source_png_sha256": "da9248e71719c935e3160a21fa106be816d03654085bf229b54081083896689b",
+      "source_png_original_filename": "scene02.png",
+      "source_image_width": 941,
+      "source_image_height": 1672
+    },
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene03.webp",
+      "sha256": "ebb3638d58a5992c3028fdd61576642913045d862b9c62e82fed373ccc480f83",
+      "source_png_sha256": "395f577c564b44029f7301587fa3bffe3fc2bf9eee89fabb815fba7772bfdecc",
+      "source_png_original_filename": "scene03.png",
+      "source_image_width": 941,
+      "source_image_height": 1672
+    },
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene04.webp",
+      "sha256": "368c110ff2ab26da498f84446e5adbd49ed500f7ccc584cbfdc1aa489038ac65",
+      "source_png_sha256": "b4026ce305392141f9b7d59545f4d5af0018647ece4f5753238ed224595381f4",
+      "source_png_original_filename": "scene04.png",
+      "source_image_width": 941,
+      "source_image_height": 1672
+    },
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene05.webp",
+      "sha256": "5b0773252d3f5fe5ab2a632c4763c686eb702dc87f67079f5442149800a6d7fb",
+      "source_png_sha256": "9e5730a7bb7650297948d5e16a3bdce33283e80e2aca796683a93df71a7a422c",
+      "source_png_original_filename": "scene05.png",
+      "source_image_width": 941,
+      "source_image_height": 1672
+    },
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene06.webp",
+      "sha256": "422194efe4d54f734340977687ae3538edacf2bf81a7901ab92899ddf673d8a7",
+      "source_png_sha256": "08f4a0adb6542289c08c9317fe3d157230804c97647b3c486968aec84656fd97",
+      "source_png_original_filename": "scene06.png",
+      "source_image_width": 941,
+      "source_image_height": 1672
+    },
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene07.webp",
+      "sha256": "bc1d06c4972dbd41761740290fa61886f6b2915d1bc8983f85022314f173ba80",
+      "source_png_sha256": "574f173660c9b8b9414f6886b1d8a58294b9bba3e0688abd87294bbeaf2de994",
+      "source_png_original_filename": "scene07.png",
+      "source_image_width": 941,
+      "source_image_height": 1672
+    },
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene08.webp",
+      "sha256": "9f5f484897c91fb81ee170c8f644ee2824af7ac7e6b2cfc8b1302cdcabeebb87",
+      "source_png_sha256": "4539dba3df0455d876c7c02549457fce89c0535b4c41854392f91233537f223d",
+      "source_png_original_filename": "scene08.png",
+      "source_image_width": 941,
+      "source_image_height": 1672
+    }
+  ]
+}

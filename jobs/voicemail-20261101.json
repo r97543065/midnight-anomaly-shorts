@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "story_id": "voicemail_from_tomorrow_20261101",
+  "publication_approved": false,
+  "scene_images": [
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene01.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene02.webp",
+      "effect": "pan_right"
+    },
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene03.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene04.webp",
+      "effect": "pan_left"
+    },
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene05.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene06.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene07.webp",
+      "effect": "pan_right"
+    },
+    {
+      "file": "assets/episodes/20261101-voicemail-from-tomorrow/scene08.webp",
+      "effect": "slow_zoom"
+    }
+  ],
+  "product_ad": {
+    "enabled": false
+  }
+}
