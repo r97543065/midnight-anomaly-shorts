@@ -1,0 +1,65 @@
+{
+  "story_id": "umbrella_bus_shoes_reviewed_20261101",
+  "episode_id": "20261101-umbrella-bus-reviewed",
+  "visual_review_approved": true,
+  "approval_scope": "User selected exact 8-panel reference and explicitly asked to upload and create the reviewed seven scene images in this conversation; eighth panel is excluded because brand in the image did not match reviewed CSV. Only lossless WebP conversion of user-reviewed source pixels.",
+  "images": [
+    {
+      "file": "assets/episodes/20261101-umbrella-bus-reviewed/scene01.webp",
+      "sha256": "51b5377e18c813e270b0a4a3aeb3590b7b2b58de988f3632cdc84a7401fb12bb",
+      "source_pixels": [
+        508,
+        344
+      ]
+    },
+    {
+      "file": "assets/episodes/20261101-umbrella-bus-reviewed/scene02.webp",
+      "sha256": "d2e6aa06620e0abce5109167ac4b9ef1de920ee736f96b164dbd07f0015075a7",
+      "source_pixels": [
+        508,
+        344
+      ]
+    },
+    {
+      "file": "assets/episodes/20261101-umbrella-bus-reviewed/scene03.webp",
+      "sha256": "2606419aec476d5b8c385ae6ba305772231bb47c6ea84076b10fe25442e655f6",
+      "source_pixels": [
+        508,
+        359
+      ]
+    },
+    {
+      "file": "assets/episodes/20261101-umbrella-bus-reviewed/scene04.webp",
+      "sha256": "16d58a8b743e5bda084412d1813fa7268e4a31414628f1bb56040b250b822986",
+      "source_pixels": [
+        508,
+        359
+      ]
+    },
+    {
+      "file": "assets/episodes/20261101-umbrella-bus-reviewed/scene05.webp",
+      "sha256": "419a6699ee7e5cc9824ddd7b8fe6dbbec6cf563e5203175c84279cf7233e3e5c",
+      "source_pixels": [
+        508,
+        327
+      ]
+    },
+    {
+      "file": "assets/episodes/20261101-umbrella-bus-reviewed/scene06.webp",
+      "sha256": "6da78168e4f6e927246c357cc2b3e217dc2c4fe141653c2122d191f2cd05d128",
+      "source_pixels": [
+        508,
+        327
+      ]
+    },
+    {
+      "file": "assets/episodes/20261101-umbrella-bus-reviewed/scene07.webp",
+      "sha256": "033aa5d0fe5ccffe892255f5aa3b6af7b11648b9ffedcd91c4b26cb34aeec52c",
+      "source_pixels": [
+        508,
+        369
+      ]
+    }
+  ],
+  "note": "A 508px-wide picture cannot become native high-resolution detail merely by technical 1080x1920 letterboxing."
+}

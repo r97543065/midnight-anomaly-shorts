@@ -1,0 +1,138 @@
+{
+  "schema_version": 2,
+  "story_id": "umbrella_bus_shoes_reviewed_20261101",
+  "episode_id": "20261101-umbrella-bus-reviewed",
+  "date": "2026-11-01",
+  "title_zh": "雨傘下的第二雙鞋｜車窗裡的陌生人",
+  "title_en": "The Second Pair of Shoes Under the Umbrella",
+  "story_zh": "下班後，暴雨像要把城市沖走。我在末班公車站等車，雨棚太窄，雨水不斷打濕我的肩膀。 一把黑傘無聲地移到身旁，替我擋住了雨。我低頭，白色球鞋旁竟多出一雙濕透的黑皮鞋。 我以為是好心的陌生人，小聲說謝謝。沒有人回答，只有傘面傳來急促的滴答聲。那人始終沒有露臉。 公車終於來了。我匆匆上車，那雙黑皮鞋也跟著踏上階梯。我坐到窗邊，身後的腳步聲卻突然停了。 我鼓起勇氣回頭。後座根本沒有人。可是車窗倒影裡，一個濕淋淋的身影正坐在背後，還撐著黑傘。 我猛地站起來。走道出現第二排濕腳印，從空位一路延伸到我腳邊。所有鞋印都朝向我，沒有回頭的痕跡。 我慢慢看向車窗。那個人站在倒影裡，對著我笑。我突然發現，他沒有腳；黑皮鞋正穿在玻璃裡的我身上。窗上浮出水字：「下一站，換你替我撐傘。」",
+  "story_en": "After work, rain poured across the city. I waited for the last bus under a narrow shelter. Cold water kept splashing onto my shoulders. A black umbrella silently moved beside me, blocking the rain. I looked down. Next to my white sneakers stood a pair of soaked black leather shoes. I thought a stranger was being kind. I whispered thank you. Nobody answered. Only the rain tapped against the umbrella. I could not see his face. Finally the bus arrived. I climbed aboard. The black shoes followed me up the steps. I sat by the window, and the footsteps suddenly stopped. I turned around. Every seat was empty. But in the window reflection, a dripping figure sat behind me, still holding the black umbrella open. I jumped up. Another trail of wet footprints led down the aisle, from the empty seat to my feet. Every footprint pointed toward me. None pointed back. I stared into the glass. The stranger smiled behind me. Then I saw he had no feet. The black shoes were on my feet inside the reflection. Water spelled out: NEXT STOP. YOUR TURN TO HOLD THE UMBRELLA.",
+  "segments": [
+    {
+      "scene": 0,
+      "zh": "下班後，暴雨像要把城市沖走。我在末班公車站等車，雨棚太窄，雨水不斷打濕我的肩膀。",
+      "en": "After work, rain poured across the city. I waited for the last bus under a narrow shelter. Cold water kept splashing onto my shoulders."
+    },
+    {
+      "scene": 1,
+      "zh": "一把黑傘無聲地移到身旁，替我擋住了雨。我低頭，白色球鞋旁竟多出一雙濕透的黑皮鞋。",
+      "en": "A black umbrella silently moved beside me, blocking the rain. I looked down. Next to my white sneakers stood a pair of soaked black leather shoes."
+    },
+    {
+      "scene": 2,
+      "zh": "我以為是好心的陌生人，小聲說謝謝。沒有人回答，只有傘面傳來急促的滴答聲。那人始終沒有露臉。",
+      "en": "I thought a stranger was being kind. I whispered thank you. Nobody answered. Only the rain tapped against the umbrella. I could not see his face."
+    },
+    {
+      "scene": 3,
+      "zh": "公車終於來了。我匆匆上車，那雙黑皮鞋也跟著踏上階梯。我坐到窗邊，身後的腳步聲卻突然停了。",
+      "en": "Finally the bus arrived. I climbed aboard. The black shoes followed me up the steps. I sat by the window, and the footsteps suddenly stopped."
+    },
+    {
+      "scene": 4,
+      "zh": "我鼓起勇氣回頭。後座根本沒有人。可是車窗倒影裡，一個濕淋淋的身影正坐在背後，還撐著黑傘。",
+      "en": "I turned around. Every seat was empty. But in the window reflection, a dripping figure sat behind me, still holding the black umbrella open."
+    },
+    {
+      "scene": 5,
+      "zh": "我猛地站起來。走道出現第二排濕腳印，從空位一路延伸到我腳邊。所有鞋印都朝向我，沒有回頭的痕跡。",
+      "en": "I jumped up. Another trail of wet footprints led down the aisle, from the empty seat to my feet. Every footprint pointed toward me. None pointed back."
+    },
+    {
+      "scene": 6,
+      "zh": "我慢慢看向車窗。那個人站在倒影裡，對著我笑。我突然發現，他沒有腳；黑皮鞋正穿在玻璃裡的我身上。窗上浮出水字：「下一站，換你替我撐傘。」",
+      "en": "I stared into the glass. The stranger smiled behind me. Then I saw he had no feet. The black shoes were on my feet inside the reflection. Water spelled out: NEXT STOP. YOUR TURN TO HOLD THE UMBRELLA."
+    }
+  ],
+  "assets": {
+    "images": [
+      {
+        "file": "assets/episodes/20261101-umbrella-bus-reviewed/scene01.webp",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261101-umbrella-bus-reviewed/scene02.webp",
+        "effect": "pan_right",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261101-umbrella-bus-reviewed/scene03.webp",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261101-umbrella-bus-reviewed/scene04.webp",
+        "effect": "pan_right",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261101-umbrella-bus-reviewed/scene05.webp",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261101-umbrella-bus-reviewed/scene06.webp",
+        "effect": "pan_right",
+        "effects": [
+          "film_grain"
+        ]
+      },
+      {
+        "file": "assets/episodes/20261101-umbrella-bus-reviewed/scene07.webp",
+        "effect": "slow_zoom",
+        "effects": [
+          "film_grain"
+        ]
+      }
+    ]
+  },
+  "en_promo": {
+    "enabled": true,
+    "pause_seconds": 0.75,
+    "duration_target_seconds": 7,
+    "voice_text": "For English courses, visit Instagram at speakoutnow88.",
+    "display_title": "English Course Promotion／英文課程推廣",
+    "display_account": "IG @speakoutnow88"
+  },
+  "rights": "原創虛構恐怖故事；使用者選定並授權的 8 格 AI 圖片中 7 格故事畫面。來源為 508px 寬分鏡截圖，經無損 WebP 轉換；輸出直式影片時以留白方式完整保留已審核影像，不冒稱原生 1080p。未使用錯誤品牌的第8格廣告。",
+  "source_type": "original",
+  "youtube": {
+    "title_zh": "雨傘下的第二雙鞋｜車窗裡還有誰？ #Shorts",
+    "title_en": "The Second Pair of Shoes | Rainy Night Horror #Shorts",
+    "description_zh": "我明明一個人上車，車窗卻映出撐傘的陌生人。\n\n原創恐怖故事；已審圖 AI 視覺。本次不含商品廣告。\n\n#午夜異常廣播 #恐怖故事 #雨傘 #公車 #Shorts",
+    "description_en": "A stranger shared my umbrella. The bus was empty, but the reflection was not. Original horror short.\n\nEnglish courses: IG @speakoutnow88\n\n#MidnightAnomaly #HorrorShorts #EnglishListening #Shorts",
+    "hashtags_zh": [
+      "#午夜異常廣播",
+      "#恐怖故事",
+      "#雨傘",
+      "#Shorts"
+    ],
+    "hashtags_en": [
+      "#MidnightAnomaly",
+      "#HorrorShorts",
+      "#EnglishListening",
+      "#Shorts"
+    ]
+  },
+  "thumbnail": {
+    "headline_zh": "車窗裡的第二雙鞋",
+    "headline_en": "THE SECOND PAIR OF SHOES",
+    "frame_scene": 4
+  },
+  "product_recommendation": {
+    "burn_into_zh_video": false,
+    "status": "omitted_invalid_branding",
+    "reason": "已核准的第8格包含與CSV不一致的虛構雨傘品牌；不得直接用作商品廣告。"
+  }
+}

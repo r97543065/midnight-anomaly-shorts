@@ -1,0 +1,88 @@
+name: Reviewed Umbrella Bus Shorts 2026-11-01
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "stories/bonus/20261101-umbrella-bus-reviewed.json"
+  workflow_dispatch:
+    inputs:
+      approved_story_id:
+        description: Exact human-reviewed story ID
+        required: true
+        type: string
+      visual_review_approved:
+        description: Every scene was reviewed in chat before upload
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: reviewed-umbrella-bus-20261101
+  cancel-in-progress: false
+
+jobs:
+  render:
+    if: >-
+      ${{ (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'content: reviewed 2026-11-01 umbrella bus short')) || (github.event_name == 'workflow_dispatch' && inputs.visual_review_approved == true && inputs.approved_story_id == 'umbrella_bus_shoes_reviewed_20261101') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DAILY_AD_JOB_FILE: ""
+      PRODUCT_AD_FILE: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify exact user-approved image hashes
+        run: |
+          python scripts/verify_visual_approval.py \
+            --story stories/bonus/20261101-umbrella-bus-reviewed.json \
+            --story-id umbrella_bus_shoes_reviewed_20261101 \
+            --manifest reviews/umbrella_bus_shoes_reviewed_20261101.json
+      - name: Install narration video dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-noto-cjk fontconfig
+          python -m pip install --disable-pip-version-check edge-tts==7.3.1 pillow fonttools
+          fc-match -f '%{family}\n' 'Noto Sans CJK TC' | grep -F 'Noto Sans CJK TC'
+      - name: Stage approved panels fully visible at 1080x1920
+        run: python scripts/stage_approved_panels.py
+      - name: Confirm staged image dimensions and no advertisement
+        run: |
+          python - <<'PY'
+          import json
+          from PIL import Image
+          from pathlib import Path
+          d=json.loads(Path('stories/today.json').read_text())
+          j=json.loads(Path('jobs/daily-ad-job.json').read_text())
+          assert d['story_id']=='umbrella_bus_shoes_reviewed_20261101'
+          assert j['publication_approved'] is False and j['product_ad']['enabled'] is False
+          assert len(d['assets']['images'])==len(j['scene_images'])==7
+          for x in d['assets']['images']:
+              with Image.open(x['file']) as im:
+                  assert im.size==(1080,1920) and im.format=='PNG'
+          print('Seven approved scenes, no product ad')
+          PY
+      - name: Render bilingual Shorts using Edge TTS
+        id: build
+        run: python scripts/make_video.py
+      - name: Production QA
+        if: always()
+        env:
+          BUILD_RESULT: ${{ steps.build.outcome }}
+        run: python scripts/production_qa.py
+      - name: Upload review-only bilingual video artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reviewed-umbrella-bus-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            output/
+            stories/bonus/20261101-umbrella-bus-reviewed.json
+            reviews/umbrella_bus_shoes_reviewed_20261101.json
+          if-no-files-found: warn

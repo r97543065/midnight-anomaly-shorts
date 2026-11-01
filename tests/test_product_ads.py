@@ -98,10 +98,20 @@ class ProductAdsTests(unittest.TestCase):
         self.assertIn("商品推廣", displayed)
         self.assertFalse(any("分潤" in label for label in displayed))
 
-    def test_real_daily_product_card_fits_safe_area(self):
-        # The reviewed CSV contains a long product title; card uses a short, truthful label.
-        ad = json.loads((Path(__file__).resolve().parents[1] / "jobs/daily-ad-job.json").read_text(encoding="utf-8"))["product_ad"]
-        self.assertEqual(ad["display_name"], "ZIFRIEND 隱視貼")
+    def test_reviewed_csv_product_card_fits_safe_area(self):
+        # Check the real long-title P0005 product independently of the daily
+        # creative choice: some episodes deliberately have no affiliate ad.
+        from import_affiliate_csv import convert
+        root = Path(__file__).resolve().parents[1]
+        products = convert(root / "data/affiliate/reviewed-products.csv")["products"]
+        product = next(p for p in products if p["id"] == "P0005")
+        self.assertIn("ZIFRIEND", product["name"])
+        ad = ads.make_ad(STORY, product)
+        ad["display_name"] = "ZIFRIEND 隱視貼"
+        # The full original name and benefit stay in the reviewed product
+        # metadata, but creative copy must fit the real on-screen safe area.
+        ad["ad_copy_zh"] = "故事後選物：防窺保護貼。"
+        ad["slogan"] = "讓螢幕資訊留在視線內。"
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "card.png"
             ads.render_card(ad, path)
