@@ -35,6 +35,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Install Python dependency required by YouTube upload script
+        run: python -m pip install --disable-pip-version-check pillow
       - name: Verify YouTube OAuth credentials are configured
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
