@@ -1,0 +1,102 @@
+name: Private YouTube upload of reviewed taxi Shorts
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/private-upload-reviewed-taxi.yml
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  upload:
+    if: >-
+      ${{ github.run_attempt == 1 && startsWith(github.event.head_commit.message, 'chore: authorized private taxi YouTube upload') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SOURCE_RUN_ID: "41501806537"
+      SOURCE_SHA: "2c1b0ff4f2021b1d0126e562772a64a9747f6318"
+      SOURCE_ARTIFACT: "reviewed-last-taxi-41501806537-1"
+      EXPECTED_STORY_ID: "last_taxi_extra_passenger_20261103"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install uploader dependency
+        run: python -m pip install pillow
+      - name: Fetch exact successful reviewed artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(gh run view "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --json conclusion --jq .conclusion)" = success
+          test "$(gh run view "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --json headSha --jq .headSha)" = "$SOURCE_SHA"
+          mkdir -p downloaded output
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$SOURCE_ARTIFACT" --dir downloaded
+          test -s downloaded/output/zh.mp4
+          test -s downloaded/output/en.mp4
+          cp -a downloaded/output/. output/
+      - name: Validate story, production QA and verified product
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          report=json.loads(Path("output/production-status.json").read_text())
+          assert report["run_id"]==os.environ["SOURCE_RUN_ID"]
+          assert report["run_attempt"]==1 or str(report["run_attempt"])=="1"
+          assert report["commit_sha"]==os.environ["SOURCE_SHA"]
+          assert report["story_id"]==os.environ["EXPECTED_STORY_ID"]
+          assert report["qa_status"]==report["build_result"]=="success"
+          assert report["scene_count"]==8
+          assert not report["warnings"] and not report["errors"]
+          ad=report["product_ad"]
+          assert ad["enabled"] and ad["product_id"]=="P0002"
+          assert ad["affiliate_url"]=="https://s.shopee.tw/9pfQD9cbNW"
+          assert not ad["voiceover"] and ad["duration_seconds"]==8
+          assert ad["silence_check"]=="passed"
+          for lang in ("zh","en"):
+              item=report["videos"][lang]
+              assert (Path("output")/(lang+".mp4")).stat().st_size==item["size_bytes"]
+              assert 60<=item["duration_seconds"]<=90
+              assert (item["video"]["width"],item["video"]["height"])==(1080,1920)
+              assert item["checks"]["full_decode"]
+          print("Validated immutable QA-approved videos and Anker P0002 advertisement")
+          PY
+      - name: Restore metadata matching the original render
+        run: |
+          git fetch --depth=1 origin "$SOURCE_SHA"
+          git checkout --detach "$SOURCE_SHA"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          s=json.loads(Path("stories/bonus/20261103-last-taxi-extra-passenger.json").read_text())
+          j=json.loads(Path("jobs/20261103-last-taxi-extra-passenger.json").read_text())
+          assert s["story_id"]==j["story_id"]=="last_taxi_extra_passenger_20261103"
+          assert len(j["scene_images"])==8
+          assert j["product_ad"]["enabled"] and j["product_ad"]["product"]["id"]=="P0002"
+          assert j["product_ad"]["product"]["affiliate_url"]=="https://s.shopee.tw/9pfQD9cbNW"
+          PY
+      - name: Upload Chinese video with silent Anker ad as PRIVATE
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          STORY_FILE: stories/bonus/20261103-last-taxi-extra-passenger.json
+          DAILY_AD_JOB_FILE: jobs/20261103-last-taxi-extra-passenger.json
+          UPLOAD_LANGUAGE: zh
+          YOUTUBE_PRIVACY: private
+        run: python scripts/upload_youtube.py
+      - name: Upload English video as PRIVATE
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          STORY_FILE: stories/bonus/20261103-last-taxi-extra-passenger.json
+          DAILY_AD_JOB_FILE: jobs/20261103-last-taxi-extra-passenger.json
+          UPLOAD_LANGUAGE: en
+          YOUTUBE_PRIVACY: private
+        run: python scripts/upload_youtube.py
