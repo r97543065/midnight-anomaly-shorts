@@ -1,0 +1,117 @@
+name: Reviewed Last Taxi Extra Passenger Shorts 2026-11-03
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "stories/bonus/20261103-last-taxi-extra-passenger.json"
+  workflow_dispatch:
+    inputs:
+      approved_story_id:
+        description: Exact user-reviewed story ID
+        required: true
+        type: string
+      visual_review_approved:
+        description: Every scene was approved in the conversation before upload
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: reviewed-last-taxi-20261103
+  cancel-in-progress: false
+
+jobs:
+  render:
+    if: >-
+      ${{ (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'content: reviewed 2026-11-03 last taxi short')) || (github.event_name == 'workflow_dispatch' && inputs.visual_review_approved == true && inputs.approved_story_id == 'last_taxi_extra_passenger_20261103') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DAILY_AD_JOB_FILE: jobs/20261103-last-taxi-extra-passenger.json
+      PRODUCT_AD_FILE: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify user-approved image hashes
+        run: |
+          python scripts/verify_visual_approval.py \
+            --story stories/bonus/20261103-last-taxi-extra-passenger.json \
+            --story-id last_taxi_extra_passenger_20261103 \
+            --manifest reviews/last_taxi_extra_passenger_20261103.json
+      - name: Install rendering dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fontconfig fonts-noto-cjk
+          python -m pip install --disable-pip-version-check edge-tts==7.3.1 pillow fonttools
+          fc-match -f '%{family}\n' 'Noto Sans CJK TC' | grep -F 'Noto Sans CJK TC'
+      - name: Stage approved episode and validate P0002 affiliate product
+        run: |
+          cp stories/bonus/20261103-last-taxi-extra-passenger.json stories/today.json
+          python scripts/ai_ad_job.py --job "$DAILY_AD_JOB_FILE" --story stories/today.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          story=json.loads(Path('stories/today.json').read_text(encoding='utf-8'))
+          job=json.loads(Path('jobs/20261103-last-taxi-extra-passenger.json').read_text(encoding='utf-8'))
+          assert story['story_id']==job['story_id']=='last_taxi_extra_passenger_20261103'
+          assert job['publication_approved'] is False
+          assert len(story['assets']['images'])==len(job['scene_images'])==8
+          ad=job['product_ad']
+          assert ad['enabled'] is True and ad['voiceover'] is False
+          assert ad['product']['id']=='P0002' and ad['duration_seconds']==8
+          assert ad['product']['affiliate_url']=='https://s.shopee.tw/9pfQD9cbNW'
+          print('Verified 8 images and P0002 product ad; YouTube publication NOT approved')
+          PY
+      - name: Render bilingual Shorts (Chinese has silent 8-second ad)
+        id: build
+        run: python scripts/make_video.py
+      - name: Production QA
+        if: always()
+        env:
+          BUILD_RESULT: ${{ steps.build.outcome }}
+        run: python scripts/production_qa.py
+      - name: Upload review-only videos and source documents
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reviewed-last-taxi-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            output/
+            stories/bonus/20261103-last-taxi-extra-passenger.json
+            jobs/20261103-last-taxi-extra-passenger.json
+            reviews/last_taxi_extra_passenger_20261103.json
+          if-no-files-found: warn
+      - name: Stage Web Review (GitHub Pages can be publicly accessible)
+        if: ${{ success() }}
+        run: |
+          mkdir -p preview-site
+          cp preview/index.html preview-site/index.html
+          cp output/zh.mp4 output/en.mp4 output/production-status.json preview-site/
+          touch preview-site/.nojekyll
+      - name: Configure Pages
+        if: ${{ success() }}
+        uses: actions/configure-pages@v5
+      - name: Upload Pages artifact
+        if: ${{ success() }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: preview-site
+      - name: Deploy Web Review
+        if: ${{ success() }}
+        uses: actions/deploy-pages@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          enablement: true
+      - name: Preview URL
+        if: ${{ success() }}
+        run: |
+          echo "### User-reviewed taxi episode preview (GitHub Pages may be public; no YouTube upload)" >> "$GITHUB_STEP_SUMMARY"
+          echo "https://r97543065.github.io/midnight-anomaly-shorts/" >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "story_id": "last_taxi_extra_passenger_20261103",
+  "publication_approved": false,
+  "scene_images": [
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene01.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene02.webp",
+      "effect": "pan_right"
+    },
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene03.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene04.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene05.webp",
+      "effect": "pan_left"
+    },
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene06.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene07.webp",
+      "effect": "slow_zoom"
+    },
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene08.webp",
+      "effect": "slow_zoom"
+    }
+  ],
+  "product_ad": {
+    "enabled": true,
+    "status": "verified",
+    "language": "zh",
+    "duration_seconds": 8,
+    "voiceover": false,
+    "story_id": "last_taxi_extra_passenger_20261103",
+    "product": {
+      "id": "P0002",
+      "name": "Anker授權直營 Wh 可上飛機",
+      "market": "TW",
+      "available": true,
+      "affiliate_eligible": true,
+      "affiliate_url": "https://s.shopee.tw/9pfQD9cbNW",
+      "source": "Shopee",
+      "verified_at": "2026-10-27T00:00:00+08:00",
+      "expires_at": "2027-10-27T00:00:00+08:00",
+      "keywords": [
+        "快充",
+        "閃電",
+        "電力"
+      ],
+      "benefit_zh": "MagGo超薄磁吸行動電源 10000mAh 快充 蘋果 Qi2 30W A1664",
+      "commission_rate": 0.15
+    },
+    "headline": "至少，手機別先沒電。",
+    "ad_copy_zh": "Anker MagGo 10000mAh 磁吸行動電源，通勤時備妥電力。",
+    "slogan": "帳單已經夠可怕，別讓電量更可怕。",
+    "cta": "商品連結請看影片說明",
+    "disclosure": "商品推廣｜透過連結購買，我可能獲得分潤",
+    "display_name": "Anker MagGo 磁吸行動電源"
+  }
+}
