@@ -1,0 +1,127 @@
+{
+  "story_id": "last_taxi_extra_passenger_20261103",
+  "episode_id": "20261103-last-taxi-extra-passenger",
+  "visual_review_approved": true,
+  "approval_basis": "使用者在 2026-11-03 看過連續產出的 8 張獨立直式劇照後表示「以上可以請上傳圖片與腳本 並且附上廣告」。核准限本集圖像與 GitHub 製片，沒有 YouTube 發布授權。",
+  "source_format": "PNG",
+  "source_resolution": [
+    941,
+    1672
+  ],
+  "repository_format": "WEBP",
+  "repository_encoding": "quality=95,method=6",
+  "images": [
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene01.webp",
+      "sha256": "b15c91aba061274db9880be099b2aa06375711574e1b4db0262e532eadf874c8",
+      "source_png_sha256": "52ce13b92b63b89d979b64be9634496b7df670136ed2268dbb9f6a0ee7220fe1",
+      "source_png_original_filename": "雨夜台北_計程車與101大樓.png",
+      "source_resolution": [
+        941,
+        1672
+      ],
+      "repo_resolution": [
+        941,
+        1672
+      ]
+    },
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene02.webp",
+      "sha256": "054c4c99644261216c51fec2261df8d2376b84cbb18825d8997df2b08bcd33ff",
+      "source_png_sha256": "5f629536f8e87850ab82372ae2beaa2f5bce743b65cc022a4889f0b28e7b63a0",
+      "source_png_original_filename": "雨夜計程車中的不安凝視.png",
+      "source_resolution": [
+        941,
+        1672
+      ],
+      "repo_resolution": [
+        941,
+        1672
+      ]
+    },
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene03.webp",
+      "sha256": "04e2f717336f6bc747707f34fec28b8cf1cf7d93082725d3760574e51683c734",
+      "source_png_sha256": "e8fbf4a628c77320e33587924f41ce4f9926775fa510a18a36f65230c3cb71ed",
+      "source_png_original_filename": "雨夜計程車裡的謎之乘客.png",
+      "source_resolution": [
+        941,
+        1672
+      ],
+      "repo_resolution": [
+        941,
+        1672
+      ]
+    },
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene04.webp",
+      "sha256": "daf6d168702338793a8db41e75fe61880c4594c5d8e5ece28bd92ad0a6a4e84e",
+      "source_png_sha256": "3a98df34b286f9af84b8da88a2eb833f743f405482526ea5a0f58a0403ce3026",
+      "source_png_original_filename": "雨夜計程車中的驚疑對視.png",
+      "source_resolution": [
+        941,
+        1672
+      ],
+      "repo_resolution": [
+        941,
+        1672
+      ]
+    },
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene05.webp",
+      "sha256": "ee42de403008b8fe46a62515562ad4d3520cb44e02a43ada23b42f5889f1d6d5",
+      "source_png_sha256": "080b54a0de9be3a7ae5096e0ef0e5812d6116cc89a442b19078427349f68e24c",
+      "source_png_original_filename": "雨夜計程車後視鏡中的幽影.png",
+      "source_resolution": [
+        941,
+        1672
+      ],
+      "repo_resolution": [
+        941,
+        1672
+      ]
+    },
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene06.webp",
+      "sha256": "88b33f62bee191ea69cab0fa15cbbb7b1506fe648fb8695abeecf4606472818a",
+      "source_png_sha256": "8f065cd0be7e11aacbed4cc6987b6909a9dd56551fa73ad80034e0f6cb9f9a63",
+      "source_png_original_filename": "雨夜計程車驚魂.png",
+      "source_resolution": [
+        941,
+        1672
+      ],
+      "repo_resolution": [
+        941,
+        1672
+      ]
+    },
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene07.webp",
+      "sha256": "2e3a35d3fa6845e5ed55f8803e6e6ec12f0ae297eec454c93d703cf494674cfb",
+      "source_png_sha256": "a7180a6e531c2e8b5d524bacbd1502961b5c82c3c21ac327e258c22cec0c0cff",
+      "source_png_original_filename": "雨夜電梯裡的額外乘客費.png",
+      "source_resolution": [
+        941,
+        1672
+      ],
+      "repo_resolution": [
+        941,
+        1672
+      ]
+    },
+    {
+      "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene08.webp",
+      "sha256": "fc83f4d03dfbbe1fac9f46064a46a5decc89a30bc4e61f2fdc25d0711c52affd",
+      "source_png_sha256": "f0e3326b350baa543217870829965d48792f5c90dc902cec4c2c6a9add42d4e1",
+      "source_png_original_filename": "雨痕電梯中的幽影.png",
+      "source_resolution": [
+        941,
+        1672
+      ],
+      "repo_resolution": [
+        941,
+        1672
+      ]
+    }
+  ]
+}

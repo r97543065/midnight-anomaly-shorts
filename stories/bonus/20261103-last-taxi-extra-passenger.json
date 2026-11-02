@@ -1,0 +1,126 @@
+{
+  "schema_version": 2,
+  "story_id": "last_taxi_extra_passenger_20261103",
+  "episode_id": "20261103-last-taxi-extra-passenger",
+  "date": "2026-11-03",
+  "title_zh": "最後一班計程車的多收費用",
+  "title_en": "The Extra Passenger Fee",
+  "story_zh": "凌晨一點十二分，我加完班，走出辦公大樓。雨下得很大，一台黃色計程車停在面前。 我坐進後座。司機不回頭，只說：「坐好就開。」另一側座椅空著，卻有一片濕漉漉的凹痕。 上高架後，我看見叫車 App 的乘客人數從一變成二。我重新整理，數字又變回一。 司機盯著後視鏡，平靜問：「後面那位，也跟你一起下車嗎？」我瞬間全身發冷。 鏡子裡，右後座浮出模糊人影。我猛地轉頭，座位空無一人，只有安全帶輕輕晃動。 車到我家門口。我急著下車，司機卻說：「你朋友沒下，費用照算。」車門關上前，我看見一個低頭的人。 我衝進電梯，帳單跳出：「基本車資、夜間加成、額外乘客費一名。」接著通知：「同行乘客尚未下車。」 我想申訴，電梯鏡面忽然起霧。我的背後，多了一道人影。手機最後顯示：「下一趟，已自動開始計費。」",
+  "story_en": "At one twelve in the morning, I left work. Rain poured as a yellow taxi stopped beside me. I climbed into the back. The driver never turned. “Sit tight.” The empty seat beside me held a damp indentation. On the highway, my ride app suddenly showed two passengers. I refreshed it. The number returned to one. The driver watched his mirror. “Is the other person getting off with you?” I froze. A blurry figure filled the mirror. I turned. Nobody was there. Only the seat belt moved. At my apartment, I leaped out. “Your friend is staying,” the driver said. “You pay for both.” The cabin light revealed a bowed head. In the elevator, my receipt listed an extra passenger fee. Then: Companion passenger has not exited. I opened the complaint screen. The mirror fogged up. Someone appeared behind me. My phone read: The next ride has already started.",
+  "segments": [
+    {
+      "scene": 0,
+      "zh": "凌晨一點十二分，我加完班，走出辦公大樓。雨下得很大，一台黃色計程車停在面前。",
+      "en": "At one twelve in the morning, I left work. Rain poured as a yellow taxi stopped beside me."
+    },
+    {
+      "scene": 1,
+      "zh": "我坐進後座。司機不回頭，只說：「坐好就開。」另一側座椅空著，卻有一片濕漉漉的凹痕。",
+      "en": "I climbed into the back. The driver never turned. “Sit tight.” The empty seat beside me held a damp indentation."
+    },
+    {
+      "scene": 2,
+      "zh": "上高架後，我看見叫車 App 的乘客人數從一變成二。我重新整理，數字又變回一。",
+      "en": "On the highway, my ride app suddenly showed two passengers. I refreshed it. The number returned to one."
+    },
+    {
+      "scene": 3,
+      "zh": "司機盯著後視鏡，平靜問：「後面那位，也跟你一起下車嗎？」我瞬間全身發冷。",
+      "en": "The driver watched his mirror. “Is the other person getting off with you?” I froze."
+    },
+    {
+      "scene": 4,
+      "zh": "鏡子裡，右後座浮出模糊人影。我猛地轉頭，座位空無一人，只有安全帶輕輕晃動。",
+      "en": "A blurry figure filled the mirror. I turned. Nobody was there. Only the seat belt moved."
+    },
+    {
+      "scene": 5,
+      "zh": "車到我家門口。我急著下車，司機卻說：「你朋友沒下，費用照算。」車門關上前，我看見一個低頭的人。",
+      "en": "At my apartment, I leaped out. “Your friend is staying,” the driver said. “You pay for both.” The cabin light revealed a bowed head."
+    },
+    {
+      "scene": 6,
+      "zh": "我衝進電梯，帳單跳出：「基本車資、夜間加成、額外乘客費一名。」接著通知：「同行乘客尚未下車。」",
+      "en": "In the elevator, my receipt listed an extra passenger fee. Then: Companion passenger has not exited."
+    },
+    {
+      "scene": 7,
+      "zh": "我想申訴，電梯鏡面忽然起霧。我的背後，多了一道人影。手機最後顯示：「下一趟，已自動開始計費。」",
+      "en": "I opened the complaint screen. The mirror fogged up. Someone appeared behind me. My phone read: The next ride has already started."
+    }
+  ],
+  "assets": {
+    "images": [
+      {
+        "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene01.webp",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene02.webp",
+        "effect": "pan_right"
+      },
+      {
+        "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene03.webp",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene04.webp",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene05.webp",
+        "effect": "pan_left"
+      },
+      {
+        "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene06.webp",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene07.webp",
+        "effect": "slow_zoom"
+      },
+      {
+        "file": "assets/episodes/20261103-last-taxi-extra-passenger/scene08.webp",
+        "effect": "slow_zoom"
+      }
+    ]
+  },
+  "en_promo": {
+    "enabled": true,
+    "pause_seconds": 0.75,
+    "duration_target_seconds": 7,
+    "voice_text": "For English courses, visit Instagram at speakoutnow88.",
+    "display_title": "English Course Promotion／英文課程推廣",
+    "display_account": "IG @speakoutnow88"
+  },
+  "rights": "原創虛構都市怪談及 AI 生成視覺。8 張劇照已於對話展示，使用者於 2026-11-03 表示「以上可以」並授權上傳圖片、腳本及廣告。從原始 941x1672 PNG 轉 WebP quality 95，逐張記錄原始與提交圖像的 SHA-256；不用於任何實際人物指認。",
+  "source_type": "original",
+  "youtube": {
+    "title_zh": "最後一班計程車的多收費用｜午夜異常廣播 #Shorts",
+    "title_en": "The Extra Passenger Fee | Midnight Anomaly Shorts #Shorts",
+    "description_zh": "深夜叫了一輛計程車，車上明明只有我，帳單卻多了一個乘客。\n\n【故事後選物・商品推廣】\nAnker MagGo 磁吸行動電源 10000mAh\n至少，手機別先沒電。\n商品連結：https://s.shopee.tw/9pfQD9cbNW\n商品推廣｜透過連結購買，我可能獲得分潤。\n\n#午夜異常廣播 #恐怖故事 #都市怪談 #Shorts",
+    "description_en": "One taxi. One passenger. One impossible extra charge. Original fictional horror short.\n\nEnglish listening: IG @speakoutnow88.\n\n#MidnightAnomaly #HorrorShorts #Shorts",
+    "hashtags_zh": [
+      "#午夜異常廣播",
+      "#恐怖故事",
+      "#都市怪談",
+      "#Shorts"
+    ],
+    "hashtags_en": [
+      "#MidnightAnomaly",
+      "#HorrorShorts",
+      "#Shorts"
+    ]
+  },
+  "thumbnail": {
+    "headline_zh": "額外乘客費：1 名",
+    "headline_en": "EXTRA PASSENGER: 1",
+    "frame_scene": 6
+  },
+  "product_recommendation": {
+    "status": "user_authorized_for_review_video_only",
+    "id": "P0002",
+    "burn_into_zh_video": true,
+    "reason": "故事圍繞手機叫車、帳單與通知，通勤行動電源是有情境關聯的既有合格 CSV 商品。"
+  }
+}
