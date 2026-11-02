@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "stories/bonus/20261103-last-taxi-extra-passenger.json"
+      - ".github/workflows/reviewed-last-taxi-20261103.yml"
   workflow_dispatch:
     inputs:
       approved_story_id:
@@ -72,7 +73,19 @@ jobs:
           PY
       - name: Render bilingual Shorts (Chinese has silent 8-second ad)
         id: build
-        run: python scripts/make_video.py
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            echo "Rendering bilingual Shorts - Edge TTS attempt ${attempt}/3"
+            if python scripts/make_video.py; then
+              exit 0
+            fi
+            if test "$attempt" -eq 3; then
+              echo "All attempts failed, no successful build to publish" >&2
+              exit 1
+            fi
+            sleep $((attempt * 8))
+          done
       - name: Production QA
         if: always()
         env:
